@@ -6,7 +6,7 @@ export class BooksService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(query?: any) {
-    const { search, category, available } = query || {};
+    const { search, category, available, sortBy = 'title', order = 'asc' } = query || {};
     
     const where: any = {};
     
@@ -30,6 +30,9 @@ export class BooksService {
       include: {
         category: true,
       },
+      orderBy: {
+        [sortBy]: order,
+      },
     });
   }
 
@@ -43,8 +46,13 @@ export class BooksService {
   }
 
   async create(data: any) {
+    const bookData = {
+      ...data,
+      availableStock: data.availableStock !== undefined ? data.availableStock : data.totalStock,
+    };
+    
     return this.prisma.book.create({
-      data,
+      data: bookData,
       include: {
         category: true,
       },

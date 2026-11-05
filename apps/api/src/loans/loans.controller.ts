@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { LoansService } from './loans.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -12,11 +12,16 @@ export class LoansController {
   constructor(private loansService: LoansService) {}
 
   @Get()
-  findAll(@CurrentUser() user: any) {
+  findAll(@CurrentUser() user: any, @Query('status') status?: string) {
     if (user.role === Role.ADMIN) {
-      return this.loansService.findAll();
+      return this.loansService.findAll(undefined, status);
     }
-    return this.loansService.findAll(user.sub);
+    return this.loansService.findAll(user.sub, status);
+  }
+
+  @Get('my-loans')
+  myLoans(@CurrentUser('sub') userId: string) {
+    return this.loansService.findAll(userId);
   }
 
   @Post('request')

@@ -1,9 +1,10 @@
-import { Controller, Get, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/guards/roles.guard';
 import { Role } from '@perpus-app/prisma-client';
+import { CreateMemberDto } from './dto/create-member.dto';
 
 @Controller('members')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -14,6 +15,11 @@ export class MembersController {
   @Get()
   findAll() {
     return this.membersService.findAll();
+  }
+
+  @Post()
+  create(@Body() data: CreateMemberDto) {
+    return this.membersService.create(data);
   }
 
   @Get(':id')

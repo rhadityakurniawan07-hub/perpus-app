@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MembersService {
@@ -38,6 +39,33 @@ export class MembersService {
         },
       },
     });
+  }
+
+  async create(data: any) {
+    const { name, email, password, status = 'ACTIVE' } = data;
+    
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      throw new UnauthorizedException('Email sudah terdaftar');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    const user = await this.prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: 'MEMBER',
+        status,
+      },
+    });
+
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async update(id: string, data: any) {

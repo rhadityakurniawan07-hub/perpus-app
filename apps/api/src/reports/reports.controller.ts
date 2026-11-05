@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -12,7 +12,7 @@ export class ReportsController {
   constructor(private reportsService: ReportsService) {}
 
   @Get()
-  getStatistics() {
-    return this.reportsService.getStatistics();
+  getStatistics(@Query() query: any) {
+    return this.reportsService.getStatistics(query);
   }
 }

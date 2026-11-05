@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/guards/roles.guard';
 import { Role } from '@perpus-app/prisma-client';
+import { CreateBookDto, UpdateBookDto } from './dto/book.dto';
 
 @Controller('books')
 export class BooksController {
@@ -22,14 +23,14 @@ export class BooksController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  create(@Body() data: any) {
+  create(@Body() data: CreateBookDto) {
     return this.booksService.create(data);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  update(@Param('id') id: string, @Body() data: any) {
+  update(@Param('id') id: string, @Body() data: UpdateBookDto) {
     return this.booksService.update(id, data);
   }
 

@@ -5,8 +5,11 @@ import { PrismaService } from '../prisma/prisma.service';
 export class LoansService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(userId?: string) {
-    const where = userId ? { userId } : {};
+  async findAll(userId?: string, status?: string) {
+    const where: any = {};
+    if (userId) where.userId = userId;
+    if (status) where.status = status;
+    
     return this.prisma.loan.findMany({
       where,
       include: {
@@ -81,6 +84,7 @@ export class LoansService {
       },
       include: {
         book: true,
+        user: true,
       },
     });
   }
