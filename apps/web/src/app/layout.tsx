@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: "PinjamanBuku - Sistem Informasi Perpustakaan",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

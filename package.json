@@ -7,6 +7,10 @@
     "prisma:studio": "cd packages/prisma-client && bun run studio",
     "prisma:push": "cd packages/prisma-client && bun run push",
     "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
   "devDependencies": {
     "prettier": "3.9.6",

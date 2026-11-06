@@ -1,5 +1,5 @@
-{
-  "plugins": {
-    "tailwindcss": {}
-  }
-}
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
