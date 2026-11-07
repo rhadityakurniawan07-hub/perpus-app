@@ -4,45 +4,25 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BookCard from '@/components/BookCard';
 import api from '@/lib/axios';
-import { Book, Category } from '@/types';
+import { Category } from '@/types';
+import { useBooks } from '@/hooks/useBooks';
 
 export default function BooksPage() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const { books, loading, error, fetchBooks } = useBooks();
   const [categories, setCategories] = useState<Category[]>([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [available, setAvailable] = useState('');
   const [sortBy, setSortBy] = useState('title');
   const [order, setOrder] = useState('asc');
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBooks();
     fetchCategories();
   }, []);
 
   useEffect(() => {
-    fetchBooks();
-  }, [search, category, available, sortBy, order]);
-
-  async function fetchBooks() {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (search) params.append('search', search);
-      if (category) params.append('category', category);
-      if (available) params.append('available', available);
-      params.append('sortBy', sortBy);
-      params.append('order', order);
-
-      const response = await api.get(`/books?${params.toString()}`);
-      setBooks(response.data);
-    } catch (error) {
-      console.error('Gagal mengambil data buku:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+    fetchBooks({ search, category, available, sortBy, order });
+  }, [search, category, available, sortBy, order, fetchBooks]);
 
   async function fetchCategories() {
     try {
@@ -120,6 +100,12 @@ export default function BooksPage() {
             </span>
           </div>
         </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6">
+            {error}
+          </div>
+        )}
 
         {loading ? (
           <div className="text-center py-12">

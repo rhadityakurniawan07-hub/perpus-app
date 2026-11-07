@@ -1,29 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import api from '@/lib/axios';
-import { Loan } from '@/types';
 import MemberLayout from '@/components/MemberLayout';
 import LoanTable from '@/components/LoanTable';
+import { useLoans } from '@/hooks/useLoans';
 
 export default function HistoryPage() {
-  const [loans, setLoans] = useState<Loan[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchLoans();
-  }, []);
-
-  async function fetchLoans() {
-    try {
-      const response = await api.get('/loans/my-loans');
-      setLoans(response.data.filter((l: Loan) => l.status === 'RETURNED' || l.status === 'OVERDUE'));
-    } catch (error) {
-      console.error('Gagal mengambil riwayat:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { loans, loading, error } = useLoans({ mine: true });
+  const historyLoans = loans.filter(
+    (l) => l.status === 'RETURNED' || l.status === 'OVERDUE'
+  );
 
   return (
     <MemberLayout>
@@ -32,12 +17,18 @@ export default function HistoryPage() {
         <p className="text-gray-600">Daftar buku yang sudah dikembalikan</p>
       </div>
 
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4">
+          {error}
+        </div>
+      )}
+
       {loading ? (
         <div className="text-center py-12">
           <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           <p className="mt-2 text-gray-600">Memuat data...</p>
         </div>
-      ) : loans.length === 0 ? (
+      ) : historyLoans.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <svg
             className="mx-auto w-16 h-16 text-gray-400 mb-4"
@@ -56,7 +47,7 @@ export default function HistoryPage() {
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow p-6">
-          <LoanTable loans={loans} showReturnDate={true} />
+          <LoanTable loans={historyLoans} showReturnDate={true} />
         </div>
       )}
     </MemberLayout>

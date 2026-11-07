@@ -25,9 +25,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Cek token di localStorage saat app load
     const token = localStorage.getItem('access_token');
     const userStr = localStorage.getItem('user');
-    if (token && userStr) {
-      setUser(JSON.parse(userStr));
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    if (token && userStr && token !== 'undefined' && userStr !== 'undefined') {
+      try {
+        setUser(JSON.parse(userStr));
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      } catch {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user');
+      }
     }
     setLoading(false);
   }, []);
@@ -50,7 +55,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function register(name: string, email: string, password: string) {
     try {
-      const response = await api.post('/auth/register', { name, email, password });
+      // Backend register tidak mengembalikan token, jadi login otomatis setelah daftar
+      await api.post('/auth/register', { name, email, password });
+      const response = await api.post('/auth/login', { email, password });
       const { access_token, user: userData } = response.data;
 
       localStorage.setItem('access_token', access_token);

@@ -1,32 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
-import api from '@/lib/axios';
-import { Loan } from '@/types';
 import MemberLayout from '@/components/MemberLayout';
 import LoanTable from '@/components/LoanTable';
+import { useLoans } from '@/hooks/useLoans';
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const [loans, setLoans] = useState<Loan[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchLoans();
-  }, []);
-
-  async function fetchLoans() {
-    try {
-      const response = await api.get('/loans/my-loans');
-      setLoans(response.data);
-    } catch (error) {
-      console.error('Gagal mengambil data peminjaman:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { loans, loading, error } = useLoans({ mine: true });
 
   const activeLoans = loans.filter(
     (l) => l.status === 'BORROWED' || l.status === 'PENDING'
@@ -120,6 +102,11 @@ export default function DashboardPage() {
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h2 className="text-lg font-semibold mb-4">Peminjaman Aktif</h2>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4 text-sm">
+            {error}
+          </div>
+        )}
         {loading ? (
           <div className="text-center py-4">
             <div className="inline-block w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>

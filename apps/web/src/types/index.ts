@@ -56,3 +56,19 @@ export interface AuthResponse {
     role: 'ADMIN' | 'MEMBER';
   };
 }
+
+export interface PopularBookItem {
+  book: Book | null;
+  count: number;
+}
+
+export interface ReportStats {
+  totalBooks: number;
+  totalMembers: number;
+  borrowedBooks: number;
+  pendingLoans: number;
+  overdueLoans: number;
+  popularBooks: PopularBookItem[];
+  recentLoans: Loan[];
+  lateLoans: Loan[];
+}

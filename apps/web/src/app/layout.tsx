@@ -3,7 +3,7 @@ import "./globals.css";
 import { AuthProvider } from '@/lib/auth';
 
 export const metadata: Metadata = {
-  title: "PinjamanBuku - Sistem Informasi Perpustakaan",
+  title: "PERPUS - Sistem Informasi Perpustakaan",
   description: "Website sistem informasi perpustakaan untuk mempermudah pengelolaan buku dan transaksi peminjaman",
 };
 
