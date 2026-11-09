@@ -152,6 +152,9 @@ exports.Prisma.BookScalarFieldEnum = {
   totalStock: 'totalStock',
   availableStock: 'availableStock',
   shelfLocation: 'shelfLocation',
+  averageRating: 'averageRating',
+  reviewCount: 'reviewCount',
+  positivePercent: 'positivePercent',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -164,6 +167,25 @@ exports.Prisma.LoanScalarFieldEnum = {
   borrowDate: 'borrowDate',
   dueDate: 'dueDate',
   returnDate: 'returnDate',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReadingStatusScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -209,11 +231,19 @@ exports.LoanStatus = exports.$Enums.LoanStatus = {
   OVERDUE: 'OVERDUE'
 };
 
+exports.ReadingStatusValue = exports.$Enums.ReadingStatusValue = {
+  WISHLIST: 'WISHLIST',
+  READING: 'READING',
+  FINISHED: 'FINISHED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Category: 'Category',
   Book: 'Book',
   Loan: 'Loan',
+  Review: 'Review',
+  ReadingStatus: 'ReadingStatus',
   Setting: 'Setting'
 };
 

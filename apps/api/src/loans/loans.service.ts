@@ -1,15 +1,20 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { LoanStatus } from './enums/loan-status.enum';
+import { ReturnLoanDto } from './dto/return-loan.dto';
+
+const DEACTIVE_STATUSES = [LoanStatus.PENDING, LoanStatus.APPROVED, LoanStatus.BORROWED] as const;
+const ACTIVE_LOAN_STATUSES = [LoanStatus.APPROVED, LoanStatus.BORROWED] as const;
 
 @Injectable()
 export class LoansService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(userId?: string, status?: string) {
+  async findAll(userId?: string, status?: LoanStatus) {
     const where: any = {};
     if (userId) where.userId = userId;
     if (status) where.status = status;
-    
+
     return this.prisma.loan.findMany({
       where,
       include: {
@@ -29,58 +34,54 @@ export class LoansService {
   }
 
   async request(userId: string, bookId: string) {
-    // Check if user has active loan for this book
     const existingLoan = await this.prisma.loan.findFirst({
       where: {
         userId,
         bookId,
-        status: { in: ['PENDING', 'APPROVED', 'BORROWED'] },
+        status: { in: [...DEACTIVE_STATUSES] },
       },
     });
-    
+
     if (existingLoan) {
       throw new BadRequestException('Anda sudah mengajukan atau meminjam buku ini');
     }
-    
-    // Check book availability
+
     const book = await this.prisma.book.findUnique({
       where: { id: bookId },
     });
-    
+
     if (!book || book.availableStock <= 0) {
       throw new BadRequestException('Buku tidak tersedia');
     }
-    
-    // Check if user has overdue loans
+
     const overdueLoan = await this.prisma.loan.findFirst({
       where: {
         userId,
-        status: 'OVERDUE',
+        status: LoanStatus.OVERDUE,
       },
     });
-    
+
     if (overdueLoan) {
       throw new BadRequestException('Anda memiliki peminjaman yang terlambat');
     }
-    
-    // Check loan limit (max 3 books)
+
     const activeLoansCount = await this.prisma.loan.count({
       where: {
         userId,
-        status: { in: ['APPROVED', 'BORROWED'] },
+        status: { in: [...ACTIVE_LOAN_STATUSES] },
       },
     });
-    
+
     if (activeLoansCount >= 3) {
       throw new BadRequestException('Maksimal peminjaman adalah 3 buku');
     }
-    
+
     return this.prisma.loan.create({
       data: {
         userId,
         bookId,
         requestDate: new Date(),
-        status: 'PENDING',
+        status: LoanStatus.PENDING,
       },
       include: {
         book: true,
@@ -96,28 +97,28 @@ export class LoansService {
         book: true,
       },
     });
-    
+
     if (!loan) {
       throw new BadRequestException('Peminjaman tidak ditemukan');
     }
-    
-    if (loan.status !== 'PENDING') {
+
+    if (loan.status !== LoanStatus.PENDING) {
       throw new BadRequestException('Peminjaman tidak dalam status menunggu persetujuan');
     }
-    
+
     if (loan.book.availableStock <= 0) {
       throw new BadRequestException('Stok buku habis');
     }
-    
+
     const borrowDate = new Date();
     const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 7); // 7 days
-    
+    dueDate.setDate(dueDate.getDate() + 7);
+
     const [updatedLoan] = await this.prisma.$transaction([
       this.prisma.loan.update({
         where: { id: loanId },
         data: {
-          status: 'BORROWED',
+          status: LoanStatus.BORROWED,
           borrowDate,
           dueDate,
         },
@@ -133,7 +134,7 @@ export class LoansService {
         },
       }),
     ]);
-    
+
     return updatedLoan;
   }
 
@@ -141,18 +142,18 @@ export class LoansService {
     const loan = await this.prisma.loan.findUnique({
       where: { id: loanId },
     });
-    
+
     if (!loan) {
       throw new BadRequestException('Peminjaman tidak ditemukan');
     }
-    
-    if (loan.status !== 'PENDING') {
+
+    if (loan.status !== LoanStatus.PENDING) {
       throw new BadRequestException('Peminjaman tidak dalam status menunggu persetujuan');
     }
-    
+
     return this.prisma.loan.update({
       where: { id: loanId },
-      data: { status: 'REJECTED' },
+      data: { status: LoanStatus.REJECTED },
       include: {
         user: true,
         book: true,
@@ -160,30 +161,34 @@ export class LoansService {
     });
   }
 
-  async return(loanId: string) {
+  async return(loanId: string, dto?: ReturnLoanDto) {
     const loan = await this.prisma.loan.findUnique({
       where: { id: loanId },
       include: {
         book: true,
       },
     });
-    
+
     if (!loan) {
       throw new BadRequestException('Peminjaman tidak ditemukan');
     }
-    
-    if (loan.status !== 'BORROWED') {
+
+    if (loan.status !== LoanStatus.BORROWED) {
       throw new BadRequestException('Buku tidak sedang dipinjam');
     }
-    
-    const returnDate = new Date();
+
+    const returnDate = dto?.returnDate ? new Date(dto.returnDate) : new Date();
+    if (Number.isNaN(returnDate.getTime())) {
+      throw new BadRequestException('Format tanggal pengembalian tidak valid');
+    }
+
     const isOverdue = loan.dueDate && returnDate > loan.dueDate;
-    
+
     const [updatedLoan] = await this.prisma.$transaction([
       this.prisma.loan.update({
         where: { id: loanId },
         data: {
-          status: isOverdue ? 'OVERDUE' : 'RETURNED',
+          status: isOverdue ? LoanStatus.OVERDUE : LoanStatus.RETURNED,
           returnDate,
         },
         include: {
@@ -198,7 +203,7 @@ export class LoansService {
         },
       }),
     ]);
-    
+
     return updatedLoan;
   }
 }

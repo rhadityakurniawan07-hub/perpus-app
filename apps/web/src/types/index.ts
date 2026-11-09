@@ -1,3 +1,5 @@
+export type ReadingStatusValue = 'WISHLIST' | 'READING' | 'FINISHED';
+
 export interface User {
   id: string;
   name: string;
@@ -27,9 +29,53 @@ export interface Book {
   totalStock: number;
   availableStock: number;
   shelfLocation?: string;
+  averageRating: number;
+  reviewCount: number;
+  positivePercent: number;
   createdAt: string;
   updatedAt: string;
   category?: Category;
+}
+
+export interface Review {
+  id: string;
+  userId?: string;
+  bookId?: string;
+  rating: number;
+  comment?: string | null;
+  createdAt: string;
+  updatedAt?: string;
+  user?: { id: string; name: string };
+  book?: Book;
+}
+
+export interface BookReviewSummary {
+  averageRating: number;
+  reviewCount: number;
+  positivePercent: number;
+  reviews: Review[];
+}
+
+export interface BookUserState {
+  review: { id: string; rating: number; comment?: string | null } | null;
+  status: ReadingStatusValue | null;
+}
+
+export interface ReadingStatusItem {
+  id: string;
+  userId: string;
+  bookId: string;
+  status: ReadingStatusValue;
+  createdAt: string;
+  updatedAt: string;
+  book?: Book;
+}
+
+export interface MyStats {
+  wishlist: number;
+  reading: number;
+  finished: number;
+  reviews: number;
 }
 
 export interface Loan {
@@ -71,4 +117,9 @@ export interface ReportStats {
   popularBooks: PopularBookItem[];
   recentLoans: Loan[];
   lateLoans: Loan[];
+  totalReviews: number;
+  averageRating: number;
+  topRatedBooks: Book[];
+  recentReviews: Review[];
+  readingSummary: Record<ReadingStatusValue, number>;
 }

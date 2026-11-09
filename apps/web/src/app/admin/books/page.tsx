@@ -5,6 +5,7 @@ import Link from 'next/link';
 import api from '@/lib/axios';
 import { Book } from '@/types';
 import BookTable from '@/components/BookTable';
+import GoogleBooksSearch from '@/components/GoogleBooksSearch';
 
 const PAGE_SIZE = 10;
 
@@ -22,6 +23,7 @@ export default function AdminBooksPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [deleting, setDeleting] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -86,12 +88,20 @@ export default function AdminBooksPage() {
           <h1 className="text-2xl font-bold text-gray-900">Kelola Buku</h1>
           <p className="text-gray-600">Total {books.length} buku terdaftar</p>
         </div>
-        <Link
-          href="/admin/books/create"
-          className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-        >
-          + Tambah Buku
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setShowImport(true)}
+            className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-brand-700 bg-brand-50 border border-brand-200 hover:bg-brand-100"
+          >
+            Impor dari Google Books
+          </button>
+          <Link
+            href="/admin/books/create"
+            className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+          >
+            + Tambah Buku
+          </Link>
+        </div>
       </div>
 
       {banner && (
@@ -161,6 +171,8 @@ export default function AdminBooksPage() {
           </>
         )}
       </div>
+
+      {showImport && <GoogleBooksSearch onClose={() => setShowImport(false)} />}
 
       {deleting && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">

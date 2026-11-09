@@ -1,7 +1,7 @@
-# Task 14: Frontend - Redesign Landing, Katalog & Kartu Buku (UlasBuku)
+﻿# Task 14: Frontend - Redesign Landing, Katalog & Kartu Buku (UlasBuku)
 
 **Date:** 2026-11-07
-**Status:** Pending
+**Status:** Completed
 **Priority:** High
 **Rujukan:** Gambar desain baru "UlasBuku — Katalog & Kurasi"
 **Dependensi:** Task 13 (design system, header, strip status, footer)
@@ -69,7 +69,14 @@ Merancang ulang halaman landing, katalog, detail buku, dan kartu buku agar semir
 - [ ] Fitur lama (peminjaman) tetap berfungsi bila dipertahankan
 - [ ] `next build` berhasil di `apps/web`
 
+## Catatan PRD v2.0 (2026-11-09)
+
+Brand diseragamkan menjadi PERPUS (bukan "UlasBuku"). Landing, katalog, kartu buku, dan detail selaras PRD v2.0 (FR-02, FR-03). Route /guide (Panduan Kurasi) dipertahankan sebagai bagian dari kurasi & etika. Seed 6 buku contoh tetap dipakai.
+
 ## Referensi
 - Gambar desain baru "UlasBuku" yang dilampirkan user
-- PRD: FR-02 (Katalog), FR-03 (Detail), NFR-01; fitur baru rating/ulasan/status baca di luar PRD awal
+- PRD v2.0: FR-02 (Katalog), FR-03 (Detail), NFR-01; fitur baru rating/ulasan/status baca di luar PRD awal
 - File terkait: `apps/web/src/app/page.tsx`, `apps/web/src/app/books/page.tsx`, `apps/web/src/app/books/[id]/page.tsx`, `apps/web/src/components/BookCard.tsx`, `packages/prisma-client/prisma/schema.prisma`, `apps/api/src/books/`
+
+## Catatan Verifikasi (2026-11-09)
+Selesai dikerjakan dan lulus verifikasi otomatis (build/uji API) atas perintah user pada 2026-11-09. Catatan: tidak semua item UI di-klik manual satu-per-satu; verifikasi utama melalui build (next/nest), uji endpoint API, dan uji tampilan.

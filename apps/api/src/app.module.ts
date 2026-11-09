@@ -10,6 +10,8 @@ import { LoansModule } from './loans/loans.module';
 import { ReportsModule } from './reports/reports.module';
 import { SettingsModule } from './settings/settings.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { GoogleBooksModule } from './google-books/google-books.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { CategoriesModule } from './categories/categories.module';
     ReportsModule,
     SettingsModule,
     CategoriesModule,
+    ReviewsModule,
+    GoogleBooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

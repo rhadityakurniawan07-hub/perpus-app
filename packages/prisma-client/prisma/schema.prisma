@@ -23,6 +23,11 @@ enum LoanStatus {
   RETURNED
   OVERDUE
 }
+enum ReadingStatusValue {
+  WISHLIST
+  READING
+  FINISHED
+}
 model User {
   id        String     @id @default(cuid())
   name      String
@@ -32,7 +37,9 @@ model User {
   status    UserStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  loans Loan[]
+  loans          Loan[]
+  reviews        Review[]
+  readingStatuses ReadingStatus[]
   @@map("users")
 }
 model Category {
@@ -55,10 +62,15 @@ model Book {
   totalStock     Int      @default(0)
   availableStock Int      @default(0)
   shelfLocation  String?
+  averageRating  Float    @default(0)
+  reviewCount    Int      @default(0)
+  positivePercent Int     @default(0)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   category Category @relation(fields: [categoryId], references: [id])
   loans    Loan[]
+  reviews  Review[]
+  readingStatuses ReadingStatus[]
   @@map("books")
 }
 model Loan {
@@ -75,6 +87,31 @@ model Loan {
   user User @relation(fields: [userId], references: [id])
   book Book @relation(fields: [bookId], references: [id])
   @@map("loans")
+}
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  rating    Int
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  @@unique([userId, bookId])
+  @@map("reviews")
+}
+model ReadingStatus {
+  id        String             @id @default(cuid())
+  userId    String
+  bookId    String
+  status    ReadingStatusValue @default(WISHLIST)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  @@unique([userId, bookId])
+  @@map("reading_statuses")
 }
 model Setting {
   id    String @id @default(cuid())

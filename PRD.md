@@ -1,452 +1,333 @@
 # PRODUCT REQUIREMENTS DOCUMENT (PRD)
-## PinjamanBuku — Sistem Informasi Perpustakaan
+## PERPUS — Katalog, Rating & Jejak Membaca
 
-**Versi:** 1.0  
-**Status:** Draft  
-**Jenis Produk:** Website  
-**Target Pengguna:** Siswa, anggota perpustakaan, dan petugas perpustakaan  
+**Versi:** 2.0
+**Status:** Active
+**Jenis Produk:** Website
+**Target Pengguna:** Pembaca, siswa, komunitas literasi, dan petugas perpustakaan/kurator
 **Platform:** Web Desktop dan Mobile
+
+> **Catatan:** Versi 2.0 menggantikan konsep peminjaman (v1.0) dengan konsep **katalog pencarian buku + rating/ulasan + status baca**. Fitur peminjaman tidak lagi menjadi inti produk; data transaksi peminjaman lama dipertahankan sebagai *legacy* dan disembunyikan dari antarmuka.
 
 ---
 
 ## 1. Ringkasan Produk
 
-PinjamanBuku adalah website sistem informasi perpustakaan yang dirancang untuk mempermudah pengelolaan koleksi buku, data anggota, peminjaman, dan pengembalian buku secara digital.
+PERPUS adalah website katalog dan ulasan buku yang dirancang untuk membantu pembaca:
 
-Website menyediakan dua area utama:
+1. **Mencari** buku dengan cepat (judul, penulis, kategori, ISBN).
+2. **Menilai** buku melalui rating bintang 1–5 dan ulasan tertulis.
+3. **Mencatat** jejak membaca (status baca: Ingin Dibaca, Sedang Dibaca, Sudah Selesai).
 
-1. **Halaman Anggota:** Untuk mencari buku, melihat ketersediaan, mengajukan peminjaman, dan melihat riwayat.
-2. **Dashboard Admin:** Untuk mengelola buku, anggota, transaksi peminjaman, pengembalian, dan laporan.
+PERPUS menyediakan dua area utama:
 
-Website ini berfokus pada perpustakaan sekolah atau perpustakaan umum yang memiliki koleksi buku fisik.
+1. **Halaman Publik & Anggota:** katalog, detail buku (modal/halaman), rating & ulasan, koleksi pribadi, ulasan saya.
+2. **Dashboard Admin:** statistik katalog & ulasan, pengelolaan buku dan anggota, ringkasan jejak membaca komunitas.
 
-Peminjaman tetap dilakukan dengan mengambil buku secara langsung di perpustakaan. Website digunakan untuk mencari buku dan mengelola proses administrasinya.
+## 2. Latar Belakang
 
-## 2. Latar Belakang Masalah
+Pembaca sering kesulitan:
 
-Pengelolaan perpustakaan secara manual dapat menimbulkan beberapa masalah:
+- Menemukan buku yang sesuai minat dan kualitasnya.
+- Membandingkan buku berdasarkan pengalaman pembaca lain.
+- Mencatat buku mana yang sudah/sedang/belum dibaca.
 
-- Pencatatan buku masih menggunakan buku tulis atau spreadsheet.
-- Anggota kesulitan mengetahui ketersediaan buku.
-- Petugas membutuhkan waktu untuk mencari data peminjaman.
-- Pengembalian buku terlambat sulit dipantau.
-- Riwayat peminjaman tidak tersimpan dengan rapi.
-- Pengelolaan stok buku berisiko tidak akurat.
-
-PinjamanBuku dibuat untuk menyediakan sistem yang lebih terorganisir, mudah digunakan, dan dapat diakses melalui browser.
+Katalog perpustakaan tradisional hanya menampilkan metadata buku tanpa dimensi kualitas subjektif dan tanpa pencatatan jejak membaca pribadi. PERPUS hadir untuk menjembatani katalog terstruktur dengan ulasan komunitas.
 
 ## 3. Tujuan Produk
 
-Tujuan utama pengembangan website:
-
 - Mempermudah pencarian koleksi buku.
-- Mempercepat proses administrasi perpustakaan.
-- Menyediakan informasi stok buku yang akurat.
-- Mempermudah pencatatan peminjaman dan pengembalian.
-- Membantu petugas memantau keterlambatan.
-- Menyediakan laporan aktivitas perpustakaan.
+- Menyediakan rating & ulasan yang jujur dan terkurasi.
+- Membantu pembaca memantau jejak membaca pribadi.
+- Menyediakan dashboard ringkas bagi kurator/admin.
+- Menjadi fondasi komunitas literasi yang sehat.
 
 ## 4. Target Pengguna
 
-### 4.1 Admin / Petugas Perpustakaan
+### 4.1 Admin / Kurator Perpustakaan
 
-Admin bertanggung jawab mengelola seluruh aktivitas perpustakaan.
+- Mengelola koleksi buku (CRUD, stok, kategori).
+- Mengelola anggota.
+- Memantau statistik katalog & ulasan.
+- Meninjau buku dengan rating terbaik dan ulasan terbaru.
 
-Kebutuhan:
-- Mengelola data buku.
-- Mengelola data anggota.
-- Memproses peminjaman dan pengembalian.
-- Memantau stok buku.
-- Melihat laporan dan riwayat transaksi.
+### 4.2 Anggota / Pembaca
 
-### 4.2 Anggota / Siswa
-
-Anggota menggunakan website untuk mencari dan meminjam buku.
-
-Kebutuhan:
-- Mencari buku berdasarkan judul atau penulis.
-- Melihat detail dan ketersediaan buku.
-- Mengajukan peminjaman.
-- Melihat status peminjaman.
-- Melihat tanggal pengembalian.
-- Melihat riwayat peminjaman.
+- Mencari buku berdasarkan judul/penulis/kategori.
+- Melihat detail, rating, dan ulasan buku.
+- Memberi rating & ulasan (1 rating per buku).
+- Menandai status baca: Ingin Dibaca / Sedang Dibaca / Sudah Selesai.
+- Melihat koleksi dan ulasan pribadi.
 
 ## 5. Ruang Lingkup Produk
 
-### 5.1 Fitur yang Termasuk dalam MVP
-
-MVP adalah versi awal website yang memiliki fitur inti dan dapat digunakan.
+### 5.1 Fitur dalam MVP
 
 - Halaman beranda.
-- Katalog buku.
-- Pencarian dan filter buku.
-- Detail buku.
-- Login admin dan anggota.
-- Dashboard admin.
-- CRUD data buku.
-- CRUD data anggota.
-- Pengajuan peminjaman.
-- Persetujuan peminjaman oleh admin.
-- Pencatatan pengembalian.
-- Status ketersediaan buku.
-- Riwayat peminjaman.
-- Peringatan keterlambatan.
-- Dashboard statistik sederhana.
+- Katalog buku dengan pencarian, filter kategori, filter rating 4.5+, dan sortir.
+- Detail buku (modal interaktif + halaman detail).
+- Sistem rating bintang 1–5 dan ulasan tertulis.
+- Status jejak membaca per anggota (Wishlist / Reading / Finished).
+- Login & register anggota.
+- Dashboard anggota (Sedang Dibaca, Sudah Selesai, Ulasan Saya).
+- Halaman Koleksi Saya & Ulasan & Rating.
+- Dashboard admin (statistik katalog, ulasan terbaru, ringkasan jejak membaca).
+- CRUD buku dan anggota (admin).
 
-### 5.2 Fitur di Luar MVP
+### 5.2 Fitur di Luar MVP (Selanjutnya)
 
-Fitur berikut dapat dikembangkan pada versi selanjutnya:
-
-- Pembayaran denda online.
-- Scan barcode atau QR Code.
-- Notifikasi email atau WhatsApp.
-- Reservasi antrean buku.
-- Export laporan PDF dan Excel.
-- Rekomendasi buku otomatis.
-- Pembacaan e-book langsung di website.
-- Integrasi dengan sistem perpustakaan lain.
+- Impor katalog massal / integrasi Google Books API (rencana: Task 15).
+- Moderasi ulasan (filter kata, laporkan ulasan).
+- Rekomendasi buku otomatis berbasis rating.
+- Lencana/reputasi pembaca.
+- Ekspor laporan (PDF/Excel).
+- Pembacaan e-book langsung di situs.
+- Peminjaman — **dihentikan** (legacy), tidak dikembangkan.
 
 ## 6. Struktur Halaman Website
 
-### Halaman Publik dan Anggota
+### Halaman Publik & Anggota
 
 | Halaman | Fungsi |
 |---|---|
-| Beranda | Menampilkan informasi dan buku populer |
-| Katalog Buku | Menampilkan koleksi buku |
-| Detail Buku | Informasi lengkap buku |
-| Login | Masuk ke akun |
-| Register | Pendaftaran anggota |
-| Dashboard Anggota | Ringkasan peminjaman |
-| Peminjaman Saya | Daftar peminjaman aktif |
-| Riwayat | Riwayat peminjaman |
-| Profil | Informasi akun anggota |
+| Beranda | Pengantar, CTA ke katalog |
+| Katalog Buku (`/books`) | Pencarian, filter & sortir, grid kartu buku |
+| Detail Buku (`/books/:id` atau modal) | Info lengkap, rating, ulasan, status baca |
+| Login (`/login`) | Masuk |
+| Register (`/register`) | Pendaftaran anggota |
+| Dashboard Anggota (`/dashboard`) | Ringkasan statistik baca & ulasan |
+| Koleksi Saya (`/my-collection`) | Buku berdasarkan status baca |
+| Ulasan & Rating (`/reviews`) | Ulasan yang ditulis anggota |
+| Profil (`/profile`) | Informasi akun |
 
 ### Halaman Admin
 
 | Halaman | Fungsi |
 |---|---|
-| Dashboard | Statistik perpustakaan |
-| Data Buku | Mengelola koleksi buku |
-| Data Anggota | Mengelola anggota |
-| Pengajuan | Memproses permintaan pinjam |
-| Peminjaman | Mengelola transaksi aktif |
-| Pengembalian | Memproses buku kembali |
-| Riwayat Transaksi | Melihat transaksi sebelumnya |
-| Laporan | Statistik dan laporan |
-| Pengaturan | Mengatur aturan peminjaman |
+| Dashboard (`/admin/dashboard`) | Statistik katalog & ulasan, buku rating tertinggi, ulasan terbaru |
+| Data Buku (`/admin/books`) | CRUD buku |
+| Data Anggota (`/admin/members`) | CRUD & status anggota |
+
+> **Halaman legacy (tidak ditautkan di navigasi, masih dapat diakses):** `/loans`, `/history`, `/admin/loans/*`.
 
 ## 7. Kebutuhan Fungsional
 
 ### FR-01: Autentikasi Pengguna
 
-Sistem harus menyediakan login dan logout.
-
-- Admin dan anggota memiliki hak akses berbeda.
-- Password disimpan dalam bentuk hash.
-- Pengguna hanya dapat mengakses halaman sesuai perannya.
-- Anggota tidak dapat membuka dashboard admin.
+- Sistem harus menyediakan login, logout, dan registrasi.
+- Role: `ADMIN` dan `MEMBER`.
+- Password disimpan dalam bentuk hash (bcrypt).
+- Anggota tidak dapat mengakses halaman admin.
 
 ### FR-02: Katalog Buku
 
-Sistem harus menampilkan daftar buku yang tersedia.
-
-Informasi buku:
-- Judul buku.
-- Penulis.
-- Penerbit.
-- Tahun terbit.
-- Kategori.
-- ISBN (opsional).
-- Deskripsi.
-- Gambar sampul.
-- Lokasi rak.
-- Jumlah stok.
-- Jumlah buku tersedia.
+Informasi buku yang ditampilkan:
+- Judul, penulis, penerbit, tahun terbit, kategori, ISBN (opsional).
+- Deskripsi, gambar sampul, lokasi rak.
+- Rating rata-rata, jumlah ulasan, dan persentase ulasan positif.
 
 ### FR-03: Pencarian dan Filter Buku
 
 Anggota dapat:
 
-- Mencari buku berdasarkan judul.
-- Mencari berdasarkan penulis.
+- Mencari berdasarkan judul, penulis, dan kata kunci.
 - Memfilter berdasarkan kategori.
-- Memfilter berdasarkan ketersediaan.
-- Mengurutkan buku berdasarkan judul atau tahun terbit.
+- Memfilter **Rating 4.5+ Saja**.
+- Mengurutkan: **Rating Tertinggi**, Judul A–Z, Tahun Terbaru.
 
-### FR-04: Pengelolaan Buku
+### FR-04: Pengelolaan Buku (Admin)
 
-Admin dapat:
+- Tambah, lihat, edit, dan hapus buku.
+- Mengelola jumlah stok dan lokasi rak.
+- Mengunggah/menampilkan sampul buku.
 
-- Menambahkan buku.
-- Melihat detail buku.
-- Mengedit informasi buku.
-- Menghapus buku.
-- Mengatur jumlah stok.
-- Mengunggah sampul buku.
+### FR-05: Pengelolaan Anggota (Admin)
 
-Sistem tidak boleh menghapus buku yang masih memiliki transaksi peminjaman aktif.
+- Tambah, edit, nonaktifkan/aktifkan, dan hapus anggota.
+- Melihat daftar anggota dan profilnya (tanpa password).
 
-### FR-05: Pengelolaan Anggota
+### FR-06: Rating & Ulasan
 
-Admin dapat:
+- Anggota memberi **satu rating per buku** (1–5 bintang).
+- Anggota dapat menulis ulasan opsional (maks 2.000 karakter).
+- Rating yang dikirim dapat diubah (upsert).
+- Sistem menghitung ulang `averageRating`, `reviewCount`, dan `positivePercent` per buku.
+- Ulasan dapat dihapus oleh penulisnya.
+- Halaman detail dan kartu buku menampilkan ringkasan rating.
 
-- Menambahkan anggota.
-- Mengedit data anggota.
-- Melihat detail anggota.
-- Menonaktifkan akun anggota.
-- Melihat riwayat peminjaman anggota.
+### FR-07: Status Jejak Membaca
 
-### FR-06: Pengajuan Peminjaman
+- Anggota menandai status per buku:
+  - `WISHLIST` — Ingin Dibaca (belum mulai).
+  - `READING` — Sedang Dibaca.
+  - `FINISHED` — Sudah Selesai.
+- Status dapat diubah kapan saja; diambil per anggota.
+- Badge status ditampilkan pada detail buku dan koleksi saya.
 
-Anggota dapat mengajukan peminjaman buku.
+### FR-08: Dashboard Anggota
 
-Data pengajuan:
-- Anggota.
-- Buku yang dipilih.
-- Tanggal pengajuan.
-- Tanggal rencana peminjaman.
-- Status pengajuan.
+Menampilkan:
 
-Status pengajuan:
-- Menunggu Persetujuan.
-- Disetujui.
-- Ditolak.
-- Dibatalkan.
+- Jumlah buku **Sedang Dibaca**.
+- Jumlah buku **Sudah Selesai**.
+- Jumlah **Ulasan Saya**.
+- Daftar buku Sedang Dibaca dan Ulasan Terbaru Saya.
 
-Pengajuan hanya dapat dilakukan jika buku tersedia dan anggota memenuhi aturan peminjaman.
+### FR-09: Dashboard Admin & Laporan
 
-### FR-07: Persetujuan Peminjaman
+Menampilkan:
 
-Admin dapat menyetujui atau menolak pengajuan.
-
-Ketika disetujui:
-- Sistem membuat transaksi peminjaman.
-- Sistem mencatat tanggal pinjam.
-- Sistem menentukan tanggal jatuh tempo.
-- Stok buku tersedia berkurang.
-- Status transaksi berubah menjadi Dipinjam.
-
-Jika stok sudah habis saat admin memproses pengajuan, sistem harus menolak persetujuan dan menampilkan pesan.
-
-### FR-08: Pengembalian Buku
-
-Admin dapat memproses pengembalian buku.
-
-Sistem harus:
-- Mencatat tanggal pengembalian.
-- Mengubah status menjadi Dikembalikan.
-- Menambah stok buku tersedia.
-- Menghitung keterlambatan jika melewati jatuh tempo.
-- Menyimpan transaksi ke riwayat.
-
-### FR-09: Riwayat Peminjaman
-
-Anggota dapat melihat riwayat peminjaman miliknya sendiri.
-
-Admin dapat melihat seluruh transaksi.
-
-Informasi riwayat:
-- Nama anggota.
-- Judul buku.
-- Tanggal pinjam.
-- Tanggal jatuh tempo.
-- Tanggal kembali.
-- Status transaksi.
-
-### FR-10: Dashboard Admin
-
-Dashboard menampilkan:
-
-- Total koleksi buku.
-- Total anggota.
-- Buku sedang dipinjam.
-- Pengajuan menunggu.
-- Buku terlambat dikembalikan.
-- Aktivitas transaksi terbaru.
-- Buku populer.
-
-### FR-11: Laporan
-
-Admin dapat melihat laporan berdasarkan rentang tanggal.
-
-Laporan meliputi:
-- Jumlah peminjaman.
-- Jumlah pengembalian.
-- Buku paling sering dipinjam.
-- Anggota paling aktif.
-- Daftar keterlambatan.
+- Total Koleksi Buku, Total Anggota, Total Ulasan, Rating Rata-rata.
+- Buku Rating Tertinggi.
+- Ulasan Terbaru.
+- Ringkasan Jejak Membaca komunitas (Wishlist / Sedang Dibaca / Sudah Selesai).
 
 ## 8. Aturan Bisnis
 
-Aturan awal yang digunakan:
-
-1. Anggota harus login untuk mengajukan peminjaman.
-2. Anggota hanya dapat meminjam buku yang tersedia.
-3. Maksimal peminjaman awal adalah 3 buku per anggota.
-4. Durasi peminjaman awal adalah 7 hari.
-5. Admin dapat mengubah aturan tersebut melalui pengaturan.
-6. Buku yang sedang dipinjam tidak dapat dipinjam oleh anggota lain jika stok tersedia habis.
-7. Pengajuan yang belum disetujui tidak mengurangi stok.
-8. Stok berkurang ketika peminjaman disetujui.
-9. Stok bertambah ketika buku dikembalikan.
-10. Buku yang terlambat diberi status Terlambat.
-11. Anggota yang memiliki peminjaman terlambat dapat dibatasi dari peminjaman baru.
-12. Penghapusan data buku atau anggota harus mempertimbangkan riwayat transaksi.
+1. Anggota harus login untuk memberi rating/ulasan dan mengubah status baca.
+2. Satu anggota hanya boleh punya satu rating per buku; mengirim ulang mengubah rating sebelumnya.
+3. Rating adalah bilangan bulat 1–5.
+4. Ulasan opsional; maks 2.000 karakter.
+5. `positivePercent` = persentase ulasan dengan rating ≥ 4 dari seluruh ulasan buku.
+6. Status baca per anggota per buku; satu status aktif pada satu waktu.
+7. Menghapus ulasan akan menghitung ulang agregat rating buku.
+8. Penghapusan buku mempertimbangkan riwayat transaksi peminjaman (legacy).
 
 ## 9. Kebutuhan Non-Fungsional
 
 ### NFR-01: Kemudahan Penggunaan
-
-- Antarmuka sederhana dan mudah dipahami.
-- Bahasa utama menggunakan Bahasa Indonesia.
-- Navigasi konsisten.
-- Formulir menampilkan pesan validasi yang jelas.
+- Antarmuka sederhana, navigasi konsisten, Bahasa Indonesia.
+- Pesan validasi dan error yang jelas dan ramah.
 
 ### NFR-02: Responsif
-
-Website harus dapat digunakan pada:
-- Laptop dan desktop.
-- Tablet.
-- Smartphone.
+- Laptop/desktop, tablet, dan smartphone.
 
 ### NFR-03: Keamanan
-
-- Password harus di-hash.
-- Halaman admin dilindungi autentikasi.
-- Hak akses diperiksa di server.
-- Input pengguna divalidasi.
-- Data pribadi anggota tidak ditampilkan kepada pengguna lain.
+- Password di-hash; halaman admin dilindungi autentikasi + pengecekan role di server.
+- Input divalidasi (class-validator di backend, validasi sisi klien di frontend).
+- Data pribadi tidak ditampilkan ke pengguna lain.
 
 ### NFR-04: Performa
-
-- Halaman utama ditargetkan dapat dimuat dalam waktu sekitar 3 detik pada koneksi normal.
-- Pencarian buku harus terasa cepat.
-- Tabel data menggunakan pagination jika jumlah data besar.
+- Katalog terasa cepat; paginasi untuk data besar; detail dan rating dimuat efisien.
 
 ### NFR-05: Keandalan Data
-
-- Data transaksi harus tersimpan secara konsisten.
-- Perubahan stok harus sesuai dengan transaksi.
-- Sistem mencegah stok menjadi negatif.
-- Database harus memiliki mekanisme backup.
+- Agregat rating dihitung di server dan disimpan di kolom `Book` untuk performa baca.
+- Migrasi database terkelola melalui Prisma Migrate.
 
 ## 10. Rancangan Database
 
-### Tabel User
+### Tabel `users`
 
 | Field | Keterangan |
 |---|---|
 | id | ID pengguna |
 | name | Nama lengkap |
 | email | Email unik |
-| password | Password hash |
-| role | ADMIN atau MEMBER |
-| status | Aktif atau Nonaktif |
-| createdAt | Tanggal dibuat |
+| password | Hash bcrypt |
+| role | ADMIN / MEMBER |
+| status | ACTIVE / INACTIVE |
+| createdAt / updatedAt | Timestamp |
 
-### Tabel Book
-
-| Field | Keterangan |
-|---|---|
-| id | ID buku |
-| title | Judul buku |
-| author | Penulis |
-| publisher | Penerbit |
-| category | Kategori |
-| isbn | ISBN opsional |
-| year | Tahun terbit |
-| description | Deskripsi |
-| coverImage | Gambar sampul |
-| totalStock | Total stok |
-| availableStock | Stok tersedia |
-| shelfLocation | Lokasi rak |
-
-### Tabel Loan
-
-| Field | Keterangan |
-|---|---|
-| id | ID transaksi |
-| userId | Anggota |
-| bookId | Buku |
-| requestDate | Tanggal pengajuan |
-| borrowDate | Tanggal pinjam |
-| dueDate | Tanggal jatuh tempo |
-| returnDate | Tanggal pengembalian |
-| status | Status transaksi |
-
-### Tabel Category
+### Tabel `categories`
 
 | Field | Keterangan |
 |---|---|
 | id | ID kategori |
-| name | Nama kategori |
-| description | Deskripsi |
+| name | Nama kategori (unik) |
+| description | Deskripsi opsional |
 
-Relasi:
-- Satu anggota dapat memiliki banyak transaksi peminjaman.
-- Satu buku dapat muncul pada banyak transaksi.
-- Satu kategori dapat memiliki banyak buku.
+### Tabel `books`
+
+| Field | Keterangan |
+|---|---|
+| id | ID buku |
+| title | Judul |
+| author | Penulis |
+| publisher | Penerbit |
+| categoryId | Relasi ke categories |
+| isbn | ISBN unik (opsional) |
+| year | Tahun terbit |
+| description | Deskripsi |
+| coverImage | URL sampul |
+| totalStock / availableStock | Informasi stok |
+| shelfLocation | Lokasi rak |
+| **averageRating** | Rating rata-rata (denormalisasi) |
+| **reviewCount** | Jumlah ulasan |
+| **positivePercent** | Persen ulasan rating ≥ 4 |
+
+### Tabel `reviews` (baru)
+
+| Field | Keterangan |
+|---|---|
+| id | ID ulasan |
+| userId | Penulis ulasan (relasi users, cascade) |
+| bookId | Buku yang diulas (relasi books, cascade) |
+| rating | 1–5 |
+| comment | Teks ulasan opsional |
+| createdAt / updatedAt | Timestamp |
+
+Constraint: `@@unique([userId, bookId])`.
+
+### Tabel `reading_statuses` (baru)
+
+| Field | Keterangan |
+|---|---|
+| id | ID |
+| userId | Anggota |
+| bookId | Buku |
+| status | WISHLIST / READING / FINISHED |
+| createdAt / updatedAt | Timestamp |
+
+Constraint: `@@unique([userId, bookId])`.
+
+### Tabel `loans` — Legacy
+Dipertahankan untuk kompatibilitas data lama; tidak dipakai di antarmuka v2.0.
+
+### Relasi
+- Satu anggota punya banyak `reviews` dan `reading_statuses`.
+- Satu buku punya banyak `reviews` dan `reading_statuses`.
+- Satu kategori punya banyak `books`.
 
 ## 11. Rekomendasi Teknologi
 
-Untuk versi yang akan dikembangkan menjadi website online:
-
-- **Frontend:** Next.js dan React.
-- **Styling:** Tailwind CSS.
-- **Backend:** Next.js API / Server Actions.
-- **Database:** PostgreSQL.
-- **ORM:** Prisma.
-- **Autentikasi:** Sistem login dengan role admin dan anggota.
-- **Deployment:** Vercel atau hosting sejenis.
-- **Database hosting:** PostgreSQL managed service.
-
-Untuk tahap belajar paling awal, tampilan dan interaksi dapat dibuat dengan HTML, CSS, JavaScript, serta LocalStorage. Namun, LocalStorage hanya untuk prototype dan tidak boleh digunakan sebagai penyimpanan utama data perpustakaan online.
+- **Frontend:** Next.js 14 (App Router) + React + Tailwind CSS.
+- **Backend:** NestJS 10 + Prisma 5.
+- **Database:** PostgreSQL (lokal: 18.x di port 5432).
+- **Autentikasi:** JWT (Bearer token) di localStorage.
+- **Ikon:** SVG inline (tanpa dependensi ikon tambahan).
 
 ## 12. Kriteria Keberhasilan
 
 MVP dianggap berhasil jika:
 
-- Admin dapat login.
-- Admin dapat melakukan CRUD buku.
-- Admin dapat mengelola anggota.
-- Anggota dapat mencari buku.
-- Anggota dapat mengajukan peminjaman.
-- Admin dapat menyetujui pengajuan.
-- Stok berubah sesuai transaksi.
-- Admin dapat memproses pengembalian.
-- Anggota dapat melihat riwayat peminjaman.
-- Website dapat digunakan pada laptop dan HP.
-- Data tetap tersimpan setelah pengguna logout dan login kembali.
+- Anggota dapat mencari dan memfilter katalog (termasuk sortir rating & filter 4.5+).
+- Anggota dapat membuka detail buku, memberi rating 1–5, dan menulis ulasan.
+- Rating dan jumlah ulasan tampil konsisten di kartu, detail, dan dashboard.
+- Anggota dapat menandai status baca dan melihatnya di Koleksi Saya.
+- Dashboard anggota menampilkan Sedang Dibaca / Sudah Selesai / Ulasan Saya.
+- Admin dapat CRUD buku & anggota serta melihat statistik katalog & ulasan.
+- Website responsif di laptop dan HP.
 
 ## 13. Tahapan Pengembangan
 
-### Tahap 1 — UI/UX
-Membuat desain dashboard, sidebar, navbar, katalog, dan tabel.
+### Tahap 1 — Tema & Desain (Archival Modernist)
+Design tokens, komponen dasar, header/footer, kartu buku, badge status, rating bintang.
 
-### Tahap 2 — Data Buku
-Membuat CRUD buku, pencarian, filter, dan detail buku.
+### Tahap 2 — Database & Backend Rating/Jejak Baca
+Migrasi `reviews` & `reading_statuses`, endpoint rating, status baca, dan agregat buku.
 
-### Tahap 3 — Data Anggota
-Membuat pengelolaan anggota dan akun.
+### Tahap 3 — Katalog & Detail
+Halaman katalog (search/filter/sortir), kartu buku, modal detail interaktif, halaman detail.
 
-### Tahap 4 — Transaksi
-Membuat pengajuan, persetujuan, peminjaman, dan pengembalian.
+### Tahap 4 — Area Anggota
+Dashboard (3 kartu), Koleksi Saya, Ulasan & Rating, Profil.
 
-### Tahap 5 — Database
-Menghubungkan aplikasi ke PostgreSQL menggunakan Prisma.
+### Tahap 5 — Area Admin
+Dashboard admin baru (statistik ulasan), penyembunyian menu transaksi.
 
-### Tahap 6 — Autentikasi
-Menerapkan login dan pembatasan akses berdasarkan role.
-
-### Tahap 7 — Testing dan Deployment
-Menguji seluruh fitur, memperbaiki bug, dan mempublikasikan website.
+### Tahap 6 — Testing & Perbaikan
+Verifikasi end-to-end: registrasi → login → cari → rating → status baca → dashboard.
 
 ## 14. Kesimpulan
 
-PinjamanBuku merupakan website sistem informasi perpustakaan yang bertujuan mempermudah pengelolaan buku dan transaksi peminjaman.
-
-Fokus utama MVP adalah katalog buku, pengelolaan anggota, peminjaman, pengembalian, dan dashboard admin.
-
-Pengembangan dilakukan secara bertahap agar proyek tetap realistis untuk pemula, tetapi memiliki fondasi yang baik untuk dikembangkan menjadi aplikasi perpustakaan yang lebih lengkap.
-
+PERPUS v2.0 beralih dari aplikasi peminjaman menjadi **platform katalog & ulasan buku** yang membantu pembaca menemukan bacaan berkualitas, menilainya, dan mencatat jejak membaca. Fokus MVP adalah pencarian, rating/ulasan, status baca, serta dashboard anggota dan admin — dengan tetap membuka jalan bagi integrasi Google Books API pada tahap berikutnya.

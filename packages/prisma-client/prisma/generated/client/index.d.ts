@@ -34,6 +34,16 @@ export type Book = $Result.DefaultSelection<Prisma.$BookPayload>
  */
 export type Loan = $Result.DefaultSelection<Prisma.$LoanPayload>
 /**
+ * Model Review
+ * 
+ */
+export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
+/**
+ * Model ReadingStatus
+ * 
+ */
+export type ReadingStatus = $Result.DefaultSelection<Prisma.$ReadingStatusPayload>
+/**
  * Model Setting
  * 
  */
@@ -71,6 +81,15 @@ export const LoanStatus: {
 
 export type LoanStatus = (typeof LoanStatus)[keyof typeof LoanStatus]
 
+
+export const ReadingStatusValue: {
+  WISHLIST: 'WISHLIST',
+  READING: 'READING',
+  FINISHED: 'FINISHED'
+};
+
+export type ReadingStatusValue = (typeof ReadingStatusValue)[keyof typeof ReadingStatusValue]
+
 }
 
 export type Role = $Enums.Role
@@ -84,6 +103,10 @@ export const UserStatus: typeof $Enums.UserStatus
 export type LoanStatus = $Enums.LoanStatus
 
 export const LoanStatus: typeof $Enums.LoanStatus
+
+export type ReadingStatusValue = $Enums.ReadingStatusValue
+
+export const ReadingStatusValue: typeof $Enums.ReadingStatusValue
 
 /**
  * ##  Prisma Client ʲˢ
@@ -247,6 +270,26 @@ export class PrismaClient<
     * ```
     */
   get loan(): Prisma.LoanDelegate<ExtArgs>;
+
+  /**
+   * `prisma.review`: Exposes CRUD operations for the **Review** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reviews
+    * const reviews = await prisma.review.findMany()
+    * ```
+    */
+  get review(): Prisma.ReviewDelegate<ExtArgs>;
+
+  /**
+   * `prisma.readingStatus`: Exposes CRUD operations for the **ReadingStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReadingStatuses
+    * const readingStatuses = await prisma.readingStatus.findMany()
+    * ```
+    */
+  get readingStatus(): Prisma.ReadingStatusDelegate<ExtArgs>;
 
   /**
    * `prisma.setting`: Exposes CRUD operations for the **Setting** model.
@@ -702,6 +745,8 @@ export namespace Prisma {
     Category: 'Category',
     Book: 'Book',
     Loan: 'Loan',
+    Review: 'Review',
+    ReadingStatus: 'ReadingStatus',
     Setting: 'Setting'
   };
 
@@ -718,7 +763,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "category" | "book" | "loan" | "setting"
+      modelProps: "user" | "category" | "book" | "loan" | "review" | "readingStatus" | "setting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1002,6 +1047,146 @@ export namespace Prisma {
           }
         }
       }
+      Review: {
+        payload: Prisma.$ReviewPayload<ExtArgs>
+        fields: Prisma.ReviewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReviewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReviewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          findFirst: {
+            args: Prisma.ReviewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReviewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          findMany: {
+            args: Prisma.ReviewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+          }
+          create: {
+            args: Prisma.ReviewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          createMany: {
+            args: Prisma.ReviewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+          }
+          delete: {
+            args: Prisma.ReviewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          update: {
+            args: Prisma.ReviewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReviewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReviewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReviewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
+          }
+          aggregate: {
+            args: Prisma.ReviewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReview>
+          }
+          groupBy: {
+            args: Prisma.ReviewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReviewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReviewCountArgs<ExtArgs>
+            result: $Utils.Optional<ReviewCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReadingStatus: {
+        payload: Prisma.$ReadingStatusPayload<ExtArgs>
+        fields: Prisma.ReadingStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReadingStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReadingStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.ReadingStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReadingStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          findMany: {
+            args: Prisma.ReadingStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>[]
+          }
+          create: {
+            args: Prisma.ReadingStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          createMany: {
+            args: Prisma.ReadingStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReadingStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.ReadingStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          update: {
+            args: Prisma.ReadingStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReadingStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReadingStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReadingStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadingStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.ReadingStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReadingStatus>
+          }
+          groupBy: {
+            args: Prisma.ReadingStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReadingStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReadingStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<ReadingStatusCountAggregateOutputType> | number
+          }
+        }
+      }
       Setting: {
         payload: Prisma.$SettingPayload<ExtArgs>
         fields: Prisma.SettingFieldRefs
@@ -1234,10 +1419,14 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     loans: number
+    reviews: number
+    readingStatuses: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loans?: boolean | UserCountOutputTypeCountLoansArgs
+    reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+    readingStatuses?: boolean | UserCountOutputTypeCountReadingStatusesArgs
   }
 
   // Custom InputTypes
@@ -1256,6 +1445,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LoanWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReadingStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadingStatusWhereInput
   }
 
 
@@ -1296,10 +1499,14 @@ export namespace Prisma {
 
   export type BookCountOutputType = {
     loans: number
+    reviews: number
+    readingStatuses: number
   }
 
   export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loans?: boolean | BookCountOutputTypeCountLoansArgs
+    reviews?: boolean | BookCountOutputTypeCountReviewsArgs
+    readingStatuses?: boolean | BookCountOutputTypeCountReadingStatusesArgs
   }
 
   // Custom InputTypes
@@ -1318,6 +1525,20 @@ export namespace Prisma {
    */
   export type BookCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LoanWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountReadingStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadingStatusWhereInput
   }
 
 
@@ -1514,6 +1735,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     loans?: boolean | User$loansArgs<ExtArgs>
+    reviews?: boolean | User$reviewsArgs<ExtArgs>
+    readingStatuses?: boolean | User$readingStatusesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1541,6 +1764,8 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loans?: boolean | User$loansArgs<ExtArgs>
+    reviews?: boolean | User$reviewsArgs<ExtArgs>
+    readingStatuses?: boolean | User$readingStatusesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1549,6 +1774,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       loans: Prisma.$LoanPayload<ExtArgs>[]
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      readingStatuses: Prisma.$ReadingStatusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1924,6 +2151,8 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     loans<T extends User$loansArgs<ExtArgs> = {}>(args?: Subset<T, User$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany"> | Null>
+    reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
+    readingStatuses<T extends User$readingStatusesArgs<ExtArgs> = {}>(args?: Subset<T, User$readingStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2292,6 +2521,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * User.reviews
+   */
+  export type User$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * User.readingStatuses
+   */
+  export type User$readingStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    where?: ReadingStatusWhereInput
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    cursor?: ReadingStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadingStatusScalarFieldEnum | ReadingStatusScalarFieldEnum[]
   }
 
   /**
@@ -3249,12 +3518,18 @@ export namespace Prisma {
     year: number | null
     totalStock: number | null
     availableStock: number | null
+    averageRating: number | null
+    reviewCount: number | null
+    positivePercent: number | null
   }
 
   export type BookSumAggregateOutputType = {
     year: number | null
     totalStock: number | null
     availableStock: number | null
+    averageRating: number | null
+    reviewCount: number | null
+    positivePercent: number | null
   }
 
   export type BookMinAggregateOutputType = {
@@ -3270,6 +3545,9 @@ export namespace Prisma {
     totalStock: number | null
     availableStock: number | null
     shelfLocation: string | null
+    averageRating: number | null
+    reviewCount: number | null
+    positivePercent: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3287,6 +3565,9 @@ export namespace Prisma {
     totalStock: number | null
     availableStock: number | null
     shelfLocation: string | null
+    averageRating: number | null
+    reviewCount: number | null
+    positivePercent: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3304,6 +3585,9 @@ export namespace Prisma {
     totalStock: number
     availableStock: number
     shelfLocation: number
+    averageRating: number
+    reviewCount: number
+    positivePercent: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3314,12 +3598,18 @@ export namespace Prisma {
     year?: true
     totalStock?: true
     availableStock?: true
+    averageRating?: true
+    reviewCount?: true
+    positivePercent?: true
   }
 
   export type BookSumAggregateInputType = {
     year?: true
     totalStock?: true
     availableStock?: true
+    averageRating?: true
+    reviewCount?: true
+    positivePercent?: true
   }
 
   export type BookMinAggregateInputType = {
@@ -3335,6 +3625,9 @@ export namespace Prisma {
     totalStock?: true
     availableStock?: true
     shelfLocation?: true
+    averageRating?: true
+    reviewCount?: true
+    positivePercent?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3352,6 +3645,9 @@ export namespace Prisma {
     totalStock?: true
     availableStock?: true
     shelfLocation?: true
+    averageRating?: true
+    reviewCount?: true
+    positivePercent?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3369,6 +3665,9 @@ export namespace Prisma {
     totalStock?: true
     availableStock?: true
     shelfLocation?: true
+    averageRating?: true
+    reviewCount?: true
+    positivePercent?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3473,6 +3772,9 @@ export namespace Prisma {
     totalStock: number
     availableStock: number
     shelfLocation: string | null
+    averageRating: number
+    reviewCount: number
+    positivePercent: number
     createdAt: Date
     updatedAt: Date
     _count: BookCountAggregateOutputType | null
@@ -3509,10 +3811,15 @@ export namespace Prisma {
     totalStock?: boolean
     availableStock?: boolean
     shelfLocation?: boolean
+    averageRating?: boolean
+    reviewCount?: boolean
+    positivePercent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     loans?: boolean | Book$loansArgs<ExtArgs>
+    reviews?: boolean | Book$reviewsArgs<ExtArgs>
+    readingStatuses?: boolean | Book$readingStatusesArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["book"]>
 
@@ -3529,6 +3836,9 @@ export namespace Prisma {
     totalStock?: boolean
     availableStock?: boolean
     shelfLocation?: boolean
+    averageRating?: boolean
+    reviewCount?: boolean
+    positivePercent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3547,6 +3857,9 @@ export namespace Prisma {
     totalStock?: boolean
     availableStock?: boolean
     shelfLocation?: boolean
+    averageRating?: boolean
+    reviewCount?: boolean
+    positivePercent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -3554,6 +3867,8 @@ export namespace Prisma {
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     loans?: boolean | Book$loansArgs<ExtArgs>
+    reviews?: boolean | Book$reviewsArgs<ExtArgs>
+    readingStatuses?: boolean | Book$readingStatusesArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3565,6 +3880,8 @@ export namespace Prisma {
     objects: {
       category: Prisma.$CategoryPayload<ExtArgs>
       loans: Prisma.$LoanPayload<ExtArgs>[]
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      readingStatuses: Prisma.$ReadingStatusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3579,6 +3896,9 @@ export namespace Prisma {
       totalStock: number
       availableStock: number
       shelfLocation: string | null
+      averageRating: number
+      reviewCount: number
+      positivePercent: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["book"]>
@@ -3947,6 +4267,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     loans<T extends Book$loansArgs<ExtArgs> = {}>(args?: Subset<T, Book$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany"> | Null>
+    reviews<T extends Book$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Book$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany"> | Null>
+    readingStatuses<T extends Book$readingStatusesArgs<ExtArgs> = {}>(args?: Subset<T, Book$readingStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3988,6 +4310,9 @@ export namespace Prisma {
     readonly totalStock: FieldRef<"Book", 'Int'>
     readonly availableStock: FieldRef<"Book", 'Int'>
     readonly shelfLocation: FieldRef<"Book", 'String'>
+    readonly averageRating: FieldRef<"Book", 'Float'>
+    readonly reviewCount: FieldRef<"Book", 'Int'>
+    readonly positivePercent: FieldRef<"Book", 'Int'>
     readonly createdAt: FieldRef<"Book", 'DateTime'>
     readonly updatedAt: FieldRef<"Book", 'DateTime'>
   }
@@ -4325,6 +4650,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * Book.reviews
+   */
+  export type Book$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Book.readingStatuses
+   */
+  export type Book$readingStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    where?: ReadingStatusWhereInput
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    cursor?: ReadingStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadingStatusScalarFieldEnum | ReadingStatusScalarFieldEnum[]
   }
 
   /**
@@ -5342,6 +5707,1954 @@ export namespace Prisma {
 
 
   /**
+   * Model Review
+   */
+
+  export type AggregateReview = {
+    _count: ReviewCountAggregateOutputType | null
+    _avg: ReviewAvgAggregateOutputType | null
+    _sum: ReviewSumAggregateOutputType | null
+    _min: ReviewMinAggregateOutputType | null
+    _max: ReviewMaxAggregateOutputType | null
+  }
+
+  export type ReviewAvgAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type ReviewSumAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type ReviewMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    rating: number | null
+    comment: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReviewMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    rating: number | null
+    comment: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReviewCountAggregateOutputType = {
+    id: number
+    userId: number
+    bookId: number
+    rating: number
+    comment: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReviewAvgAggregateInputType = {
+    rating?: true
+  }
+
+  export type ReviewSumAggregateInputType = {
+    rating?: true
+  }
+
+  export type ReviewMinAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    comment?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReviewMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    comment?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReviewCountAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    comment?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Review to aggregate.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Reviews
+    **/
+    _count?: true | ReviewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReviewAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReviewSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReviewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReviewMaxAggregateInputType
+  }
+
+  export type GetReviewAggregateType<T extends ReviewAggregateArgs> = {
+        [P in keyof T & keyof AggregateReview]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReview[P]>
+      : GetScalarType<T[P], AggregateReview[P]>
+  }
+
+
+
+
+  export type ReviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithAggregationInput | ReviewOrderByWithAggregationInput[]
+    by: ReviewScalarFieldEnum[] | ReviewScalarFieldEnum
+    having?: ReviewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReviewCountAggregateInputType | true
+    _avg?: ReviewAvgAggregateInputType
+    _sum?: ReviewSumAggregateInputType
+    _min?: ReviewMinAggregateInputType
+    _max?: ReviewMaxAggregateInputType
+  }
+
+  export type ReviewGroupByOutputType = {
+    id: string
+    userId: string
+    bookId: string
+    rating: number
+    comment: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ReviewCountAggregateOutputType | null
+    _avg: ReviewAvgAggregateOutputType | null
+    _sum: ReviewSumAggregateOutputType | null
+    _min: ReviewMinAggregateOutputType | null
+    _max: ReviewMaxAggregateOutputType | null
+  }
+
+  type GetReviewGroupByPayload<T extends ReviewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReviewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReviewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReviewGroupByOutputType[P]>
+            : GetScalarType<T[P], ReviewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["review"]>
+
+  export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["review"]>
+
+  export type ReviewSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $ReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Review"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      book: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      bookId: string
+      rating: number
+      comment: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["review"]>
+    composites: {}
+  }
+
+  type ReviewGetPayload<S extends boolean | null | undefined | ReviewDefaultArgs> = $Result.GetResult<Prisma.$ReviewPayload, S>
+
+  type ReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ReviewCountAggregateInputType | true
+    }
+
+  export interface ReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Review'], meta: { name: 'Review' } }
+    /**
+     * Find zero or one Review that matches the filter.
+     * @param {ReviewFindUniqueArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReviewFindUniqueArgs>(args: SelectSubset<T, ReviewFindUniqueArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Review that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ReviewFindUniqueOrThrowArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Review that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindFirstArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReviewFindFirstArgs>(args?: SelectSubset<T, ReviewFindFirstArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Review that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindFirstOrThrowArgs} args - Arguments to find a Review
+     * @example
+     * // Get one Review
+     * const review = await prisma.review.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reviews
+     * const reviews = await prisma.review.findMany()
+     * 
+     * // Get first 10 Reviews
+     * const reviews = await prisma.review.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reviewWithIdOnly = await prisma.review.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReviewFindManyArgs>(args?: SelectSubset<T, ReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Review.
+     * @param {ReviewCreateArgs} args - Arguments to create a Review.
+     * @example
+     * // Create one Review
+     * const Review = await prisma.review.create({
+     *   data: {
+     *     // ... data to create a Review
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReviewCreateArgs>(args: SelectSubset<T, ReviewCreateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Reviews.
+     * @param {ReviewCreateManyArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const review = await prisma.review.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReviewCreateManyArgs>(args?: SelectSubset<T, ReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reviews and returns the data saved in the database.
+     * @param {ReviewCreateManyAndReturnArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const review = await prisma.review.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reviews and only return the `id`
+     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Review.
+     * @param {ReviewDeleteArgs} args - Arguments to delete one Review.
+     * @example
+     * // Delete one Review
+     * const Review = await prisma.review.delete({
+     *   where: {
+     *     // ... filter to delete one Review
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReviewDeleteArgs>(args: SelectSubset<T, ReviewDeleteArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Review.
+     * @param {ReviewUpdateArgs} args - Arguments to update one Review.
+     * @example
+     * // Update one Review
+     * const review = await prisma.review.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReviewUpdateArgs>(args: SelectSubset<T, ReviewUpdateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Reviews.
+     * @param {ReviewDeleteManyArgs} args - Arguments to filter Reviews to delete.
+     * @example
+     * // Delete a few Reviews
+     * const { count } = await prisma.review.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReviewDeleteManyArgs>(args?: SelectSubset<T, ReviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reviews
+     * const review = await prisma.review.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReviewUpdateManyArgs>(args: SelectSubset<T, ReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Review.
+     * @param {ReviewUpsertArgs} args - Arguments to update or create a Review.
+     * @example
+     * // Update or create a Review
+     * const review = await prisma.review.upsert({
+     *   create: {
+     *     // ... data to create a Review
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Review we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReviewUpsertArgs>(args: SelectSubset<T, ReviewUpsertArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewCountArgs} args - Arguments to filter Reviews to count.
+     * @example
+     * // Count the number of Reviews
+     * const count = await prisma.review.count({
+     *   where: {
+     *     // ... the filter for the Reviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReviewCountArgs>(
+      args?: Subset<T, ReviewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReviewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Review.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReviewAggregateArgs>(args: Subset<T, ReviewAggregateArgs>): Prisma.PrismaPromise<GetReviewAggregateType<T>>
+
+    /**
+     * Group by Review.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReviewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReviewGroupByArgs['orderBy'] }
+        : { orderBy?: ReviewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Review model
+   */
+  readonly fields: ReviewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Review.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    book<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Review model
+   */ 
+  interface ReviewFieldRefs {
+    readonly id: FieldRef<"Review", 'String'>
+    readonly userId: FieldRef<"Review", 'String'>
+    readonly bookId: FieldRef<"Review", 'String'>
+    readonly rating: FieldRef<"Review", 'Int'>
+    readonly comment: FieldRef<"Review", 'String'>
+    readonly createdAt: FieldRef<"Review", 'DateTime'>
+    readonly updatedAt: FieldRef<"Review", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Review findUnique
+   */
+  export type ReviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review findUniqueOrThrow
+   */
+  export type ReviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review findFirst
+   */
+  export type ReviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reviews.
+     */
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review findFirstOrThrow
+   */
+  export type ReviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Review to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reviews.
+     */
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review findMany
+   */
+  export type ReviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Reviews to fetch.
+     */
+    where?: ReviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reviews to fetch.
+     */
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Reviews.
+     */
+    cursor?: ReviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reviews.
+     */
+    skip?: number
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Review create
+   */
+  export type ReviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Review.
+     */
+    data: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
+  }
+
+  /**
+   * Review createMany
+   */
+  export type ReviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Reviews.
+     */
+    data: ReviewCreateManyInput | ReviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Review createManyAndReturn
+   */
+  export type ReviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Reviews.
+     */
+    data: ReviewCreateManyInput | ReviewCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Review update
+   */
+  export type ReviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Review.
+     */
+    data: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
+    /**
+     * Choose, which Review to update.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review updateMany
+   */
+  export type ReviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Reviews.
+     */
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyInput>
+    /**
+     * Filter which Reviews to update
+     */
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * Review upsert
+   */
+  export type ReviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Review to update in case it exists.
+     */
+    where: ReviewWhereUniqueInput
+    /**
+     * In case the Review found by the `where` argument doesn't exist, create a new Review with this data.
+     */
+    create: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
+    /**
+     * In case the Review was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
+  }
+
+  /**
+   * Review delete
+   */
+  export type ReviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    /**
+     * Filter which Review to delete.
+     */
+    where: ReviewWhereUniqueInput
+  }
+
+  /**
+   * Review deleteMany
+   */
+  export type ReviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reviews to delete
+     */
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * Review without action
+   */
+  export type ReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReadingStatus
+   */
+
+  export type AggregateReadingStatus = {
+    _count: ReadingStatusCountAggregateOutputType | null
+    _min: ReadingStatusMinAggregateOutputType | null
+    _max: ReadingStatusMaxAggregateOutputType | null
+  }
+
+  export type ReadingStatusMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    status: $Enums.ReadingStatusValue | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReadingStatusMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    status: $Enums.ReadingStatusValue | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReadingStatusCountAggregateOutputType = {
+    id: number
+    userId: number
+    bookId: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReadingStatusMinAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReadingStatusMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReadingStatusCountAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReadingStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReadingStatus to aggregate.
+     */
+    where?: ReadingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadingStatuses to fetch.
+     */
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReadingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReadingStatuses
+    **/
+    _count?: true | ReadingStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReadingStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReadingStatusMaxAggregateInputType
+  }
+
+  export type GetReadingStatusAggregateType<T extends ReadingStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateReadingStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReadingStatus[P]>
+      : GetScalarType<T[P], AggregateReadingStatus[P]>
+  }
+
+
+
+
+  export type ReadingStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadingStatusWhereInput
+    orderBy?: ReadingStatusOrderByWithAggregationInput | ReadingStatusOrderByWithAggregationInput[]
+    by: ReadingStatusScalarFieldEnum[] | ReadingStatusScalarFieldEnum
+    having?: ReadingStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReadingStatusCountAggregateInputType | true
+    _min?: ReadingStatusMinAggregateInputType
+    _max?: ReadingStatusMaxAggregateInputType
+  }
+
+  export type ReadingStatusGroupByOutputType = {
+    id: string
+    userId: string
+    bookId: string
+    status: $Enums.ReadingStatusValue
+    createdAt: Date
+    updatedAt: Date
+    _count: ReadingStatusCountAggregateOutputType | null
+    _min: ReadingStatusMinAggregateOutputType | null
+    _max: ReadingStatusMaxAggregateOutputType | null
+  }
+
+  type GetReadingStatusGroupByPayload<T extends ReadingStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReadingStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReadingStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReadingStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], ReadingStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReadingStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["readingStatus"]>
+
+  export type ReadingStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["readingStatus"]>
+
+  export type ReadingStatusSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReadingStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type ReadingStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $ReadingStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReadingStatus"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      book: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      bookId: string
+      status: $Enums.ReadingStatusValue
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["readingStatus"]>
+    composites: {}
+  }
+
+  type ReadingStatusGetPayload<S extends boolean | null | undefined | ReadingStatusDefaultArgs> = $Result.GetResult<Prisma.$ReadingStatusPayload, S>
+
+  type ReadingStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ReadingStatusFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ReadingStatusCountAggregateInputType | true
+    }
+
+  export interface ReadingStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReadingStatus'], meta: { name: 'ReadingStatus' } }
+    /**
+     * Find zero or one ReadingStatus that matches the filter.
+     * @param {ReadingStatusFindUniqueArgs} args - Arguments to find a ReadingStatus
+     * @example
+     * // Get one ReadingStatus
+     * const readingStatus = await prisma.readingStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReadingStatusFindUniqueArgs>(args: SelectSubset<T, ReadingStatusFindUniqueArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ReadingStatus that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ReadingStatusFindUniqueOrThrowArgs} args - Arguments to find a ReadingStatus
+     * @example
+     * // Get one ReadingStatus
+     * const readingStatus = await prisma.readingStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReadingStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, ReadingStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ReadingStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusFindFirstArgs} args - Arguments to find a ReadingStatus
+     * @example
+     * // Get one ReadingStatus
+     * const readingStatus = await prisma.readingStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReadingStatusFindFirstArgs>(args?: SelectSubset<T, ReadingStatusFindFirstArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ReadingStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusFindFirstOrThrowArgs} args - Arguments to find a ReadingStatus
+     * @example
+     * // Get one ReadingStatus
+     * const readingStatus = await prisma.readingStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReadingStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, ReadingStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ReadingStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReadingStatuses
+     * const readingStatuses = await prisma.readingStatus.findMany()
+     * 
+     * // Get first 10 ReadingStatuses
+     * const readingStatuses = await prisma.readingStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const readingStatusWithIdOnly = await prisma.readingStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReadingStatusFindManyArgs>(args?: SelectSubset<T, ReadingStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ReadingStatus.
+     * @param {ReadingStatusCreateArgs} args - Arguments to create a ReadingStatus.
+     * @example
+     * // Create one ReadingStatus
+     * const ReadingStatus = await prisma.readingStatus.create({
+     *   data: {
+     *     // ... data to create a ReadingStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReadingStatusCreateArgs>(args: SelectSubset<T, ReadingStatusCreateArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ReadingStatuses.
+     * @param {ReadingStatusCreateManyArgs} args - Arguments to create many ReadingStatuses.
+     * @example
+     * // Create many ReadingStatuses
+     * const readingStatus = await prisma.readingStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReadingStatusCreateManyArgs>(args?: SelectSubset<T, ReadingStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReadingStatuses and returns the data saved in the database.
+     * @param {ReadingStatusCreateManyAndReturnArgs} args - Arguments to create many ReadingStatuses.
+     * @example
+     * // Create many ReadingStatuses
+     * const readingStatus = await prisma.readingStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReadingStatuses and only return the `id`
+     * const readingStatusWithIdOnly = await prisma.readingStatus.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReadingStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, ReadingStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ReadingStatus.
+     * @param {ReadingStatusDeleteArgs} args - Arguments to delete one ReadingStatus.
+     * @example
+     * // Delete one ReadingStatus
+     * const ReadingStatus = await prisma.readingStatus.delete({
+     *   where: {
+     *     // ... filter to delete one ReadingStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReadingStatusDeleteArgs>(args: SelectSubset<T, ReadingStatusDeleteArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ReadingStatus.
+     * @param {ReadingStatusUpdateArgs} args - Arguments to update one ReadingStatus.
+     * @example
+     * // Update one ReadingStatus
+     * const readingStatus = await prisma.readingStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReadingStatusUpdateArgs>(args: SelectSubset<T, ReadingStatusUpdateArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ReadingStatuses.
+     * @param {ReadingStatusDeleteManyArgs} args - Arguments to filter ReadingStatuses to delete.
+     * @example
+     * // Delete a few ReadingStatuses
+     * const { count } = await prisma.readingStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReadingStatusDeleteManyArgs>(args?: SelectSubset<T, ReadingStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReadingStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReadingStatuses
+     * const readingStatus = await prisma.readingStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReadingStatusUpdateManyArgs>(args: SelectSubset<T, ReadingStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ReadingStatus.
+     * @param {ReadingStatusUpsertArgs} args - Arguments to update or create a ReadingStatus.
+     * @example
+     * // Update or create a ReadingStatus
+     * const readingStatus = await prisma.readingStatus.upsert({
+     *   create: {
+     *     // ... data to create a ReadingStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReadingStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReadingStatusUpsertArgs>(args: SelectSubset<T, ReadingStatusUpsertArgs<ExtArgs>>): Prisma__ReadingStatusClient<$Result.GetResult<Prisma.$ReadingStatusPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ReadingStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusCountArgs} args - Arguments to filter ReadingStatuses to count.
+     * @example
+     * // Count the number of ReadingStatuses
+     * const count = await prisma.readingStatus.count({
+     *   where: {
+     *     // ... the filter for the ReadingStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReadingStatusCountArgs>(
+      args?: Subset<T, ReadingStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReadingStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReadingStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReadingStatusAggregateArgs>(args: Subset<T, ReadingStatusAggregateArgs>): Prisma.PrismaPromise<GetReadingStatusAggregateType<T>>
+
+    /**
+     * Group by ReadingStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadingStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReadingStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReadingStatusGroupByArgs['orderBy'] }
+        : { orderBy?: ReadingStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReadingStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReadingStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReadingStatus model
+   */
+  readonly fields: ReadingStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReadingStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReadingStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    book<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReadingStatus model
+   */ 
+  interface ReadingStatusFieldRefs {
+    readonly id: FieldRef<"ReadingStatus", 'String'>
+    readonly userId: FieldRef<"ReadingStatus", 'String'>
+    readonly bookId: FieldRef<"ReadingStatus", 'String'>
+    readonly status: FieldRef<"ReadingStatus", 'ReadingStatusValue'>
+    readonly createdAt: FieldRef<"ReadingStatus", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReadingStatus", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReadingStatus findUnique
+   */
+  export type ReadingStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadingStatus to fetch.
+     */
+    where: ReadingStatusWhereUniqueInput
+  }
+
+  /**
+   * ReadingStatus findUniqueOrThrow
+   */
+  export type ReadingStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadingStatus to fetch.
+     */
+    where: ReadingStatusWhereUniqueInput
+  }
+
+  /**
+   * ReadingStatus findFirst
+   */
+  export type ReadingStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadingStatus to fetch.
+     */
+    where?: ReadingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadingStatuses to fetch.
+     */
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReadingStatuses.
+     */
+    cursor?: ReadingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReadingStatuses.
+     */
+    distinct?: ReadingStatusScalarFieldEnum | ReadingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * ReadingStatus findFirstOrThrow
+   */
+  export type ReadingStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadingStatus to fetch.
+     */
+    where?: ReadingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadingStatuses to fetch.
+     */
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReadingStatuses.
+     */
+    cursor?: ReadingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReadingStatuses.
+     */
+    distinct?: ReadingStatusScalarFieldEnum | ReadingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * ReadingStatus findMany
+   */
+  export type ReadingStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadingStatuses to fetch.
+     */
+    where?: ReadingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadingStatuses to fetch.
+     */
+    orderBy?: ReadingStatusOrderByWithRelationInput | ReadingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReadingStatuses.
+     */
+    cursor?: ReadingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadingStatuses.
+     */
+    skip?: number
+    distinct?: ReadingStatusScalarFieldEnum | ReadingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * ReadingStatus create
+   */
+  export type ReadingStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReadingStatus.
+     */
+    data: XOR<ReadingStatusCreateInput, ReadingStatusUncheckedCreateInput>
+  }
+
+  /**
+   * ReadingStatus createMany
+   */
+  export type ReadingStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReadingStatuses.
+     */
+    data: ReadingStatusCreateManyInput | ReadingStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReadingStatus createManyAndReturn
+   */
+  export type ReadingStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ReadingStatuses.
+     */
+    data: ReadingStatusCreateManyInput | ReadingStatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReadingStatus update
+   */
+  export type ReadingStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReadingStatus.
+     */
+    data: XOR<ReadingStatusUpdateInput, ReadingStatusUncheckedUpdateInput>
+    /**
+     * Choose, which ReadingStatus to update.
+     */
+    where: ReadingStatusWhereUniqueInput
+  }
+
+  /**
+   * ReadingStatus updateMany
+   */
+  export type ReadingStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReadingStatuses.
+     */
+    data: XOR<ReadingStatusUpdateManyMutationInput, ReadingStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which ReadingStatuses to update
+     */
+    where?: ReadingStatusWhereInput
+  }
+
+  /**
+   * ReadingStatus upsert
+   */
+  export type ReadingStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReadingStatus to update in case it exists.
+     */
+    where: ReadingStatusWhereUniqueInput
+    /**
+     * In case the ReadingStatus found by the `where` argument doesn't exist, create a new ReadingStatus with this data.
+     */
+    create: XOR<ReadingStatusCreateInput, ReadingStatusUncheckedCreateInput>
+    /**
+     * In case the ReadingStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReadingStatusUpdateInput, ReadingStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * ReadingStatus delete
+   */
+  export type ReadingStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+    /**
+     * Filter which ReadingStatus to delete.
+     */
+    where: ReadingStatusWhereUniqueInput
+  }
+
+  /**
+   * ReadingStatus deleteMany
+   */
+  export type ReadingStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReadingStatuses to delete
+     */
+    where?: ReadingStatusWhereInput
+  }
+
+  /**
+   * ReadingStatus without action
+   */
+  export type ReadingStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadingStatus
+     */
+    select?: ReadingStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadingStatusInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Setting
    */
 
@@ -6245,6 +8558,9 @@ export namespace Prisma {
     totalStock: 'totalStock',
     availableStock: 'availableStock',
     shelfLocation: 'shelfLocation',
+    averageRating: 'averageRating',
+    reviewCount: 'reviewCount',
+    positivePercent: 'positivePercent',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6266,6 +8582,31 @@ export namespace Prisma {
   };
 
   export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
+
+
+  export const ReviewScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    bookId: 'bookId',
+    rating: 'rating',
+    comment: 'comment',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+  export const ReadingStatusScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    bookId: 'bookId',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReadingStatusScalarFieldEnum = (typeof ReadingStatusScalarFieldEnum)[keyof typeof ReadingStatusScalarFieldEnum]
 
 
   export const SettingScalarFieldEnum: {
@@ -6377,6 +8718,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'LoanStatus'
    */
   export type EnumLoanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoanStatus'>
@@ -6391,16 +8746,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'ReadingStatusValue'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type EnumReadingStatusValueFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReadingStatusValue'>
     
 
 
   /**
-   * Reference to a field of type 'Float[]'
+   * Reference to a field of type 'ReadingStatusValue[]'
    */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+  export type ListEnumReadingStatusValueFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReadingStatusValue[]'>
     
   /**
    * Deep Input Types
@@ -6420,6 +8775,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     loans?: LoanListRelationFilter
+    reviews?: ReviewListRelationFilter
+    readingStatuses?: ReadingStatusListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6432,6 +8789,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     loans?: LoanOrderByRelationAggregateInput
+    reviews?: ReviewOrderByRelationAggregateInput
+    readingStatuses?: ReadingStatusOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6447,6 +8806,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     loans?: LoanListRelationFilter
+    reviews?: ReviewListRelationFilter
+    readingStatuses?: ReadingStatusListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -6538,10 +8899,15 @@ export namespace Prisma {
     totalStock?: IntFilter<"Book"> | number
     availableStock?: IntFilter<"Book"> | number
     shelfLocation?: StringNullableFilter<"Book"> | string | null
+    averageRating?: FloatFilter<"Book"> | number
+    reviewCount?: IntFilter<"Book"> | number
+    positivePercent?: IntFilter<"Book"> | number
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     category?: XOR<CategoryRelationFilter, CategoryWhereInput>
     loans?: LoanListRelationFilter
+    reviews?: ReviewListRelationFilter
+    readingStatuses?: ReadingStatusListRelationFilter
   }
 
   export type BookOrderByWithRelationInput = {
@@ -6557,10 +8923,15 @@ export namespace Prisma {
     totalStock?: SortOrder
     availableStock?: SortOrder
     shelfLocation?: SortOrderInput | SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     category?: CategoryOrderByWithRelationInput
     loans?: LoanOrderByRelationAggregateInput
+    reviews?: ReviewOrderByRelationAggregateInput
+    readingStatuses?: ReadingStatusOrderByRelationAggregateInput
   }
 
   export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -6579,10 +8950,15 @@ export namespace Prisma {
     totalStock?: IntFilter<"Book"> | number
     availableStock?: IntFilter<"Book"> | number
     shelfLocation?: StringNullableFilter<"Book"> | string | null
+    averageRating?: FloatFilter<"Book"> | number
+    reviewCount?: IntFilter<"Book"> | number
+    positivePercent?: IntFilter<"Book"> | number
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     category?: XOR<CategoryRelationFilter, CategoryWhereInput>
     loans?: LoanListRelationFilter
+    reviews?: ReviewListRelationFilter
+    readingStatuses?: ReadingStatusListRelationFilter
   }, "id" | "isbn">
 
   export type BookOrderByWithAggregationInput = {
@@ -6598,6 +8974,9 @@ export namespace Prisma {
     totalStock?: SortOrder
     availableStock?: SortOrder
     shelfLocation?: SortOrderInput | SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BookCountOrderByAggregateInput
@@ -6623,6 +9002,9 @@ export namespace Prisma {
     totalStock?: IntWithAggregatesFilter<"Book"> | number
     availableStock?: IntWithAggregatesFilter<"Book"> | number
     shelfLocation?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    averageRating?: FloatWithAggregatesFilter<"Book"> | number
+    reviewCount?: IntWithAggregatesFilter<"Book"> | number
+    positivePercent?: IntWithAggregatesFilter<"Book"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
   }
@@ -6710,6 +9092,141 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
   }
 
+  export type ReviewWhereInput = {
+    AND?: ReviewWhereInput | ReviewWhereInput[]
+    OR?: ReviewWhereInput[]
+    NOT?: ReviewWhereInput | ReviewWhereInput[]
+    id?: StringFilter<"Review"> | string
+    userId?: StringFilter<"Review"> | string
+    bookId?: StringFilter<"Review"> | string
+    rating?: IntFilter<"Review"> | number
+    comment?: StringNullableFilter<"Review"> | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    book?: XOR<BookRelationFilter, BookWhereInput>
+  }
+
+  export type ReviewOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type ReviewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_bookId?: ReviewUserIdBookIdCompoundUniqueInput
+    AND?: ReviewWhereInput | ReviewWhereInput[]
+    OR?: ReviewWhereInput[]
+    NOT?: ReviewWhereInput | ReviewWhereInput[]
+    userId?: StringFilter<"Review"> | string
+    bookId?: StringFilter<"Review"> | string
+    rating?: IntFilter<"Review"> | number
+    comment?: StringNullableFilter<"Review"> | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    book?: XOR<BookRelationFilter, BookWhereInput>
+  }, "id" | "userId_bookId">
+
+  export type ReviewOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReviewCountOrderByAggregateInput
+    _avg?: ReviewAvgOrderByAggregateInput
+    _max?: ReviewMaxOrderByAggregateInput
+    _min?: ReviewMinOrderByAggregateInput
+    _sum?: ReviewSumOrderByAggregateInput
+  }
+
+  export type ReviewScalarWhereWithAggregatesInput = {
+    AND?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
+    OR?: ReviewScalarWhereWithAggregatesInput[]
+    NOT?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Review"> | string
+    userId?: StringWithAggregatesFilter<"Review"> | string
+    bookId?: StringWithAggregatesFilter<"Review"> | string
+    rating?: IntWithAggregatesFilter<"Review"> | number
+    comment?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+  }
+
+  export type ReadingStatusWhereInput = {
+    AND?: ReadingStatusWhereInput | ReadingStatusWhereInput[]
+    OR?: ReadingStatusWhereInput[]
+    NOT?: ReadingStatusWhereInput | ReadingStatusWhereInput[]
+    id?: StringFilter<"ReadingStatus"> | string
+    userId?: StringFilter<"ReadingStatus"> | string
+    bookId?: StringFilter<"ReadingStatus"> | string
+    status?: EnumReadingStatusValueFilter<"ReadingStatus"> | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+    updatedAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    book?: XOR<BookRelationFilter, BookWhereInput>
+  }
+
+  export type ReadingStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type ReadingStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_bookId?: ReadingStatusUserIdBookIdCompoundUniqueInput
+    AND?: ReadingStatusWhereInput | ReadingStatusWhereInput[]
+    OR?: ReadingStatusWhereInput[]
+    NOT?: ReadingStatusWhereInput | ReadingStatusWhereInput[]
+    userId?: StringFilter<"ReadingStatus"> | string
+    bookId?: StringFilter<"ReadingStatus"> | string
+    status?: EnumReadingStatusValueFilter<"ReadingStatus"> | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+    updatedAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    book?: XOR<BookRelationFilter, BookWhereInput>
+  }, "id" | "userId_bookId">
+
+  export type ReadingStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReadingStatusCountOrderByAggregateInput
+    _max?: ReadingStatusMaxOrderByAggregateInput
+    _min?: ReadingStatusMinOrderByAggregateInput
+  }
+
+  export type ReadingStatusScalarWhereWithAggregatesInput = {
+    AND?: ReadingStatusScalarWhereWithAggregatesInput | ReadingStatusScalarWhereWithAggregatesInput[]
+    OR?: ReadingStatusScalarWhereWithAggregatesInput[]
+    NOT?: ReadingStatusScalarWhereWithAggregatesInput | ReadingStatusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReadingStatus"> | string
+    userId?: StringWithAggregatesFilter<"ReadingStatus"> | string
+    bookId?: StringWithAggregatesFilter<"ReadingStatus"> | string
+    status?: EnumReadingStatusValueWithAggregatesFilter<"ReadingStatus"> | $Enums.ReadingStatusValue
+    createdAt?: DateTimeWithAggregatesFilter<"ReadingStatus"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReadingStatus"> | Date | string
+  }
+
   export type SettingWhereInput = {
     AND?: SettingWhereInput | SettingWhereInput[]
     OR?: SettingWhereInput[]
@@ -6762,6 +9279,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     loans?: LoanCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6774,6 +9293,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     loans?: LoanUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -6786,6 +9307,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loans?: LoanUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6798,6 +9321,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loans?: LoanUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -6891,10 +9416,15 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutBooksInput
     loans?: LoanCreateNestedManyWithoutBookInput
+    reviews?: ReviewCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateInput = {
@@ -6910,9 +9440,14 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookUpdateInput = {
@@ -6927,10 +9462,15 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
     loans?: LoanUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateInput = {
@@ -6946,9 +9486,14 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookCreateManyInput = {
@@ -6964,6 +9509,9 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6980,6 +9528,9 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6997,6 +9548,9 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7090,6 +9644,135 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReviewCreateInput = {
+    id?: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutReviewsInput
+    book: BookCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateInput = {
+    id?: string
+    userId: string
+    bookId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    book?: BookUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewCreateManyInput = {
+    id?: string
+    userId: string
+    bookId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusCreateInput = {
+    id?: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutReadingStatusesInput
+    book: BookCreateNestedOneWithoutReadingStatusesInput
+  }
+
+  export type ReadingStatusUncheckedCreateInput = {
+    id?: string
+    userId: string
+    bookId: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutReadingStatusesNestedInput
+    book?: BookUpdateOneRequiredWithoutReadingStatusesNestedInput
+  }
+
+  export type ReadingStatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusCreateManyInput = {
+    id?: string
+    userId: string
+    bookId: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SettingCreateInput = {
     id?: string
     key: string
@@ -7178,7 +9861,27 @@ export namespace Prisma {
     none?: LoanWhereInput
   }
 
+  export type ReviewListRelationFilter = {
+    every?: ReviewWhereInput
+    some?: ReviewWhereInput
+    none?: ReviewWhereInput
+  }
+
+  export type ReadingStatusListRelationFilter = {
+    every?: ReadingStatusWhereInput
+    some?: ReadingStatusWhereInput
+    none?: ReadingStatusWhereInput
+  }
+
   export type LoanOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReadingStatusOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7344,6 +10047,17 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type CategoryRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
@@ -7362,6 +10076,9 @@ export namespace Prisma {
     totalStock?: SortOrder
     availableStock?: SortOrder
     shelfLocation?: SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7370,6 +10087,9 @@ export namespace Prisma {
     year?: SortOrder
     totalStock?: SortOrder
     availableStock?: SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
   }
 
   export type BookMaxOrderByAggregateInput = {
@@ -7385,6 +10105,9 @@ export namespace Prisma {
     totalStock?: SortOrder
     availableStock?: SortOrder
     shelfLocation?: SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7402,6 +10125,9 @@ export namespace Prisma {
     totalStock?: SortOrder
     availableStock?: SortOrder
     shelfLocation?: SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7410,6 +10136,9 @@ export namespace Prisma {
     year?: SortOrder
     totalStock?: SortOrder
     availableStock?: SortOrder
+    averageRating?: SortOrder
+    reviewCount?: SortOrder
+    positivePercent?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7426,6 +10155,22 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -7519,6 +10264,98 @@ export namespace Prisma {
     _max?: NestedEnumLoanStatusFilter<$PrismaModel>
   }
 
+  export type ReviewUserIdBookIdCompoundUniqueInput = {
+    userId: string
+    bookId: string
+  }
+
+  export type ReviewCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewAvgOrderByAggregateInput = {
+    rating?: SortOrder
+  }
+
+  export type ReviewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReviewSumOrderByAggregateInput = {
+    rating?: SortOrder
+  }
+
+  export type EnumReadingStatusValueFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReadingStatusValue | EnumReadingStatusValueFieldRefInput<$PrismaModel>
+    in?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    not?: NestedEnumReadingStatusValueFilter<$PrismaModel> | $Enums.ReadingStatusValue
+  }
+
+  export type ReadingStatusUserIdBookIdCompoundUniqueInput = {
+    userId: string
+    bookId: string
+  }
+
+  export type ReadingStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReadingStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReadingStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumReadingStatusValueWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReadingStatusValue | EnumReadingStatusValueFieldRefInput<$PrismaModel>
+    in?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    not?: NestedEnumReadingStatusValueWithAggregatesFilter<$PrismaModel> | $Enums.ReadingStatusValue
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReadingStatusValueFilter<$PrismaModel>
+    _max?: NestedEnumReadingStatusValueFilter<$PrismaModel>
+  }
+
   export type SettingCountOrderByAggregateInput = {
     id?: SortOrder
     key?: SortOrder
@@ -7544,11 +10381,39 @@ export namespace Prisma {
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
   }
 
+  export type ReviewCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReadingStatusCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput> | ReadingStatusCreateWithoutUserInput[] | ReadingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutUserInput | ReadingStatusCreateOrConnectWithoutUserInput[]
+    createMany?: ReadingStatusCreateManyUserInputEnvelope
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+  }
+
   export type LoanUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<LoanCreateWithoutUserInput, LoanUncheckedCreateWithoutUserInput> | LoanCreateWithoutUserInput[] | LoanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutUserInput | LoanCreateOrConnectWithoutUserInput[]
     createMany?: LoanCreateManyUserInputEnvelope
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  }
+
+  export type ReviewUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReadingStatusUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput> | ReadingStatusCreateWithoutUserInput[] | ReadingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutUserInput | ReadingStatusCreateOrConnectWithoutUserInput[]
+    createMany?: ReadingStatusCreateManyUserInputEnvelope
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7581,6 +10446,34 @@ export namespace Prisma {
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
   }
 
+  export type ReviewUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutUserInput | ReviewUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReadingStatusUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput> | ReadingStatusCreateWithoutUserInput[] | ReadingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutUserInput | ReadingStatusCreateOrConnectWithoutUserInput[]
+    upsert?: ReadingStatusUpsertWithWhereUniqueWithoutUserInput | ReadingStatusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReadingStatusCreateManyUserInputEnvelope
+    set?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    disconnect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    delete?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    update?: ReadingStatusUpdateWithWhereUniqueWithoutUserInput | ReadingStatusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReadingStatusUpdateManyWithWhereWithoutUserInput | ReadingStatusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
+  }
+
   export type LoanUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<LoanCreateWithoutUserInput, LoanUncheckedCreateWithoutUserInput> | LoanCreateWithoutUserInput[] | LoanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutUserInput | LoanCreateOrConnectWithoutUserInput[]
@@ -7593,6 +10486,34 @@ export namespace Prisma {
     update?: LoanUpdateWithWhereUniqueWithoutUserInput | LoanUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LoanUpdateManyWithWhereWithoutUserInput | LoanUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutUserInput | ReviewUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReadingStatusUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput> | ReadingStatusCreateWithoutUserInput[] | ReadingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutUserInput | ReadingStatusCreateOrConnectWithoutUserInput[]
+    upsert?: ReadingStatusUpsertWithWhereUniqueWithoutUserInput | ReadingStatusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReadingStatusCreateManyUserInputEnvelope
+    set?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    disconnect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    delete?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    update?: ReadingStatusUpdateWithWhereUniqueWithoutUserInput | ReadingStatusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReadingStatusUpdateManyWithWhereWithoutUserInput | ReadingStatusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
   }
 
   export type BookCreateNestedManyWithoutCategoryInput = {
@@ -7654,6 +10575,20 @@ export namespace Prisma {
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
   }
 
+  export type ReviewCreateNestedManyWithoutBookInput = {
+    create?: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput> | ReviewCreateWithoutBookInput[] | ReviewUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutBookInput | ReviewCreateOrConnectWithoutBookInput[]
+    createMany?: ReviewCreateManyBookInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReadingStatusCreateNestedManyWithoutBookInput = {
+    create?: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput> | ReadingStatusCreateWithoutBookInput[] | ReadingStatusUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutBookInput | ReadingStatusCreateOrConnectWithoutBookInput[]
+    createMany?: ReadingStatusCreateManyBookInputEnvelope
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+  }
+
   export type LoanUncheckedCreateNestedManyWithoutBookInput = {
     create?: XOR<LoanCreateWithoutBookInput, LoanUncheckedCreateWithoutBookInput> | LoanCreateWithoutBookInput[] | LoanUncheckedCreateWithoutBookInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutBookInput | LoanCreateOrConnectWithoutBookInput[]
@@ -7661,7 +10596,29 @@ export namespace Prisma {
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
   }
 
+  export type ReviewUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput> | ReviewCreateWithoutBookInput[] | ReviewUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutBookInput | ReviewCreateOrConnectWithoutBookInput[]
+    createMany?: ReviewCreateManyBookInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type ReadingStatusUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput> | ReadingStatusCreateWithoutBookInput[] | ReadingStatusUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutBookInput | ReadingStatusCreateOrConnectWithoutBookInput[]
+    createMany?: ReadingStatusCreateManyBookInputEnvelope
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
@@ -7691,6 +10648,34 @@ export namespace Prisma {
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
   }
 
+  export type ReviewUpdateManyWithoutBookNestedInput = {
+    create?: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput> | ReviewCreateWithoutBookInput[] | ReviewUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutBookInput | ReviewCreateOrConnectWithoutBookInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutBookInput | ReviewUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: ReviewCreateManyBookInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutBookInput | ReviewUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutBookInput | ReviewUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReadingStatusUpdateManyWithoutBookNestedInput = {
+    create?: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput> | ReadingStatusCreateWithoutBookInput[] | ReadingStatusUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutBookInput | ReadingStatusCreateOrConnectWithoutBookInput[]
+    upsert?: ReadingStatusUpsertWithWhereUniqueWithoutBookInput | ReadingStatusUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: ReadingStatusCreateManyBookInputEnvelope
+    set?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    disconnect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    delete?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    update?: ReadingStatusUpdateWithWhereUniqueWithoutBookInput | ReadingStatusUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: ReadingStatusUpdateManyWithWhereWithoutBookInput | ReadingStatusUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
+  }
+
   export type LoanUncheckedUpdateManyWithoutBookNestedInput = {
     create?: XOR<LoanCreateWithoutBookInput, LoanUncheckedCreateWithoutBookInput> | LoanCreateWithoutBookInput[] | LoanUncheckedCreateWithoutBookInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutBookInput | LoanCreateOrConnectWithoutBookInput[]
@@ -7703,6 +10688,34 @@ export namespace Prisma {
     update?: LoanUpdateWithWhereUniqueWithoutBookInput | LoanUpdateWithWhereUniqueWithoutBookInput[]
     updateMany?: LoanUpdateManyWithWhereWithoutBookInput | LoanUpdateManyWithWhereWithoutBookInput[]
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput> | ReviewCreateWithoutBookInput[] | ReviewUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutBookInput | ReviewCreateOrConnectWithoutBookInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutBookInput | ReviewUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: ReviewCreateManyBookInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutBookInput | ReviewUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutBookInput | ReviewUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type ReadingStatusUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput> | ReadingStatusCreateWithoutBookInput[] | ReadingStatusUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: ReadingStatusCreateOrConnectWithoutBookInput | ReadingStatusCreateOrConnectWithoutBookInput[]
+    upsert?: ReadingStatusUpsertWithWhereUniqueWithoutBookInput | ReadingStatusUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: ReadingStatusCreateManyBookInputEnvelope
+    set?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    disconnect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    delete?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    connect?: ReadingStatusWhereUniqueInput | ReadingStatusWhereUniqueInput[]
+    update?: ReadingStatusUpdateWithWhereUniqueWithoutBookInput | ReadingStatusUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: ReadingStatusUpdateManyWithWhereWithoutBookInput | ReadingStatusUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutLoansInput = {
@@ -7739,6 +10752,66 @@ export namespace Prisma {
     upsert?: BookUpsertWithoutLoansInput
     connect?: BookWhereUniqueInput
     update?: XOR<XOR<BookUpdateToOneWithWhereWithoutLoansInput, BookUpdateWithoutLoansInput>, BookUncheckedUpdateWithoutLoansInput>
+  }
+
+  export type UserCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<BookCreateWithoutReviewsInput, BookUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutReviewsInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
+    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
+    upsert?: UserUpsertWithoutReviewsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsInput, UserUpdateWithoutReviewsInput>, UserUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type BookUpdateOneRequiredWithoutReviewsNestedInput = {
+    create?: XOR<BookCreateWithoutReviewsInput, BookUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutReviewsInput
+    upsert?: BookUpsertWithoutReviewsInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutReviewsInput, BookUpdateWithoutReviewsInput>, BookUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type UserCreateNestedOneWithoutReadingStatusesInput = {
+    create?: XOR<UserCreateWithoutReadingStatusesInput, UserUncheckedCreateWithoutReadingStatusesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReadingStatusesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookCreateNestedOneWithoutReadingStatusesInput = {
+    create?: XOR<BookCreateWithoutReadingStatusesInput, BookUncheckedCreateWithoutReadingStatusesInput>
+    connectOrCreate?: BookCreateOrConnectWithoutReadingStatusesInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type EnumReadingStatusValueFieldUpdateOperationsInput = {
+    set?: $Enums.ReadingStatusValue
+  }
+
+  export type UserUpdateOneRequiredWithoutReadingStatusesNestedInput = {
+    create?: XOR<UserCreateWithoutReadingStatusesInput, UserUncheckedCreateWithoutReadingStatusesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReadingStatusesInput
+    upsert?: UserUpsertWithoutReadingStatusesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReadingStatusesInput, UserUpdateWithoutReadingStatusesInput>, UserUncheckedUpdateWithoutReadingStatusesInput>
+  }
+
+  export type BookUpdateOneRequiredWithoutReadingStatusesNestedInput = {
+    create?: XOR<BookCreateWithoutReadingStatusesInput, BookUncheckedCreateWithoutReadingStatusesInput>
+    connectOrCreate?: BookCreateOrConnectWithoutReadingStatusesInput
+    upsert?: BookUpsertWithoutReadingStatusesInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutReadingStatusesInput, BookUpdateWithoutReadingStatusesInput>, BookUncheckedUpdateWithoutReadingStatusesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7884,6 +10957,17 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -7900,7 +10984,7 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
     notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -7908,7 +10992,12 @@ export namespace Prisma {
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -7953,6 +11042,23 @@ export namespace Prisma {
     _max?: NestedEnumLoanStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumReadingStatusValueFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReadingStatusValue | EnumReadingStatusValueFieldRefInput<$PrismaModel>
+    in?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    not?: NestedEnumReadingStatusValueFilter<$PrismaModel> | $Enums.ReadingStatusValue
+  }
+
+  export type NestedEnumReadingStatusValueWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReadingStatusValue | EnumReadingStatusValueFieldRefInput<$PrismaModel>
+    in?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReadingStatusValue[] | ListEnumReadingStatusValueFieldRefInput<$PrismaModel>
+    not?: NestedEnumReadingStatusValueWithAggregatesFilter<$PrismaModel> | $Enums.ReadingStatusValue
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReadingStatusValueFilter<$PrismaModel>
+    _max?: NestedEnumReadingStatusValueFilter<$PrismaModel>
+  }
+
   export type LoanCreateWithoutUserInput = {
     id?: string
     requestDate?: Date | string
@@ -7984,6 +11090,60 @@ export namespace Prisma {
 
   export type LoanCreateManyUserInputEnvelope = {
     data: LoanCreateManyUserInput | LoanCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReviewCreateWithoutUserInput = {
+    id?: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    book: BookCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutUserInput = {
+    id?: string
+    bookId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateOrConnectWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReviewCreateManyUserInputEnvelope = {
+    data: ReviewCreateManyUserInput | ReviewCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReadingStatusCreateWithoutUserInput = {
+    id?: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    book: BookCreateNestedOneWithoutReadingStatusesInput
+  }
+
+  export type ReadingStatusUncheckedCreateWithoutUserInput = {
+    id?: string
+    bookId: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusCreateOrConnectWithoutUserInput = {
+    where: ReadingStatusWhereUniqueInput
+    create: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReadingStatusCreateManyUserInputEnvelope = {
+    data: ReadingStatusCreateManyUserInput | ReadingStatusCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -8019,6 +11179,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
   }
 
+  export type ReviewUpsertWithWhereUniqueWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
+    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReviewUpdateWithWhereUniqueWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ReviewUpdateManyWithWhereWithoutUserInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ReviewScalarWhereInput = {
+    AND?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    OR?: ReviewScalarWhereInput[]
+    NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    id?: StringFilter<"Review"> | string
+    userId?: StringFilter<"Review"> | string
+    bookId?: StringFilter<"Review"> | string
+    rating?: IntFilter<"Review"> | number
+    comment?: StringNullableFilter<"Review"> | string | null
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    updatedAt?: DateTimeFilter<"Review"> | Date | string
+  }
+
+  export type ReadingStatusUpsertWithWhereUniqueWithoutUserInput = {
+    where: ReadingStatusWhereUniqueInput
+    update: XOR<ReadingStatusUpdateWithoutUserInput, ReadingStatusUncheckedUpdateWithoutUserInput>
+    create: XOR<ReadingStatusCreateWithoutUserInput, ReadingStatusUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReadingStatusUpdateWithWhereUniqueWithoutUserInput = {
+    where: ReadingStatusWhereUniqueInput
+    data: XOR<ReadingStatusUpdateWithoutUserInput, ReadingStatusUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ReadingStatusUpdateManyWithWhereWithoutUserInput = {
+    where: ReadingStatusScalarWhereInput
+    data: XOR<ReadingStatusUpdateManyMutationInput, ReadingStatusUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ReadingStatusScalarWhereInput = {
+    AND?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
+    OR?: ReadingStatusScalarWhereInput[]
+    NOT?: ReadingStatusScalarWhereInput | ReadingStatusScalarWhereInput[]
+    id?: StringFilter<"ReadingStatus"> | string
+    userId?: StringFilter<"ReadingStatus"> | string
+    bookId?: StringFilter<"ReadingStatus"> | string
+    status?: EnumReadingStatusValueFilter<"ReadingStatus"> | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+    updatedAt?: DateTimeFilter<"ReadingStatus"> | Date | string
+  }
+
   export type BookCreateWithoutCategoryInput = {
     id?: string
     title: string
@@ -8031,9 +11248,14 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     loans?: LoanCreateNestedManyWithoutBookInput
+    reviews?: ReviewCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutCategoryInput = {
@@ -8048,9 +11270,14 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutCategoryInput = {
@@ -8095,6 +11322,9 @@ export namespace Prisma {
     totalStock?: IntFilter<"Book"> | number
     availableStock?: IntFilter<"Book"> | number
     shelfLocation?: StringNullableFilter<"Book"> | string | null
+    averageRating?: FloatFilter<"Book"> | number
+    reviewCount?: IntFilter<"Book"> | number
+    positivePercent?: IntFilter<"Book"> | number
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
   }
@@ -8150,6 +11380,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReviewCreateWithoutBookInput = {
+    id?: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutBookInput = {
+    id?: string
+    userId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateOrConnectWithoutBookInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput>
+  }
+
+  export type ReviewCreateManyBookInputEnvelope = {
+    data: ReviewCreateManyBookInput | ReviewCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReadingStatusCreateWithoutBookInput = {
+    id?: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutReadingStatusesInput
+  }
+
+  export type ReadingStatusUncheckedCreateWithoutBookInput = {
+    id?: string
+    userId: string
+    status?: $Enums.ReadingStatusValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusCreateOrConnectWithoutBookInput = {
+    where: ReadingStatusWhereUniqueInput
+    create: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput>
+  }
+
+  export type ReadingStatusCreateManyBookInputEnvelope = {
+    data: ReadingStatusCreateManyBookInput | ReadingStatusCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CategoryUpsertWithoutBooksInput = {
     update: XOR<CategoryUpdateWithoutBooksInput, CategoryUncheckedUpdateWithoutBooksInput>
     create: XOR<CategoryCreateWithoutBooksInput, CategoryUncheckedCreateWithoutBooksInput>
@@ -8189,6 +11473,38 @@ export namespace Prisma {
     data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyWithoutBookInput>
   }
 
+  export type ReviewUpsertWithWhereUniqueWithoutBookInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutBookInput, ReviewUncheckedUpdateWithoutBookInput>
+    create: XOR<ReviewCreateWithoutBookInput, ReviewUncheckedCreateWithoutBookInput>
+  }
+
+  export type ReviewUpdateWithWhereUniqueWithoutBookInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutBookInput, ReviewUncheckedUpdateWithoutBookInput>
+  }
+
+  export type ReviewUpdateManyWithWhereWithoutBookInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type ReadingStatusUpsertWithWhereUniqueWithoutBookInput = {
+    where: ReadingStatusWhereUniqueInput
+    update: XOR<ReadingStatusUpdateWithoutBookInput, ReadingStatusUncheckedUpdateWithoutBookInput>
+    create: XOR<ReadingStatusCreateWithoutBookInput, ReadingStatusUncheckedCreateWithoutBookInput>
+  }
+
+  export type ReadingStatusUpdateWithWhereUniqueWithoutBookInput = {
+    where: ReadingStatusWhereUniqueInput
+    data: XOR<ReadingStatusUpdateWithoutBookInput, ReadingStatusUncheckedUpdateWithoutBookInput>
+  }
+
+  export type ReadingStatusUpdateManyWithWhereWithoutBookInput = {
+    where: ReadingStatusScalarWhereInput
+    data: XOR<ReadingStatusUpdateManyMutationInput, ReadingStatusUncheckedUpdateManyWithoutBookInput>
+  }
+
   export type UserCreateWithoutLoansInput = {
     id?: string
     name: string
@@ -8198,6 +11514,8 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLoansInput = {
@@ -8209,6 +11527,8 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLoansInput = {
@@ -8228,9 +11548,14 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutBooksInput
+    reviews?: ReviewCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutLoansInput = {
@@ -8246,8 +11571,13 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    reviews?: ReviewUncheckedCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutLoansInput = {
@@ -8275,6 +11605,8 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoansInput = {
@@ -8286,6 +11618,8 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BookUpsertWithoutLoansInput = {
@@ -8311,9 +11645,14 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    reviews?: ReviewUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutLoansInput = {
@@ -8329,8 +11668,357 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviews?: ReviewUncheckedUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutBookNestedInput
+  }
+
+  export type UserCreateWithoutReviewsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanUncheckedCreateNestedManyWithoutUserInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReviewsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type BookCreateWithoutReviewsInput = {
+    id?: string
+    title: string
+    author: string
+    publisher: string
+    isbn?: string | null
+    year: number
+    description?: string | null
+    coverImage?: string | null
+    totalStock?: number
+    availableStock?: number
+    shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: CategoryCreateNestedOneWithoutBooksInput
+    loans?: LoanCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    title: string
+    author: string
+    publisher: string
+    categoryId: string
+    isbn?: string | null
+    year: number
+    description?: string | null
+    coverImage?: string | null
+    totalStock?: number
+    availableStock?: number
+    shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    readingStatuses?: ReadingStatusUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutReviewsInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutReviewsInput, BookUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type UserUpsertWithoutReviewsInput = {
+    update: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
+    create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type UserUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUncheckedUpdateManyWithoutUserNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BookUpsertWithoutReviewsInput = {
+    update: XOR<BookUpdateWithoutReviewsInput, BookUncheckedUpdateWithoutReviewsInput>
+    create: XOR<BookCreateWithoutReviewsInput, BookUncheckedCreateWithoutReviewsInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutReviewsInput, BookUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type BookUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    publisher?: StringFieldUpdateOperationsInput | string
+    isbn?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    totalStock?: IntFieldUpdateOperationsInput | number
+    availableStock?: IntFieldUpdateOperationsInput | number
+    shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    loans?: LoanUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    publisher?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    isbn?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    totalStock?: IntFieldUpdateOperationsInput | number
+    availableStock?: IntFieldUpdateOperationsInput | number
+    shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutBookNestedInput
+  }
+
+  export type UserCreateWithoutReadingStatusesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReadingStatusesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReadingStatusesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReadingStatusesInput, UserUncheckedCreateWithoutReadingStatusesInput>
+  }
+
+  export type BookCreateWithoutReadingStatusesInput = {
+    id?: string
+    title: string
+    author: string
+    publisher: string
+    isbn?: string | null
+    year: number
+    description?: string | null
+    coverImage?: string | null
+    totalStock?: number
+    availableStock?: number
+    shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: CategoryCreateNestedOneWithoutBooksInput
+    loans?: LoanCreateNestedManyWithoutBookInput
+    reviews?: ReviewCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutReadingStatusesInput = {
+    id?: string
+    title: string
+    author: string
+    publisher: string
+    categoryId: string
+    isbn?: string | null
+    year: number
+    description?: string | null
+    coverImage?: string | null
+    totalStock?: number
+    availableStock?: number
+    shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutReadingStatusesInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutReadingStatusesInput, BookUncheckedCreateWithoutReadingStatusesInput>
+  }
+
+  export type UserUpsertWithoutReadingStatusesInput = {
+    update: XOR<UserUpdateWithoutReadingStatusesInput, UserUncheckedUpdateWithoutReadingStatusesInput>
+    create: XOR<UserCreateWithoutReadingStatusesInput, UserUncheckedCreateWithoutReadingStatusesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReadingStatusesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReadingStatusesInput, UserUncheckedUpdateWithoutReadingStatusesInput>
+  }
+
+  export type UserUpdateWithoutReadingStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReadingStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BookUpsertWithoutReadingStatusesInput = {
+    update: XOR<BookUpdateWithoutReadingStatusesInput, BookUncheckedUpdateWithoutReadingStatusesInput>
+    create: XOR<BookCreateWithoutReadingStatusesInput, BookUncheckedCreateWithoutReadingStatusesInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutReadingStatusesInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutReadingStatusesInput, BookUncheckedUpdateWithoutReadingStatusesInput>
+  }
+
+  export type BookUpdateWithoutReadingStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    publisher?: StringFieldUpdateOperationsInput | string
+    isbn?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    totalStock?: IntFieldUpdateOperationsInput | number
+    availableStock?: IntFieldUpdateOperationsInput | number
+    shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    loans?: LoanUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutReadingStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    publisher?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    isbn?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    totalStock?: IntFieldUpdateOperationsInput | number
+    availableStock?: IntFieldUpdateOperationsInput | number
+    shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type LoanCreateManyUserInput = {
@@ -8341,6 +12029,23 @@ export namespace Prisma {
     dueDate?: Date | string | null
     returnDate?: Date | string | null
     status?: $Enums.LoanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateManyUserInput = {
+    id?: string
+    bookId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusCreateManyUserInput = {
+    id?: string
+    bookId: string
+    status?: $Enums.ReadingStatusValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8381,6 +12086,57 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReviewUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneRequiredWithoutReadingStatusesNestedInput
+  }
+
+  export type ReadingStatusUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BookCreateManyCategoryInput = {
     id?: string
     title: string
@@ -8393,6 +12149,9 @@ export namespace Prisma {
     totalStock?: number
     availableStock?: number
     shelfLocation?: string | null
+    averageRating?: number
+    reviewCount?: number
+    positivePercent?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8409,9 +12168,14 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loans?: LoanUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutCategoryInput = {
@@ -8426,9 +12190,14 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutBookNestedInput
+    readingStatuses?: ReadingStatusUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateManyWithoutCategoryInput = {
@@ -8443,6 +12212,9 @@ export namespace Prisma {
     totalStock?: IntFieldUpdateOperationsInput | number
     availableStock?: IntFieldUpdateOperationsInput | number
     shelfLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    averageRating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    positivePercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8455,6 +12227,23 @@ export namespace Prisma {
     dueDate?: Date | string | null
     returnDate?: Date | string | null
     status?: $Enums.LoanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateManyBookInput = {
+    id?: string
+    userId: string
+    rating: number
+    comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReadingStatusCreateManyBookInput = {
+    id?: string
+    userId: string
+    status?: $Enums.ReadingStatusValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8495,6 +12284,57 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReviewUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutReadingStatusesNestedInput
+  }
+
+  export type ReadingStatusUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadingStatusUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumReadingStatusValueFieldUpdateOperationsInput | $Enums.ReadingStatusValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -8528,6 +12368,14 @@ export namespace Prisma {
      * @deprecated Use LoanDefaultArgs instead
      */
     export type LoanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LoanDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReviewDefaultArgs instead
+     */
+    export type ReviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReviewDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReadingStatusDefaultArgs instead
+     */
+    export type ReadingStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReadingStatusDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SettingDefaultArgs instead
      */

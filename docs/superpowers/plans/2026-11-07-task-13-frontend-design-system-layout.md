@@ -1,7 +1,7 @@
-# Task 13: Frontend - Design System & Layout "UlasBuku"
+﻿# Task 13: Frontend - Design System & Layout "UlasBuku"
 
 **Date:** 2026-11-07
-**Status:** Pending
+**Status:** Completed
 **Priority:** High
 **Rujukan:** Gambar desain baru "UlasBuku — Katalog & Kurasi" (tema ungu, latar lavender, footer navy)
 
@@ -52,6 +52,13 @@ Membuat fondasi desain (design tokens, tipografi, komponen dasar) dan layout glo
 - [ ] `next build` berhasil di `apps/web`
 - [ ] Header, strip status, dan footer tampil semirip gambar rujukan di semua halaman publik
 
+## Catatan PRD v2.0 (2026-11-09)
+
+Brand diseragamkan menjadi PERPUS (bukan "UlasBuku"); tagline "KATALOG & ULASAN". Header + strip status + footer kini hanya tampil di halaman publik (PublicShell); area member & admin memakai layout sendiri. Rujukan PRD v2.0 (PERPUS — Katalog, Rating & Jejak Membaca).
+
 ## Referensi
 - Gambar desain baru "UlasBuku" yang dilampirkan user
 - File terkait: `apps/web/tailwind.config.ts`, `apps/web/src/app/globals.css`, `apps/web/src/app/layout.tsx`, `apps/web/src/components/MemberLayout.tsx`, `apps/web/src/components/AdminLayout.tsx`
+
+## Catatan Verifikasi (2026-11-09)
+Selesai dikerjakan dan lulus verifikasi otomatis (build/uji API) atas perintah user pada 2026-11-09. Catatan: tidak semua item UI di-klik manual satu-per-satu; verifikasi utama melalui build (next/nest), uji endpoint API, dan uji tampilan.

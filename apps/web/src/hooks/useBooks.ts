@@ -8,6 +8,7 @@ export interface BookQuery {
   search?: string;
   category?: string;
   available?: string;
+  minRating?: string;
   sortBy?: string;
   order?: string;
 }
@@ -24,6 +25,7 @@ export function useBooks() {
       if (params?.search) query.append('search', params.search);
       if (params?.category) query.append('category', params.category);
       if (params?.available) query.append('available', params.available);
+      if (params?.minRating) query.append('minRating', params.minRating);
       query.append('sortBy', params?.sortBy || 'title');
       query.append('order', params?.order || 'asc');
 
