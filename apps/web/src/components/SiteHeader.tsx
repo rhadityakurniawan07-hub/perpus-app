@@ -1,6 +1,6 @@
-﻿'use client';
+'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
@@ -18,9 +18,36 @@ export default function SiteHeader() {
   const { user, isAuthenticated, logout } = useAuth();
   const [query, setQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adminHint, setAdminHint] = useState(false);
+  const clickCountRef = useRef(0);
+  const clickTimeoutRef = useRef<number | null>(null);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
+
+  function handleLogoClick() {
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    clickCountRef.current = Math.min(clickCountRef.current + 1, 3);
+
+    if (clickCountRef.current === 3) {
+      clickCountRef.current = 0;
+      setAdminHint(true);
+      window.setTimeout(() => setAdminHint(false), 1200);
+      router.push('/admin/login');
+      return;
+    }
+
+    if (clickCountRef.current === 1) {
+      router.push('/');
+    }
+
+    clickTimeoutRef.current = window.setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 800);
+  }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -34,10 +61,23 @@ export default function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100 bg-white/95 backdrop-blur">
+      {adminHint && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed top-20 left-1/2 z-50 -translate-x-1/2 rounded-full border border-brand-400 bg-ink px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-200 shadow-card"
+        >
+          Admin Area
+        </div>
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center gap-3 sm:gap-6">
-          {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2">
+          {/* Logo (triple-click = Easter Egg: buka Admin Login) */}
+          <button
+            type="button"
+            onClick={handleLogoClick}
+            aria-label="PERPUS - kembali ke beranda"
+            className="flex shrink-0 items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-xl"
+          >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -51,7 +91,7 @@ export default function SiteHeader() {
                 Katalog & Ulasan
               </span>
             </span>
-          </Link>
+          </button>
 
           {/* Inline search (desktop) */}
           <form onSubmit={handleSearch} className="hidden min-w-0 flex-1 md:block" role="search">

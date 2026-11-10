@@ -37,6 +37,42 @@ export class MembersService {
             book: true,
           },
         },
+        readingStatuses: {
+          orderBy: { updatedAt: 'desc' },
+          select: {
+            id: true,
+            status: true,
+            updatedAt: true,
+            book: {
+              select: {
+                id: true,
+                title: true,
+                author: true,
+                coverImage: true,
+                averageRating: true,
+                reviewCount: true,
+              },
+            },
+          },
+        },
+        reviews: {
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            rating: true,
+            comment: true,
+            createdAt: true,
+            updatedAt: true,
+            book: {
+              select: {
+                id: true,
+                title: true,
+                author: true,
+                coverImage: true,
+              },
+            },
+          },
+        },
       },
     });
   }

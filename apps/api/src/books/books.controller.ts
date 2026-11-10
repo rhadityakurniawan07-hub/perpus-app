@@ -5,6 +5,7 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/guards/roles.guard';
 import { Role } from '@perpus-app/prisma-client';
 import { CreateBookDto, UpdateBookDto } from './dto/book.dto';
+import { ImportGoogleBooksDto } from './dto/import-google-books.dto';
 
 @Controller('books')
 export class BooksController {
@@ -18,6 +19,11 @@ export class BooksController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.booksService.findOne(id);
+  }
+
+  @Post('import-google-books')
+  importGoogleBooks(@Body() dto: ImportGoogleBooksDto) {
+    return this.booksService.importGoogleBooks(dto.volumeId);
   }
 
   @Post()

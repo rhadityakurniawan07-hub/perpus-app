@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  adminLogin: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -53,6 +54,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function adminLogin(email: string, password: string) {
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      const { access_token, user: userData } = response.data;
+
+      if (userData?.role !== 'ADMIN') {
+        throw new Error('Hanya akun Admin yang diizinkan masuk dari halaman ini.');
+      }
+
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+
+      setUser(userData);
+      router.push('/admin/dashboard');
+    } catch (error: any) {
+      throw new Error(
+        error?.response?.data?.message || error?.message || 'Email atau password salah'
+      );
+    }
+  }
+
   async function register(name: string, email: string, password: string) {
     try {
       // Backend register tidak mengembalikan token, jadi login otomatis setelah daftar
@@ -87,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         login,
         register,
+        adminLogin,
         logout,
       }}
     >

@@ -116,4 +116,22 @@ export class GoogleBooksService {
     const item = await this.fetchVolumes(url);
     return this.normalize(item);
   }
+
+  async searchPublic(query: string, startIndex = 0, maxResults = 40) {
+    const key = this.getApiKey();
+    const url =
+      `https://www.googleapis.com/books/v1/volumes` +
+      `?q=${encodeURIComponent(query)}&maxResults=${maxResults}&startIndex=${startIndex}` +
+      `&key=${encodeURIComponent(key)}`;
+
+    const data = await this.fetchVolumes(url);
+    const items: any[] = Array.isArray(data?.items) ? data.items : [];
+
+    return {
+      totalItems: data?.totalItems ?? 0,
+      startIndex,
+      maxResults,
+      results: items.map((item) => this.normalize(item)),
+    };
+  }
 }
