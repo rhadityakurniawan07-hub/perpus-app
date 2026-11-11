@@ -1,7 +1,7 @@
 {
   "name": "@perpus-app/api",
   "version": "1.0.0",
-  "description": "Backend API untuk sistem informasi perpustakaan PinjamanBuku",
+  "description": "Backend API untuk PERPUS - Katalog, Rating & Jejak Membaca",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

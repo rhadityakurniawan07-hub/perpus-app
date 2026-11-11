@@ -12,6 +12,6 @@ export class AppController {
 
   @Get('health')
   getHealth() {
-    return { status: 'ok', message: 'PinjamanBuku API is running' };
+    return { status: 'ok', message: 'PERPUS API is running' };
   }
 }

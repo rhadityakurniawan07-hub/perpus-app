@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useAuth } from '@/lib/auth';
 
 type IconProps = { className?: string };
@@ -64,12 +65,42 @@ const navItems = [
 
 export default function MemberLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { user, isAuthenticated, loading, logout } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      const target = `${pathname || '/'}`;
+      router.replace(`/login?next=${encodeURIComponent(target)}`);
+    }
+  }, [loading, isAuthenticated, pathname, router]);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
   const displayName = user?.name?.trim() || 'Pembaca';
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-lavender">
+        <div className="text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-violet-200 border-t-violet-700" />
+          <p className="mt-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-slate-400">Membuka PERPUS</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-lavender">
+        <div className="text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-violet-200 border-t-violet-700" />
+          <p className="mt-4 text-sm text-slate-500">Mengalihkan ke halaman masuk...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-lavender">
@@ -77,7 +108,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between gap-4">
             <Link href="/dashboard" className="flex shrink-0 items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600 text-white">
                 <BookIcon className="h-5 w-5" />
               </span>
               <span className="text-xl font-extrabold tracking-tight text-ink">PERPUS</span>
@@ -93,7 +124,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
                     href={item.href}
                     className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       active
-                        ? 'bg-brand-50 text-brand-700'
+                        ? 'bg-brand-50 text-violet-700'
                         : 'text-slate-600 hover:bg-slate-100 hover:text-ink'
                     }`}
                   >
@@ -106,7 +137,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
 
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="hidden items-center gap-2 sm:flex">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-800">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-violet-800">
                   {displayName.charAt(0).toUpperCase()}
                 </span>
                 <span className="text-sm text-slate-500">
@@ -134,7 +165,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
                 href={item.href}
                 className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? 'bg-brand-50 text-brand-700'
+                    ? 'bg-brand-50 text-violet-700'
                     : 'text-slate-600 hover:bg-slate-100 hover:text-ink'
                 }`}
               >

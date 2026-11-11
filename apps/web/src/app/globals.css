@@ -33,4 +33,20 @@
   .badge {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
+  .editorial-panel {
+    @apply relative overflow-hidden rounded-3xl border border-violet-100 bg-white shadow-card;
+  }
+  .editorial-kicker {
+    @apply inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.28em] text-violet-700;
+  }
+  .editorial-heading {
+    @apply font-extrabold leading-[0.98] tracking-[-0.04em] text-ink;
+  }
+  .editorial-rule {
+    @apply h-px w-16 bg-violet-600;
+  }
+  .editorial-dots {
+    background-image: radial-gradient(circle at 1px 1px, rgba(79, 70, 229, 0.18) 1px, transparent 0);
+    background-size: 18px 18px;
+  }
 }

@@ -5,6 +5,15 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ReportsService {
   constructor(private prisma: PrismaService) {}
 
+  async getPublicStatistics() {
+    const [totalBooks, totalReviews] = await Promise.all([
+      this.prisma.book.count(),
+      this.prisma.review.count(),
+    ]);
+
+    return { totalBooks, totalReviews };
+  }
+
   async getStatistics(query?: any) {
     const { startDate, endDate } = query || {};
     

@@ -1,4 +1,5 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Panduan Kurasi — PERPUS',
@@ -65,29 +66,46 @@ const sections = [
 export default function GuidePage() {
   return (
     <main className="min-h-screen">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <span className="badge bg-lavender text-brand-800 ring-1 ring-brand-200">
-          Kurasi &amp; Etika
-        </span>
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          Panduan Kurasi PERPUS
-        </h1>
-        <p className="mt-2 leading-relaxed text-slate-500">
-          Lima standar yang menjaga PERPUS tetap menjadi ruang resensi yang jujur,
-          bermanfaat, dan menyenangkan untuk semua pembaca.
-        </p>
+      {/* Hero band */}
+      <section className="relative border-b border-ink">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/hero-library.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-violet-950/80" />
+        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <span className="badge bg-violet-600/40 text-violet-100 ring-1 ring-violet-400/40 backdrop-blur">
+            Kurasi &amp; Etika
+          </span>
+          <h1 className="mt-4 max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
+            Panduan Kurasi PERPUS
+          </h1>
+          <p className="mt-3 max-w-xl leading-relaxed text-violet-100/85">
+            Lima standar yang menjaga PERPUS tetap menjadi ruang resensi yang jujur,
+            bermanfaat, dan menyenangkan untuk semua pembaca.
+          </p>
+          <Link href="/books" className="mt-6 inline-flex rounded-xl bg-violet-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-violet-500">
+            Jelajah Katalog →
+          </Link>
+        </div>
+      </section>
 
-        <div className="mt-8 space-y-4">
+      {/* Sections */}
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="space-y-4">
           {sections.map((section) => (
-            <section key={section.number} className="card p-6">
-              <div className="flex items-start gap-4">
-                <span className="text-3xl font-black text-brand-100">{section.number}</span>
+            <section key={section.number} className="overflow-hidden rounded-3xl border border-violet-100 bg-white shadow-card">
+              <div className="flex flex-col gap-4 p-6 sm:flex-row">
+                <span className="text-5xl font-black leading-none text-violet-100">{section.number}</span>
                 <div>
                   <h2 className="text-lg font-bold text-ink">{section.title}</h2>
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{section.body}</p>
-                  <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
+                  <ul className="mt-3 space-y-2 text-sm">
                     {section.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
+                      <li key={bullet} className="flex items-start gap-2 text-slate-600">
+                        <span className="mt-0.5 text-violet-600">★</span>
+                        <span>{bullet}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>

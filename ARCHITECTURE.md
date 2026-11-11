@@ -1,20 +1,26 @@
-# Arsitektur Monorepo - PinjamanBuku
+# Arsitektur Monorepo - PERPUS
 
 ## Gambaran Umum
 
-PinjamanBuku menggunakan monorepo berbasis [Turborepo](https://turbo.build/repo) dengan package manager [Bun](https://bun.sh/) (Bun 1.4.0). Struktur ini memungkinkan berbagi kode antar aplikasi dan paket secara efisien.
+PERPUS menggunakan monorepo berbasis [Turborepo](https://turbo.build/repo) dengan package manager [Bun](https://bun.sh/). Struktur ini memungkinkan berbagi kode antar aplikasi dan paket secara efisien.
 
 ## Struktur Proyek
 
 ```text
 perpus-app/
-├── apps/           # Aplikasi yang dapat dijalankan (frontend/backend)
-├── packages/       # Paket bersama yang dapat digunakan oleh apps
-├── PRD.md          # Product Requirements Document
-├── README.md       # Dokumentasi utama
-├── turbo.json      # Konfigurasi Turborepo
-├── package.json    # Root package.json dengan workspace config
-└── bun.lock        # Lockfile Bun
+├─ apps/           # Aplikasi yang dapat dijalankan
+│  ├─ api/         # Backend API (NestJS + Prisma)
+│  └─ web/         # Frontend (Next.js App Router + Tailwind)
+├─ packages/       # Paket bersama
+│  ├─ prisma-client/  # Template Prisma Client (@perpus-app/prisma-client)
+│  ├─ ui/             # Komponen UI bersama
+│  ├─ eslint-config/  # Konfigurasi ESLint
+│  └─ typescript-config/  # Konfigurasi TypeScript
+├─ PRD.md          # Product Requirements Document (v2.0)
+├─ README.md       # Dokumentasi utama
+├─ ARCHITECTURE.md # Dokumen arsitektur (file ini)
+├─ turbo.json      # Konfigurasi Turborepo
+└─ package.json    # Root package.json (workspace)
 ```
 
 ## Konfigurasi Workspace
@@ -25,116 +31,121 @@ Root `package.json` mendefinisikan workspace:
 {
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "build": "turbo run build",
     "dev": "turbo run dev",
+    "build": "turbo run build",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   }
 }
 ```
 
-## Paket yang Tersedia
-
-| Paket | Deskripsi | Tujuan |
-|---|---|---|
-| `packages/ui` | Komponen UI reusable berbasis React + TypeScript | Berbagi komponen seperti Button, Card, dll antar aplikasi |
-| `packages/eslint-config` | Konfigurasi ESLint terpusat | Menstandarisasi linting di seluruh monorepo |
-| `packages/typescript-config` | Konfigurasi TypeScript terpusat | Menstandarisasi konfigurasi TypeScript di seluruh monorepo |
-
-### Detail packages
-
-**`packages/ui`**
-- `src/button.tsx`, `src/card.tsx`, `src/code.tsx` - Komponen dasar
-- `package.json`, `tsconfig.json`, `eslint.config.mjs` - Konfigurasi paket
-
-**`packages/eslint-config`**
-- `base.js` - Konfigurasi ESLint dasar
-- `next.js` - Konfigurasi untuk Next.js
-- `react-internal.js` - Konfigurasi untuk internal React packages
-
-**`packages/typescript-config`**
-- `base.json` - Konfigurasi TypeScript dasar
-- `nextjs.json` - Konfigurasi untuk Next.js
-- `react-library.json` - Konfigurasi untuk React library
-
 ## Aplikasi (`apps/`)
 
-Saat ini folder `apps/` kosong. Rencana arsitektur untuk PinjamanBuku:
+### `apps/api` — Backend API
 
-| Aplikasi | Rencana Teknologi | Deskripsi |
+| Bagian | Teknologi | Keterangan |
 |---|---|---|
-| `apps/web` | Next.js 15 + React + TypeScript + Tailwind CSS | Aplikasi utama - Frontend & Backend (API Routes/Server Actions). Menangani semua fitur PinjamanBuku (katalog, peminjaman, dashboard admin, autentikasi). |
+| Framework | NestJS 10 | Modular, dependency injection |
+| ORM | Prisma 5 | Database access (PostgreSQL) |
+| Auth | JWT (`@nestjs/jwt`) | Bearer token, 7 hari |
+| Validation | class-validator | DTO input validation |
+| Docs | Swagger | `/api` |
+| Port | `3001` | `http://localhost:3001` |
 
-Berdasarkan rekomendasi di PRD, aplikasi utama akan menggunakan Next.js fullstack dengan struktur:
-
+Struktur:
 ```text
-apps/web/
-├── app/              # App Router Next.js
-├── components/       # Komponen spesifik aplikasi
-├── lib/              # Utilities, helpers, prisma client
-├── prisma/           # Schema dan migrasi Prisma
-└── types/            # Type definitions
+apps/api/src/
+├─ auth/            # Login, register, JWT strategy
+├─ books/           # CRUD buku + auto-import Google Books
+├─ google-books/    # Proxy Google Books API (admin & publik)
+├─ reviews/         # Rating, ulasan, status baca
+├─ members/         # CRUD anggota (admin)
+├─ loans/           # Legacy peminjaman (dipertahankan)
+├─ reports/         # Laporan statistik
+├─ categories/      # Kategori
+├─ settings/        # Pengaturan
+├─ common/          # Guards, decorators
+├─ prisma/          # PrismaService
+└─ main.ts          # Entry point
 ```
 
-## Alur Data & Arsitektur Aplikasi
+### `apps/web` — Frontend
+
+| Bagian | Teknologi | Keterangan |
+|---|---|---|
+| Framework | Next.js 14 | App Router, RSC + CSR |
+| Styling | Tailwind CSS | Utility-first |
+| Auth | Context + localStorage | JWT disimpan di client |
+| HTTP | Axios | Request + interceptor JWT |
+| Port | `3000` | `http://localhost:3000` |
+
+Area utama:
+- **Publik**: Landing, Katalog Buku (search + filter + rating), Detail Buku, Panduan Kurasi, Login/Register.
+- **Anggota** (`/dashboard`): Koleksi Saya (status baca), Ulasan & Rating, Profil.
+- **Admin** (`/admin/*`): Dashboard (statistik), Kelola Buku (CRUD + impor), Kelola Anggota (CRUD), Riwayat Membaca/Ulasan.
+
+## Alur Data
 
 ```text
-[Browser] → Next.js (App Router)
-              ├── Server Components (RSC)
-              ├── Server Actions (mutasi data)
-              └── API Routes (jika diperlukan)
-                    ↓
-                  Prisma ORM
-                    ↓
-                  PostgreSQL Database
+[Browser] ─ Next.js (App Router) ─ REST/JSON
+                │
+                ▼
+            apps/api (NestJS)
+                │
+                ▼
+            Prisma ORM
+                │
+                ▼
+          PostgreSQL (lokal, port 5432)
 ```
 
-**Keterangan:**
-- **Server Components** - Untuk render halaman dan fetch data
-- **Server Actions** - Untuk operasi CRUD (create/update/delete) dengan validasi
-- **Prisma ORM** - Abstraksi database dengan type-safe queries
-- **PostgreSQL** - Database relasional utama
+- **Autentikasi**: client mengirim JWT pada header `Authorization: Bearer <token>`.
+  `JwtAuthGuard` memvalidasi signature; `RolesGuard` mengecek role (`ADMIN`/`MEMBER`).
+- **Publikasi katalog**: semua pengunjung (termasuk tamu) bisa melihat katalog;
+  rating & ulasan hanya untuk anggota login.
+
+## Paket (`packages/`)
+
+| Paket | Deskripsi |
+|---|---|
+| `prisma-client` | Paket Prisma client yang digunakan bersama `@perpus-app/prisma-client` |
+| `ui` | Komponen UI bersama |
+| `eslint-config` | Konfigurasi ESLint (`base`, `next-js`, `react-internal`) |
+| `typescript-config` | Konfigurasi TypeScript (`base.json`, `nextjs.json`, `react-library.json`) |
 
 ## Konfigurasi Turborepo
 
-`turbo.json` mendefinisikan task pipeline:
+| Task | Keterangan |
+|---|---|
+| `dev` | Development server (persistent, tidak di-cache) |
+| `build` | Build seluruh paket/aplikasi |
+| `lint` | Linting |
+| `check-types` | Type checking |
 
-| Task | Dependensi | Cache | Keterangan |
-|---|---|---|---|
-| `build` | `^build` (build dependencies terlebih dahulu) | Default | Build output ke `.next/**` (exclude cache) |
-| `lint` | `^lint` | Default | Linting seluruh paket/aplikasi |
-| `check-types` | `^check-types` | Default | Type checking |
-| `dev` | - | `false`, `persistent: true` | Development server, tidak di-cache |
+## Program Kerja / Roadmap
 
-## Aturan Bisnis (Ringkas)
-
-Arsitektur aplikasi harus mendukung:
-
-- **Role-based access**: `ADMIN` dan `MEMBER`
-- **Transaksi peminjaman**: Pengajuan → Persetujuan → Peminjaman → Pengembalian
-- **Manajemen stok**: Otomatis berkurang saat disetujui, bertambah saat dikembalikan
-- **Validasi bisnis**: Maks 3 buku, durasi 7 hari, cegah peminjaman jika ada keterlambatan
-- **Integritas data**: Cegah penghapusan buku/anggota dengan transaksi aktif, cegah stok negatif
+Fokus saat ini (PRD v2.0):
+- Katalog buku dengan pencarian + filter (rating, kategori, status baca).
+- Sistem rating & ulasan.
+- Reading tracker (Ingin/Sedang/Sudah Selesai).
+- Dashboard admin (statistik katalog & ulasan).
+- Integrasi Google Books API (impor ke katalog lokal).
+- Area admin tersembunyi ("Easter Egg" — 3 klik logo).
 
 ## Standar Pengembangan
 
-- **Bahasa**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS
-- **Format**: Prettier untuk formatting
-- **Linting**: ESLint dengan konfigurasi terpusat
-- **Komit**: Ikuti konvensi proyek
+- **TypeScript** (strict mode di web; longgar di api untuk kemudahan awal).
+- **Tailwind CSS** untuk styling.
+- **Conventional Commits-ish** untuk pesan commit.
+- **Dokumentasi plan** di `docs/superpowers/plans/`.
+- **PRD** di `PRD.md` (v2.0).
 
 ## Deployment
 
-- **Aplikasi**: [Vercel](https://vercel.com/) (optimal untuk Next.js)
-- **Database**: PostgreSQL managed service (Neon, Supabase, Railway, dll)
-- **Environment**: Menggunakan variabel lingkungan (`.env`)
+Saat ini: **lokal** (`apps/api` berjalan di port 3001, `apps/web` di port 3000).
+Untuk produksi: **Vercel** (frontend) + PostgreSQL managed service (Neon/Supabase/Railway) + **Docker** atau VM untuk backend NestJS.
 
 ## Referensi
 
-- [PRD.md](./PRD.md) - Product Requirements Document lengkap
-- [README.md](./README.md) - Panduan setup dan overview proyek
-- [Turborepo Docs](https://turbo.build/repo/docs)
-- [Next.js Docs](https://nextjs.org/docs)
-- [Prisma Docs](https://www.prisma.io/docs)
+- `PRD.md` — Product Requirements Document (v2.0)
+- `README.md` — Panduan setup dan overview proyek

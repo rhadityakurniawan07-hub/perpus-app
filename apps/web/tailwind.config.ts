@@ -21,6 +21,12 @@ const tailwindConfig = {
         },
         lavender: '#f5f3ff',
         ink: '#1e1b4b',
+        archive: '#241f38',
+        warm: {
+          50: '#fef3e7',
+          400: '#c8874a',
+          500: '#b06a35',
+        },
       },
       fontFamily: {
         sans: ['var(--font-jakarta)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -32,6 +38,10 @@ const tailwindConfig = {
       boxShadow: {
         soft: '0 2px 12px rgba(79, 70, 229, 0.08)',
         card: '0 4px 20px rgba(30, 27, 75, 0.06)',
+        hero: '0 24px 60px rgba(0, 0, 0, 0.45)',
+      },
+      backgroundImage: {
+        'hero-library': "url('/hero-library.jpg')",
       },
     },
   },

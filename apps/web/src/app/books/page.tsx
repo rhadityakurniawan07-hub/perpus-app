@@ -16,6 +16,16 @@ const sortOptions = [
   { value: 'year', label: 'Terbaru' },
 ];
 
+const imageCategoryChips = [
+  { label: 'Semua Kategori', value: '' },
+  { label: 'Sastra Klasik', value: 'cat_fiksi' },
+  { label: 'Filsafat & Pemikiran', value: 'cat_filsafat' },
+  { label: 'Sains & Kosmologi', value: 'cat_sains' },
+  { label: 'Teknologi & AI', value: 'cat_sains' },
+  { label: 'Sejarah Dunia', value: 'cat_sejarah' },
+  { label: 'Matematika & Logika', value: 'cat_sains' },
+];
+
 const GOOGLE_PAGE_SIZE = 40;
 
 type CatalogItem =
@@ -93,14 +103,6 @@ export default function BooksPage() {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramsReady, trimmedSearch]);
-
-  // Fetch Google Books juga saat kategori filter berubah (hanya saat mencari)
-  useEffect(() => {
-    if (!paramsReady || !isSearching) return;
-    // Google di-fetch ulang di debounce utama; reset hanya jika kategori berubah tanpa search
-    // (Google di-filter di sisi klien berdasarkan kategori terpilih)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -232,26 +234,6 @@ export default function BooksPage() {
     return all;
   }, [books, googleFiltered, minRating, sortBy]);
 
-  // Dynamic chips: hanya kategori yang muncul di hasil gabungan
-  const visibleCategoryIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const item of merged) {
-      if (item.kind === 'local') {
-        const id = (item.book as Book).categoryId;
-        if (id) set.add(id);
-      } else {
-        const gid = mapGoogleCategoriesToLocal(item.book.categories ?? [], categories);
-        if (gid) set.add(gid);
-      }
-    }
-    return set;
-  }, [merged, categories]);
-
-  const visibleCategories = useMemo(
-    () => categories.filter((c) => visibleCategoryIds.has(c.id)),
-    [categories, visibleCategoryIds]
-  );
-
   const anyLoading = loading || googleLoading;
   const showEmpty = !anyLoading && merged.length === 0 && isSearching;
 
@@ -259,20 +241,24 @@ export default function BooksPage() {
     <main className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Page heading */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-ink">
-            Koleksi PERPUS
+        <div className="mb-5">
+          <span className="badge bg-violet-100 text-violet-800 ring-1 ring-violet-200">
+            Katalog &amp; Indeks
+          </span>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink">
+            Katalog Koleksi PERPUS
           </h1>
-          <p className="mt-1 text-slate-500">
-            Menampilkan koleksi buku terkini beserta catatan status membaca terkini
+          <p className="mt-1 text-sm text-slate-500">
+            Persembahan kurasi dari katalog pusat dan Google Books — urutkan, cari,
+            dan Anda sendiri yang menentukan untuk memberikan rating Anda.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="card mb-5 p-4">
+        <div className="mb-6 rounded-3xl border border-violet-100 bg-white p-4 shadow-card sm:p-5">
           <label className="relative block">
             <svg
-              className="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 text-slate-400"
               fill="none"
               stroke="currentColor"
               strokeWidth={1.75}
@@ -284,64 +270,52 @@ export default function BooksPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari judul, pengarang, subjek katalog, atau nomor ISBN..."
-              className="input-search !pl-12"
+              placeholder="Cari judul buku, sastrawan, pengarang, ISBN, atau topik..."
+              className="input-search !rounded-full !py-4 !pl-14 !text-base"
               aria-label="Cari buku"
             />
           </label>
 
           <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-3">
-              <label className="flex items-center gap-2 text-sm font-medium text-slate-600">
-                Urutkan:
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-                  aria-label="Urutkan buku"
-                >
-                  {sortOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="rounded-full border border-slate-200 bg-lavender px-4 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400"
+                aria-label="Urutkan buku"
+              >
+                {sortOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
 
-              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-300">
+              <label className="flex cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-brand-300">
                 <input
                   type="checkbox"
                   checked={minRating}
                   onChange={(e) => setMinRating(e.target.checked)}
                   className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-400"
                 />
-                Rating 4,5+ Saja
+                ✓ 4.5+ Saja
               </label>
             </div>
 
-            <span className="badge bg-brand-100 px-3 py-1.5 text-xs font-bold text-brand-800">
+            <span className="badge bg-violet-600 px-4 py-2 text-xs font-bold text-white">
               {merged.length} Judul Ditampilkan
             </span>
           </div>
 
-          {/* Category chips: hanya yang muncul di hasil gabungan */}
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              Kategori:
-            </span>
-            <button
-              onClick={() => setCategory('')}
-              className={`chip ${category === '' ? 'chip-active' : ''}`}
-            >
-              Semua Kategori
-            </button>
-            {visibleCategories.map((cat) => (
+          {/* Category chips (label per gambar, mapping internal ke kategori DB) */}
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-violet-100 pt-4">
+            {imageCategoryChips.map((chip) => (
               <button
-                key={cat.id}
-                onClick={() => setCategory(cat.id)}
-                className={`chip ${category === cat.id ? 'chip-active' : ''}`}
+                key={chip.label}
+                onClick={() => setCategory(chip.value)}
+                className={`chip !text-xs ${category === chip.value ? 'chip-active !border-violet-600 !bg-violet-600' : '!border-violet-200 !bg-violet-50 !text-violet-800 hover:!border-violet-600'}`}
               >
-                {cat.name}
+                {chip.label}
               </button>
             ))}
           </div>
@@ -402,7 +376,7 @@ export default function BooksPage() {
                   </div>
                 ) : (
                   <button onClick={loadMoreGoogle} className="btn-outline">
-                    Muat lebih banyak buku
+                    Muat lebih banyak hasil dari Google Books
                   </button>
                 )}
               </div>

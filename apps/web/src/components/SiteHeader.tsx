@@ -6,10 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 
 const navItems = [
-  { name: 'Katalog Buku', href: '/books' },
+  { name: 'Jelajah Buku', href: '/books' },
   { name: 'Koleksi Saya', href: '/my-collection' },
-  { name: 'Ulasan & Rating', href: '/reviews' },
-  { name: 'Panduan Kurasi', href: '/guide' },
+  { name: 'Ulasan & Diskusi', href: '/reviews' },
+  { name: 'Kurasi Pilihan', href: '/guide' },
 ];
 
 export default function SiteHeader() {
@@ -69,14 +69,16 @@ export default function SiteHeader() {
           Admin Area
         </div>
       )}
+
+      {/* Baris utama */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center gap-3 sm:gap-6">
+        <div className="flex h-16 items-center gap-3 sm:gap-5">
           {/* Logo (triple-click = Easter Egg: buka Admin Login) */}
           <button
             type="button"
             onClick={handleLogoClick}
             aria-label="PERPUS - kembali ke beranda"
-            className="flex shrink-0 items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-xl"
+            className="flex shrink-0 items-center gap-2 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
@@ -87,13 +89,30 @@ export default function SiteHeader() {
               <span className="block text-xl font-extrabold tracking-tight text-ink">
                 PERPUS
               </span>
-              <span className="block text-[9px] font-bold uppercase tracking-[0.25em] text-brand-600">
-                Katalog & Ulasan
+              <span className="block text-[9px] font-bold uppercase tracking-[0.28em] text-brand-600">
+                Kurasi &amp; Indeks
               </span>
             </span>
           </button>
 
-          {/* Inline search (desktop) */}
+          {/* Nav (desktop) */}
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigasi utama">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg px-2.5 py-2 text-[12px] font-semibold transition ${
+                  isActive(item.href)
+                    ? 'text-brand-800 underline decoration-2 underline-offset-8'
+                    : 'text-slate-600 hover:text-brand-800'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Search (desktop) */}
           <form onSubmit={handleSearch} className="hidden min-w-0 flex-1 md:block" role="search">
             <div className="relative">
               <svg
@@ -109,7 +128,7 @@ export default function SiteHeader() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Cari judul, penulis, ISBN..."
+                placeholder="Cari judul buku, pengarang, ISBN..."
                 aria-label="Cari buku"
                 className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-200"
               />
@@ -117,7 +136,7 @@ export default function SiteHeader() {
           </form>
 
           {/* Bookmark + user / auth */}
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
             <Link
               href="/my-collection"
               aria-label="Koleksi saya"
@@ -132,11 +151,11 @@ export default function SiteHeader() {
             {isAuthenticated ? (
               <>
                 <div className="hidden items-center gap-2 sm:flex">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-800">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
                     {displayName.charAt(0).toUpperCase()}
                   </span>
                   <span className="leading-tight">
-                    <span className="block max-w-[10rem] truncate text-sm font-semibold text-ink">
+                    <span className="block max-w-[9rem] truncate text-sm font-semibold text-ink">
                       {displayName}
                     </span>
                     <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-600">
@@ -170,7 +189,7 @@ export default function SiteHeader() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Menu navigasi"
               aria-expanded={menuOpen}
-              className="rounded-xl p-2 text-ink transition hover:bg-slate-100 md:hidden"
+              className="rounded-xl p-2 text-ink transition hover:bg-slate-100 lg:hidden"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
                 {menuOpen ? (
@@ -182,29 +201,12 @@ export default function SiteHeader() {
             </button>
           </div>
         </div>
-
-        {/* Nav row (desktop) */}
-        <nav className="hidden items-center gap-1 border-t border-slate-100 py-2 md:flex" aria-label="Navigasi utama">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
-                isActive(item.href)
-                  ? 'bg-brand-600 text-white shadow-soft'
-                  : 'text-slate-600 hover:bg-brand-50 hover:text-brand-700'
-              }`}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="border-t border-slate-100 bg-white px-4 pb-4 pt-2 md:hidden">
-          <form onSubmit={handleSearch} className="relative" role="search">
+        <div className="border-t border-slate-100 bg-white px-4 pb-4 pt-2 lg:hidden">
+          <form onSubmit={handleSearch} className="relative md:hidden" role="search">
             <svg
               className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
               fill="none"
@@ -218,7 +220,7 @@ export default function SiteHeader() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cari judul, penulis, ISBN..."
+              placeholder="Cari judul, pengarang, ISBN..."
               aria-label="Cari buku"
               className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none focus:border-brand-400"
             />
@@ -229,7 +231,7 @@ export default function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-xl px-3 py-3 text-center text-sm font-semibold transition ${
+                className={`rounded-xl px-3 py-3 text-center text-xs font-semibold transition ${
                   isActive(item.href)
                     ? 'bg-brand-600 text-white'
                     : 'bg-lavender text-brand-800'

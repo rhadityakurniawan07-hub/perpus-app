@@ -22,6 +22,7 @@ export class BooksController {
   }
 
   @Post('import-google-books')
+  @UseGuards(JwtAuthGuard)
   importGoogleBooks(@Body() dto: ImportGoogleBooksDto) {
     return this.booksService.importGoogleBooks(dto.volumeId);
   }

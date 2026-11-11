@@ -1,184 +1,157 @@
-# PinjamanBuku - Sistem Informasi Perpustakaan
+# PERPUS — Katalog, Rating & Jejak Membaca
 
-Website sistem informasi perpustakaan untuk mempermudah pengelolaan koleksi buku, data anggota, peminjaman, dan pengembalian buku secara digital. Dirancang untuk perpustakaan sekolah atau perpustakaan umum yang memiliki koleksi buku fisik.
+Website sistem informasi katalog dan ulasan buku untuk mempermudah pengelolaan koleksi buku, pencarian, dan pencatatan jejak membaca secara digital. Dibuat untuk perpustakaan sekolah, kampus, atau komunitas literasi.
 
-## Deskripsi
+## Apa itu PERPUS?
 
-PinjamanBuku menyediakan dua area utama:
+PERPUS adalah website katalog & ulasan buku yang menyediakan dua area utama:
 
-- **Halaman Anggota** - Untuk mencari buku, melihat ketersediaan, mengajukan peminjaman, dan melihat riwayat peminjaman
-- **Dashboard Admin** - Untuk mengelola buku, anggota, transaksi peminjaman, pengembalian, dan laporan
+- **Halaman Publik & Anggota** — mencari buku, membaca detail, memberikan rating & ulasan, serta mencatat status baca (Ingin Dibaca / Sedang Dibaca / Sudah Selesai).
+- **Dashboard Admin (tersembunyi)** — mengelola buku, anggota, serta memantau statistik katalog & ulasan.
 
-Peminjaman tetap dilakukan dengan mengambil buku secara langsung di perpustakaan. Website digunakan untuk mencari buku dan mengelola proses administrasinya.
+> **Catatan:** Konsep sebelumnya (v1.0, "PinjamanBuku") berbasis peminjaman buku fisik telah digantikan oleh konsep **Katalog & Ulasan** (v2.0). Model `Loan` tetap ada di database untuk kompatibilitas data tetapi disembunyikan dari antarmuka.
 
-## Teknologi
+## Lingkup
 
-Berdasarkan rekomendasi PRD:
+### MVP (Memenuhi PRD v2.0)
 
-- **Frontend:** [Next.js](https://nextjs.org/) dan [React](https://react.dev/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **Backend:** Next.js API Routes / Server Actions
-- **Database:** [PostgreSQL](https://www.postgresql.org/)
-- **ORM:** [Prisma](https://www.prisma.io/)
-- **Autentikasi:** Role-based (Admin dan Anggota)
-- **Deployment:** [Vercel](https://vercel.com/) dengan PostgreSQL managed service
+#### Publik (semua orang, tanpa login)
+- Beranda dengan katalog unggulan
+- Katalog lengkap dengan pencarian, filter kategori, filter rating 4.5+, dan sortir (rating/judul/tahun)
+- Detail buku (cover, deskripsi, ulasan)
+- Panduan Kurasi
+- Login & Register
 
-## Fitur
+#### Anggota (login)
+- Dashboard anggota (statistik baca & ulasan pribadi)
+- Koleksi Saya (status baca)
+- Ulasan & Rating Saya
+- Profil
 
-### MVP (Minimum Viable Product)
-
-#### Untuk Publik & Anggota
-- Beranda
-- Katalog buku dengan pencarian dan filter
-- Detail buku
-- Login dan registrasi anggota
-- Dashboard anggota
-- Pengajuan peminjaman
-- Daftar peminjaman aktif
-- Riwayat peminjaman
-- Profil anggota
-
-#### Untuk Admin/Petugas
-- Dashboard dengan statistik
-- CRUD data buku
-- CRUD data anggota
-- Persetujuan/penolakan pengajuan peminjaman
-- Pencatatan peminjaman dan pengembalian
-- Riwayat transaksi
-- Laporan (peminjaman, pengembalian, buku populer, anggota aktif, keterlambatan)
-- Pengaturan aturan peminjaman
-- Peringatan keterlambatan
+#### Admin (login role ADMIN)
+- Dashboard (statistik katalog & ulasan)
+- Manajemen buku (CRUD, impor dari Google Books)
+- Manajemen anggota (CRUD, aktif/nonaktif, hapus)
+- Riwayat Membaca & Ulasan per anggota
 
 ### Fitur di Luar MVP
 - Pembayaran denda online
-- Scan barcode atau QR Code
-- Notifikasi email atau WhatsApp
-- Reservasi antrean buku
-- Export laporan PDF dan Excel
+- Notifikasi (email/WA)
+- Export laporan PDF/Excel
 - Rekomendasi buku otomatis
-- Pembacaan e-book
-- Integrasi dengan sistem perpustakaan lain
+- Pembacaan e-book di situs
+- Integrasi OPAC/SLIMS
+
+## Teknologi
+
+- **Frontend:** Next.js 14 (App Router) + React + Tailwind CSS
+- **Backend:** NestJS 10 + Prisma 5
+- **Database:** PostgreSQL 18
+- **Autentikasi:** JWT (Bearer token)
+- **Monorepo:** Turborepo + Bun
+- **Styling:** Tailwind CSS
+- **Dokumentasi API:** Swagger (`http://localhost:3001/api`)
+
+## Konsep Fitur
+
+- **Rating & Ulasan** — satu rating per buku per anggota, bisa diubah. Rating rata-rata dihitung ulang setelah setiap ulasan.
+- **Reading Tracker** — setiap anggota bisa menandai status baca per buku (Ingin Dibaca / Sedang Dibaca / Sudah Selesai).
+- **Google Books Integration** — pencarian live ke Google Books untuk anggota & tamu; auto-import ke katalog saat buku dibuka detailnya.
+- **Koleksi PERPUS** — gabungan buku lokal + hasil Google Books (auto-import di detail).
 
 ## Struktur Database
 
-### User
-| Field | Tipe | Keterangan |
-|---|---|---|
-| id | String/Int | ID pengguna |
-| name | String | Nama lengkap |
-| email | String | Email unik |
-| password | String | Password (hash) |
-| role | Enum | `ADMIN` atau `MEMBER` |
-| status | Enum | `ACTIVE` atau `INACTIVE` |
-| createdAt | DateTime | Tanggal dibuat |
-
-### Book
-| Field | Tipe | Keterangan |
-|---|---|---|
-| id | String/Int | ID buku |
-| title | String | Judul buku |
-| author | String | Penulis |
-| publisher | String | Penerbit |
-| category | String/Relation | Kategori |
-| isbn | String (opsional) | ISBN |
-| year | Int | Tahun terbit |
-| description | Text | Deskripsi |
-| coverImage | String (opsional) | URL gambar sampul |
-| totalStock | Int | Total stok |
-| availableStock | Int | Stok tersedia |
-| shelfLocation | String | Lokasi rak |
-
-### Loan
-| Field | Tipe | Keterangan |
-|---|---|---|
-| id | String/Int | ID transaksi |
-| userId | FK | Relasi ke User |
-| bookId | FK | Relasi ke Book |
-| requestDate | DateTime | Tanggal pengajuan |
-| borrowDate | DateTime (nullable) | Tanggal pinjam |
-| dueDate | DateTime (nullable) | Tanggal jatuh tempo |
-| returnDate | DateTime (nullable) | Tanggal pengembalian |
-| status | Enum | Status transaksi |
-
-### Category
-| Field | Tipe | Keterangan |
-|---|---|---|
-| id | String/Int | ID kategori |
-| name | String | Nama kategori |
-| description | String (opsional) | Deskripsi |
-
-**Relasi:**
-- User 1:N Loan
-- Book 1:N Loan
-- Category 1:N Book
-
-## Aturan Bisnis
-
-- Anggota harus login untuk mengajukan peminjaman
-- Anggota hanya dapat meminjam buku yang tersedia
-- Maksimal peminjaman: **3 buku per anggota**
-- Durasi peminjaman: **7 hari** (dapat diubah oleh admin)
-- Stok berkurang saat peminjaman disetujui, bertambah saat buku dikembalikan
-- Pengajuan yang belum disetujui tidak mengurangi stok
-- Buku tidak dapat dihapus jika masih memiliki transaksi aktif
-- Anggota dengan peminjaman terlambat dapat dibatasi dari peminjaman baru
-- Sistem mencegah stok menjadi negatif
-
-## Status Transaksi
-
-| Status | Keterangan |
+### `users`
+| Field | Keterangan |
 |---|---|
-| Menunggu Persetujuan | Pengajuan baru, menunggu persetujuan admin |
-| Disetujui/Dipinjam | Sudah disetujui dan buku sedang dipinjam |
-| Ditolak | Pengajuan ditolak oleh admin |
-| Dibatalkan | Dibatalkan oleh anggota |
-| Dikembalikan | Buku sudah dikembalikan |
-| Terlambat | Melewati tanggal jatuh tempo |
+| id | Internal ID |
+| name | Nama lengkap |
+| email | Email unik |
+| password | Hash bcrypt |
+| role | `ADMIN` / `MEMBER` |
+| status | `ACTIVE` / `INACTIVE` |
 
-## Kriteria Keberhasilan MVP
+### `books`
+| Field | Keterangan |
+|---|---|
+| id | ID buku |
+| title | Judul |
+| author | Penulis |
+| publisher | Penerbit |
+| categoryId | FK ke kategori |
+| isbn | ISBN unik |
+| year | Tahun terbit |
+| coverImage | URL cover |
+| totalStock / availableStock | Stok |
+| averageRating | Rata-rata rating (dihitung) |
+| reviewCount | Jumlah ulasan |
+| positivePercent | % rating positif |
 
-- [ ] Admin dapat login
-- [ ] Admin dapat CRUD buku dan anggota
-- [ ] Anggota dapat mencari dan melihat detail buku
-- [ ] Anggota dapat mengajukan peminjaman
-- [ ] Admin dapat menyetujui/menolak pengajuan
-- [ ] Stok buku berubah sesuai transaksi (berkurang saat disetujui, bertambah saat dikembalikan)
-- [ ] Admin dapat memproses pengembalian
-- [ ] Anggota dapat melihat riwayat peminjaman
-- [ ] Website responsif (desktop, tablet, mobile)
-- [ ] Data tersimpan konsisten di database
+### `reviews`
+| Field | Keterangan |
+|---|---|
+| id | ID ulasan |
+| userId, bookId | FK |
+| rating | 1–5 |
+| comment | Teks ulasan (opsional) |
 
-## Tahapan Pengembangan
-
-1. **UI/UX** - Desain dashboard, sidebar, navbar, katalog, dan tabel
-2. **Data Buku** - CRUD buku, pencarian, filter, dan detail buku
-3. **Data Anggota** - Pengelolaan anggota dan akun
-4. **Transaksi** - Pengajuan, persetujuan, peminjaman, dan pengembalian
-5. **Database** - Integrasi PostgreSQL dengan Prisma
-6. **Autentikasi** - Login dan pembatasan akses berdasarkan role
-7. **Testing & Deployment** - Pengujian, perbaikan bug, dan publikasi
+### `reading_statuses`
+| Field | Keterangan |
+|---|---|
+| id | ID |
+| userId, bookId | FK |
+| status | `WISHLIST` / `READING` / `FINISHED` |
 
 ## Memulai Pengembangan
 
 ```bash
+# Clone repo & masuk folder
+cd perpus-app
+
 # Install dependencies
-npm install
+bun install
 
-# Setup environment variables
-cp .env.example .env
+# Generate Prisma Client (jika ada perubahan schema)
+cd packages/prisma-client
+bun run generate
 
-# Setup database
-npx prisma migrate dev
-npx prisma generate
+# Setup env
+cp apps/api/.env.example apps/api/.env   # isi DATABASE_URL dll
 
-# Jalankan development server
-npm run dev
+# Jalankan database (di mesin, perlu PostgreSQL berjalan di port 5432)
+# Buat database perpus_db jika belum ada
+
+# Migrasi (hanya jika belum pernah)
+cd packages/prisma-client
+bun run migrate:dev
+
+# Jalankan apps (backend + frontend)
+cd ..
+bun run dev
 ```
+
+Aplikasi berjalan di:
+- Frontend: `http://localhost:3000`
+- Backend (API): `http://localhost:3001`
+- Swagger: `http://localhost:3001/api`
+
+## Kredensial Default (Development)
+
+Semua akun berikut role `ADMIN`:
+
+| Email | Password (hashed) |
+|---|---|
+| `admin@perpus.co.id` | `130207` (di-hash bcrypt di DB) |
+| `admin@cadangan.perpus` | `130207` (di-hash bcrypt di DB) |
+
+> Password sesederhana itu **bukan untuk produksi** — ganti segera setelah deploy.
+
+## Dokumentasi Tambahan
+
+- `ARCHITECTURE.md` — Arsitektur monorepo
+- `PRD.md` — Product Requirements (v2.0)
+- `apps/api/README.md` — Dokumentasi backend
 
 ## Lisensi
 
-Proyek ini dikembangkan untuk tujuan pembelajaran.
-
----
-
-**Versi:** 1.0 | **Status:** Draft | **Platform:** Web (Desktop & Mobile)
+Private — untuk keperluan proyek ini.

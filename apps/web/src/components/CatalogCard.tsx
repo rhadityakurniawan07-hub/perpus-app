@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth';
 import { Book, ReadingStatusValue } from '@/types';
 import api, { getErrorMessage } from '@/lib/axios';
 import RatingStars from '@/components/RatingStars';
@@ -20,6 +22,9 @@ export function isGoogleBook(book: CatalogBook): book is GoogleBookResult & { __
 }
 
 export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCardProps) {
+  const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState('');
 
@@ -32,6 +37,11 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
     setImporting(true);
     setError('');
     if (!isGoogleBook(book)) {
+      setImporting(false);
+      return;
+    }
+    if (!isAuthenticated) {
+      router.push(`/login?next=${encodeURIComponent(pathname || '/books')}`);
       setImporting(false);
       return;
     }
@@ -63,7 +73,7 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
     : { label: 'Belum Dibaca', className: 'bg-slate-100 text-slate-600' };
 
   const coverEl = (
-    <div className="relative block h-56 shrink-0 select-none overflow-hidden bg-gradient-to-br from-brand-800 via-ink to-slate-900">
+    <div className="relative block h-52 shrink-0 select-none overflow-hidden bg-gradient-to-br from-violet-900 via-ink to-slate-900">
       {book.coverImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -78,11 +88,11 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
           </svg>
         </div>
       )}
-      <span className="badge absolute left-2 top-2 bg-white/90 text-brand-800 shadow-soft backdrop-blur">
+      <span className="badge absolute left-2 top-2 bg-white/95 text-violet-900 shadow-soft backdrop-blur">
         {(book as any).category?.name || 'Google Books'}
       </span>
       {book.year && (
-        <span className="badge absolute right-2 top-2 bg-white/85 text-slate-700 shadow-soft backdrop-blur">
+        <span className="badge absolute right-2 top-2 bg-violet-600/90 text-white shadow-soft backdrop-blur">
           {book.year}
         </span>
       )}
@@ -102,8 +112,8 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
           </span>
           <span className="text-xs text-slate-500">({reviewCount} ulasan)</span>
         </div>
-        <span className="shrink-0 text-xs font-bold text-emerald-600">
-          {positivePercent}% Positif
+        <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200">
+          {positivePercent}% Puas
         </span>
       </div>
 

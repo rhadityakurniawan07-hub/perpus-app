@@ -19,10 +19,10 @@ describe('AppController', () => {
   });
 
   it('should return welcome message', () => {
-    expect(controller.getHello()).toEqual({ message: 'Welcome to PinjamanBuku API' });
+    expect(controller.getHello()).toEqual({ message: 'Welcome to PERPUS API' });
   });
 
   it('should return health status', () => {
-    expect(controller.getHealth()).toEqual({ status: 'ok', message: 'PinjamanBuku API is running' });
+    expect(controller.getHealth()).toEqual({ status: 'ok', message: 'PERPUS API is running' });
   });
 });

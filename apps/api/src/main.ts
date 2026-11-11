@@ -18,8 +18,8 @@ async function bootstrap() {
   }));
   
   const config = new DocumentBuilder()
-    .setTitle('PinjamanBuku API')
-    .setDescription('Sistem Informasi Perpustakaan API')
+    .setTitle('PERPUS API')
+    .setDescription('PERPUS - Katalog, Rating & Jejak Membaca')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

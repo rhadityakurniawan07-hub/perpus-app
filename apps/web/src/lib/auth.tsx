@@ -9,10 +9,18 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, redirectTo?: string) => Promise<void>;
+  register: (name: string, email: string, password: string, redirectTo?: string) => Promise<void>;
   adminLogin: (email: string, password: string) => Promise<void>;
   logout: () => void;
+}
+
+function safeInternalPath(target?: string) {
+  if (!target) return '/dashboard';
+  if (!target.startsWith('/') || target.startsWith('//') || target.startsWith('/admin')) {
+    return '/dashboard';
+  }
+  return target;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  async function login(email: string, password: string) {
+  async function login(email: string, password: string, redirectTo?: string) {
     try {
       const response = await api.post('/auth/login', { email, password });
       const { access_token, user: userData } = response.data;
@@ -48,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
       setUser(userData);
-      router.push('/dashboard');
+      router.push(safeInternalPath(redirectTo));
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Email atau password salah');
     }
@@ -76,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function register(name: string, email: string, password: string) {
+  async function register(name: string, email: string, password: string, redirectTo?: string) {
     try {
       // Backend register tidak mengembalikan token, jadi login otomatis setelah daftar
       await api.post('/auth/register', { name, email, password });
@@ -88,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
       setUser(userData);
-      router.push('/dashboard');
+      router.push(safeInternalPath(redirectTo));
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Pendaftaran gagal');
     }
