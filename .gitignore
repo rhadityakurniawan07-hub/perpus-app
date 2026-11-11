@@ -36,3 +36,9 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Prisma generated client
+packages/prisma-client/prisma/generated/
