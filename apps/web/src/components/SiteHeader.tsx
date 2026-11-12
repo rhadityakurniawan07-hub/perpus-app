@@ -89,9 +89,6 @@ export default function SiteHeader() {
               <span className="block text-xl font-extrabold tracking-tight text-ink">
                 PERPUS
               </span>
-              <span className="block text-[9px] font-bold uppercase tracking-[0.28em] text-brand-600">
-                Kurasi &amp; Indeks
-              </span>
             </span>
           </button>
 
@@ -141,7 +138,7 @@ export default function SiteHeader() {
               href="/my-collection"
               aria-label="Koleksi saya"
               title="Koleksi saya"
-              className="rounded-xl p-2 text-slate-500 transition hover:bg-brand-50 hover:text-brand-700"
+              className="hidden rounded-xl p-2 text-slate-500 transition hover:bg-brand-50 hover:text-brand-700 sm:block"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21l-7.5-4.5L4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -154,7 +151,7 @@ export default function SiteHeader() {
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
                     {displayName.charAt(0).toUpperCase()}
                   </span>
-                  <span className="leading-tight">
+            <span className="hidden leading-tight sm:block">
                     <span className="block max-w-[9rem] truncate text-sm font-semibold text-ink">
                       {displayName}
                     </span>
@@ -178,7 +175,7 @@ export default function SiteHeader() {
                 >
                   Masuk
                 </Link>
-                <Link href="/register" className="btn-primary !px-3 !py-2 text-xs sm:text-sm">
+                <Link href="/register" className="btn-primary !px-3 !py-2 text-xs sm:text-sm hidden sm:block">
                   Daftar
                 </Link>
               </>

@@ -261,7 +261,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {showcase.map((book, idx) => (
             <CatalogCard
               key={book.id}

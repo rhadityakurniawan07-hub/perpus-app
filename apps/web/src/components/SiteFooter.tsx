@@ -45,9 +45,6 @@ export default function SiteFooter() {
               </span>
               <span>
                 <span className="block text-2xl font-extrabold leading-none text-white">PERPUS</span>
-                <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.3em] text-brand-300">
-                  Kurasi &amp; Ulasan
-                </span>
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">

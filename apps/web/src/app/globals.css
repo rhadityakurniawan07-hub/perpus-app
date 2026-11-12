@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-lavender text-slate-800 antialiased;
+    @apply overflow-x-hidden bg-lavender text-slate-800 antialiased;
   }
 }
 
