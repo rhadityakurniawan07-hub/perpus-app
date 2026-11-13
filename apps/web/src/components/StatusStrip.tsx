@@ -42,9 +42,9 @@ export default function StatusStrip() {
 
         {isAuthenticated ? (
           <div className="flex items-center gap-x-3 gap-y-0.5 sm:gap-x-4">
-            <span className="hidden sm:inline"><span className="text-brand-700">{books.toLocaleString('id-ID')}+</span> Buku Terindeks</span>
-            <span className="hidden sm:inline"><span className="text-brand-700">{reviews.toLocaleString('id-ID')}+</span> Ulasan Pembaca</span>
-            <span className="hidden md:inline"><span className="text-brand-700">{kurator.toLocaleString('id-ID')}</span> Kurator Aktif</span>
+            <span className="hidden whitespace-nowrap sm:inline"><span className="text-brand-700">{books.toLocaleString('id-ID')}+</span> Buku Terindeks</span>
+            <span className="hidden whitespace-nowrap sm:inline"><span className="text-brand-700">{reviews.toLocaleString('id-ID')}+</span> Ulasan Pembaca</span>
+            <span className="hidden whitespace-nowrap xl:inline"><span className="text-brand-700">{kurator.toLocaleString('id-ID')}</span> Kurator Aktif</span>
             <span className="hidden text-slate-300 xl:inline">|</span>
             <span className="hidden xl:inline text-slate-400">
               ★ {stats.reviews ?? 0} Rating Anda
@@ -52,9 +52,9 @@ export default function StatusStrip() {
           </div>
         ) : (
           <div className="flex items-center gap-x-3 sm:gap-x-4">
-            <span className="hidden sm:inline"><span className="text-brand-700">{books.toLocaleString('id-ID')}+</span> Buku Terindeks</span>
-            <span className="hidden sm:inline"><span className="text-brand-700">{reviews.toLocaleString('id-ID')}+</span> Ulasan Pembaca</span>
-            <span className="hidden md:inline"><span className="text-brand-700">{kurator.toLocaleString('id-ID')}</span> Kurator Aktif</span>
+            <span className="hidden whitespace-nowrap sm:inline"><span className="text-brand-700">{books.toLocaleString('id-ID')}+</span> Buku Terindeks</span>
+            <span className="hidden whitespace-nowrap sm:inline"><span className="text-brand-700">{reviews.toLocaleString('id-ID')}+</span> Ulasan Pembaca</span>
+            <span className="hidden whitespace-nowrap xl:inline"><span className="text-brand-700">{kurator.toLocaleString('id-ID')}</span> Kurator Aktif</span>
           </div>
         )}
       </div>

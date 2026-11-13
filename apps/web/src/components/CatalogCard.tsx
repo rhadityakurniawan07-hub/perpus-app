@@ -161,7 +161,7 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
       </span>
     </div>
 
-      <h3 className="mt-2 line-clamp-1 pr-1 text-[15px] font-black leading-tight tracking-tight text-slate-950 sm:text-base">
+      <h3 className="mt-2 line-clamp-2 break-words pr-1 text-[15px] font-black leading-tight tracking-tight text-slate-950 sm:text-base">
         {book.title}
       </h3>
       <p className="mt-1 flex min-w-0 items-center gap-1.5 text-[10px] font-semibold text-slate-500">
@@ -193,7 +193,7 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
         <p className="mt-1 truncate text-[7px] font-semibold text-slate-400"><span className="mr-1 text-violet-400">●</span>{quoteAuthor}</p>
       </div>
 
-      <div className="mt-2 grid grid-cols-3 gap-1 text-[8px] leading-tight">
+      <div className="mt-2 grid grid-cols-2 gap-1 text-[8px] leading-tight sm:grid-cols-3">
         <div className="flex min-w-0 items-center gap-1 rounded-lg bg-blue-50 px-1.5 py-1 font-semibold text-slate-600">
           <svg className="h-3 w-3 shrink-0 text-violet-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 7h14M5 12h14M5 17h10" /></svg>
           <span className="truncate" title={(book as any).shelfLocation || '-'}>{(book as any).shelfLocation || '-'}</span>

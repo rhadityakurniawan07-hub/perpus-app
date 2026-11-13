@@ -78,6 +78,14 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  // Di halaman Koleksi Saya, item "Katalog Buku" disembunyikan saja;
+  // di halaman lain navItems tetap utuh.
+  const isCollectionPage =
+    pathname === '/my-collection' || pathname.startsWith('/my-collection/');
+  const visibleNavItems = isCollectionPage
+    ? navItems.filter((item) => item.name !== 'Katalog Buku')
+    : navItems;
+
   const displayName = user?.name?.trim() || 'Pembaca';
 
   if (loading) {
@@ -115,7 +123,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
             </Link>
 
             <nav className="hidden items-center gap-1 md:flex">
-              {navItems.map((item) => {
+              {visibleNavItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
                 return (
@@ -156,7 +164,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
         </div>
 
         <nav className="flex items-center gap-1 overflow-x-auto border-t border-slate-100 px-2 py-2 md:hidden">
-          {navItems.map((item) => {
+          {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.href);
             return (
