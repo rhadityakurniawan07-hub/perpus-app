@@ -13,13 +13,23 @@ export default function AdminLoginPage() {
   const { adminLogin, user, isAuthenticated, loading: authLoading } = useAuth();
   const router = useRouter();
 
+  const isMemberSession = isAuthenticated && user?.role !== 'ADMIN';
+
   useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      // Sudah login: arahkan ke panel admin
+    if (authLoading) return;
+    if (isAuthenticated && user?.role === 'ADMIN') {
+      // Sudah login sebagai Admin: arahkan ke panel admin
       router.replace('/admin/dashboard');
+      return;
+    }
+    if (isMemberSession) {
+      // Member tidak boleh melihat form admin: beri peringatan lalu arahkan ke Katalog.
+      // Sesi member tidak dihapus.
+      const timer = window.setTimeout(() => router.replace('/books'), 2500);
+      return () => window.clearTimeout(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authLoading, isAuthenticated]);
+  }, [authLoading, isAuthenticated, isMemberSession, user?.role, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,6 +48,47 @@ export default function AdminLoginPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-ink">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-400 border-t-transparent" />
+      </main>
+    );
+  }
+
+  if (isMemberSession) {
+    return (
+      <main
+        className="flex min-h-screen items-center justify-center bg-ink px-4"
+        aria-label="Akses ditolak untuk akun anggota"
+      >
+        <div className="w-full max-w-md rounded-3xl border border-brand-800/60 bg-black/40 p-8 text-center shadow-[0_30px_80px_rgba(124,58,237,0.25)] backdrop-blur-md">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-violet-800 shadow-[0_0_25px_rgba(124,58,237,0.4)]">
+            <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V7.125a4.5 4.5 0 10-9 0V10.5m-1.5 0h12a1.5 1.5 0 011.5 1.5v7.5a1.5 1.5 0 01-1.5 1.5h-12a1.5 1.5 0 01-1.5-1.5v-7.5a1.5 1.5 0 011.5-1.5z" />
+            </svg>
+          </span>
+          <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-400">
+            Akses Ditolak
+          </p>
+          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-white">
+            Panel ini khusus Admin
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-slate-400">
+            Anda masuk sebagai{' '}
+            <span className="font-semibold text-brand-200">{user?.name?.trim() || 'Anggota'}</span>{' '}
+            (member). Halaman Panel Admin hanya untuk akun dengan peran{' '}
+            <span className="font-semibold text-brand-200">Admin</span>.
+          </p>
+          <p className="mt-2 text-xs text-slate-500">
+            Anda akan diarahkan kembali ke Katalog Buku dalam beberapa detik…
+          </p>
+          <Link
+            href="/books"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-violet-700 px-5 py-3 text-xs font-extrabold uppercase tracking-widest text-white transition hover:from-brand-400 hover:to-violet-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          >
+            Ke Katalog Sekarang
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
+        </div>
       </main>
     );
   }

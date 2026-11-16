@@ -245,10 +245,17 @@ export default function BooksPage() {
           <span className="badge bg-violet-100 text-violet-800 ring-1 ring-violet-200">
             Katalog &amp; Indeks
           </span>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink">
-            Katalog Koleksi PERPUS
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+            Katalog Koleksi{' '}
+            <span className="bg-gradient-to-br from-violet-700 via-violet-500 to-amber-400 bg-clip-text text-transparent">
+              PERPUS
+            </span>
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <span
+            aria-hidden="true"
+            className="mt-3 block h-1 w-24 rounded-full bg-gradient-to-r from-violet-600 via-amber-400 to-emerald-400"
+          />
+          <p className="mt-2 text-sm text-slate-500">
             Persembahan kurasi dari katalog pusat dan Google Books — urutkan, cari,
             dan Anda sendiri yang menentukan untuk memberikan rating Anda.
           </p>

@@ -12,7 +12,7 @@ interface AuthContextType {
   login: (email: string, password: string, redirectTo?: string) => Promise<void>;
   register: (name: string, email: string, password: string, redirectTo?: string) => Promise<void>;
   adminLogin: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: (redirectTo?: string) => void;
 }
 
 function safeInternalPath(target?: string) {
@@ -102,12 +102,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function logout() {
+  function logout(redirectTo = '/login') {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
-    router.push('/login');
+    router.push(redirectTo);
   }
 
   return (

@@ -5,12 +5,21 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 
-const navItems = [
+const PUBLIC_NAV_ITEMS = [
   { name: 'Jelajah Buku', href: '/books' },
   { name: 'Koleksi Saya', href: '/my-collection' },
-  { name: 'Ulasan & Diskusi', href: '/reviews' },
+  { name: 'Ulasan & Rating', href: '/reviews' },
   { name: 'Kurasi Pilihan', href: '/guide' },
 ];
+
+const MEMBER_NAV_ITEMS = [
+  { name: 'Dashboard', href: '/dashboard' },
+  { name: 'Koleksi Saya', href: '/my-collection' },
+  { name: 'Ulasan & Rating', href: '/reviews' },
+  { name: 'Profil', href: '/profile' },
+];
+
+const MEMBER_ROUTE_PREFIXES = ['/dashboard', '/my-collection', '/reviews', '/profile'];
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -22,8 +31,15 @@ export default function SiteHeader() {
   const clickCountRef = useRef(0);
   const clickTimeoutRef = useRef<number | null>(null);
 
+  const isMemberRoute =
+    !!pathname &&
+    MEMBER_ROUTE_PREFIXES.some(
+      (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+    );
+  const navItems = isMemberRoute ? MEMBER_NAV_ITEMS : PUBLIC_NAV_ITEMS;
+
   const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+    pathname === href || (!!pathname && pathname.startsWith(`${href}/`));
 
   function handleLogoClick() {
     if (clickTimeoutRef.current) {
@@ -41,7 +57,7 @@ export default function SiteHeader() {
     }
 
     if (clickCountRef.current === 1) {
-      router.push('/');
+      router.push(isMemberRoute ? '/dashboard' : '/');
     }
 
     clickTimeoutRef.current = window.setTimeout(() => {
@@ -77,7 +93,7 @@ export default function SiteHeader() {
           <button
             type="button"
             onClick={handleLogoClick}
-            aria-label="PERPUS - kembali ke beranda"
+            aria-label="PERPUS - kembali"
             className="flex shrink-0 items-center gap-2 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft">
@@ -109,49 +125,41 @@ export default function SiteHeader() {
             ))}
           </nav>
 
-          {/* Search (desktop) */}
-          <form onSubmit={handleSearch} className="hidden min-w-0 flex-1 md:block" role="search">
-            <div className="relative">
-              <svg
-                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.75}
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
-              </svg>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Cari judul buku, pengarang, ISBN..."
-                aria-label="Cari buku"
-                className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-200"
-              />
-            </div>
-          </form>
+          {/* Search (desktop) — hanya halaman publik */}
+          {!isMemberRoute && (
+            <form onSubmit={handleSearch} className="hidden min-w-0 flex-1 md:block" role="search">
+              <div className="relative">
+                <svg
+                  className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.75}
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Cari judul buku, pengarang, ISBN..."
+                  aria-label="Cari buku"
+                  className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-200"
+                />
+              </div>
+            </form>
+          )}
+          {isMemberRoute && <div className="hidden flex-1 md:block" aria-hidden="true" />}
 
-          {/* Bookmark + user / auth */}
+          {/* User / auth */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
-            <Link
-              href="/my-collection"
-              aria-label="Koleksi saya"
-              title="Koleksi saya"
-              className="hidden rounded-xl p-2 text-slate-500 transition hover:bg-brand-50 hover:text-brand-700 sm:block"
-            >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21l-7.5-4.5L4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-              </svg>
-            </Link>
-
             {isAuthenticated ? (
               <>
                 <div className="hidden items-center gap-2 sm:flex">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
                     {displayName.charAt(0).toUpperCase()}
                   </span>
-            <span className="hidden leading-tight sm:block">
+                  <span className="hidden leading-tight sm:block">
                     <span className="block max-w-[9rem] truncate text-sm font-semibold text-ink">
                       {displayName}
                     </span>
@@ -162,9 +170,12 @@ export default function SiteHeader() {
                 </div>
                 <button
                   onClick={logout}
-                  className="hidden rounded-xl border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 sm:block"
+                  className="flex items-center gap-1.5 rounded-xl border border-red-200 px-2.5 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
                 >
-                  Keluar
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                  </svg>
+                  <span className="hidden sm:inline">Keluar</span>
                 </button>
               </>
             ) : (
@@ -203,25 +214,27 @@ export default function SiteHeader() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-slate-100 bg-white px-4 pb-4 pt-2 lg:hidden">
-          <form onSubmit={handleSearch} className="relative md:hidden" role="search">
-            <svg
-              className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.75}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
-            </svg>
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cari judul, pengarang, ISBN..."
-              aria-label="Cari buku"
-              className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none focus:border-brand-400"
-            />
-          </form>
+          {!isMemberRoute && (
+            <form onSubmit={handleSearch} className="relative md:hidden" role="search">
+              <svg
+                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
+              </svg>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Cari judul, pengarang, ISBN..."
+                aria-label="Cari buku"
+                className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none focus:border-brand-400"
+              />
+            </form>
+          )}
           <nav className="mt-3 grid grid-cols-2 gap-2" aria-label="Navigasi utama mobile">
             {navItems.map((item) => (
               <Link
@@ -244,8 +257,11 @@ export default function SiteHeader() {
                 setMenuOpen(false);
                 logout();
               }}
-              className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-red-600"
+              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-200 px-3 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
             >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
               Keluar
             </button>
           )}
