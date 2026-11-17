@@ -145,7 +145,7 @@ export default function ProfilePage() {
 
           <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-violet-100 pt-6">
             <p className="max-w-xs text-xs leading-5 text-slate-500">Ingin meninggalkan ruang baca ini? Anda bisa keluar dari akun kapan saja.</p>
-            <button onClick={logout} className="rounded-full border border-red-200 bg-red-50 px-5 py-3 text-xs font-extrabold uppercase tracking-wider text-red-700 transition hover:border-red-300 hover:bg-red-100">Keluar dari Akun →</button>
+            <button onClick={() => logout()} className="rounded-full border border-red-200 bg-red-50 px-5 py-3 text-xs font-extrabold uppercase tracking-wider text-red-700 transition hover:border-red-300 hover:bg-red-100">Keluar dari Akun →</button>
           </div>
         </div>
       </section>

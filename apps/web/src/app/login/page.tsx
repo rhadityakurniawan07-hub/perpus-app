@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 
 export default function LoginPage() {
@@ -10,11 +11,19 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState('');
-  const { login } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    setNext(window.location.search);
+    const params = new URLSearchParams(window.location.search);
+    setNext(params.get('next') || '');
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'ADMIN') {
+      router.replace('/admin/dashboard');
+    }
+  }, [isAuthenticated, user?.role, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

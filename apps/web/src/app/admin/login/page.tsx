@@ -22,14 +22,13 @@ export default function AdminLoginPage() {
       router.replace('/admin/dashboard');
       return;
     }
-    if (isMemberSession) {
-      // Member tidak boleh melihat form admin: beri peringatan lalu arahkan ke Katalog.
-      // Sesi member tidak dihapus.
-      const timer = window.setTimeout(() => router.replace('/books'), 2500);
-      return () => window.clearTimeout(timer);
+    if (isAuthenticated && user?.role !== 'ADMIN') {
+      // Member tidak boleh melihat form admin: arahkan ke dashboard member
+      router.replace('/dashboard');
+      return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authLoading, isAuthenticated, isMemberSession, user?.role, router]);
+  }, [authLoading, isAuthenticated, user?.role, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -93,6 +92,19 @@ export default function AdminLoginPage() {
     );
   }
 
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await adminLogin(email, password);
+    } catch (err: any) {
+      setError(err?.message || 'Email atau password salah.');
+      setLoading(false);
+    }
+  }
+
   return (
     <main
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink px-4 py-12 sm:px-6 lg:px-8"
@@ -137,11 +149,13 @@ export default function AdminLoginPage() {
             <div className="mt-10 flex items-center gap-3">
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-violet-800 shadow-[0_0_25px_rgba(124,58,237,0.45)]">
                 <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.987 8.987 0 00-6 2.292m0-14.25v14.25" />
                 </svg>
               </span>
               <div className="leading-tight">
-                <span className="block text-2xl font-extrabold tracking-tight text-white">PERPUS</span>
+                <span className="block text-2xl font-extrabold tracking-tight text-white">
+                  PERPUS
+                </span>
                 <span className="block text-[10px] font-bold uppercase tracking-[0.3em] text-brand-400">
                   Admin Area
                 </span>
@@ -151,7 +165,7 @@ export default function AdminLoginPage() {
             <h1 className="mt-10 text-3xl font-extrabold leading-tight text-white">
               Hanya untuk <br />
               <span className="bg-gradient-to-r from-brand-300 to-violet-300 bg-clip-text text-transparent">
-                Kurator &amp; Admin
+                Kurator & Admin
               </span>
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-slate-400">
@@ -174,18 +188,20 @@ export default function AdminLoginPage() {
           <div className="mb-6 flex items-center gap-2 md:hidden">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-800">
               <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.987 8.987 0 00-6 2.292m0-14.25v14.25" />
               </svg>
             </span>
             <div>
               <span className="block text-lg font-extrabold text-white">PERPUS</span>
-              <span className="block text-[9px] font-bold uppercase tracking-[0.3em] text-brand-400">Admin Area</span>
+              <span className="block text-[9px] font-bold uppercase tracking-[0.3em] text-brand-400">
+                Admin Area
+              </span>
             </div>
           </div>
 
           <h2 className="text-xl font-extrabold text-white">Masuk ke Panel Admin</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Gunakan akun <span className="font-semibold text-brand-200">Admin</span> Anda untuk mengelola katalog &amp; anggota.
+            Gunakan akun <span className="font-semibold text-brand-200">Admin</span> Anda untuk mengelola katalog & anggota.
           </p>
 
           <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
@@ -239,7 +255,7 @@ export default function AdminLoginPage() {
               }`}
             >
               {loading ? 'Memverifikasi…' : 'Masuk Panel Admin'}
-              <svg className="h-4 w-4 transition group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </button>

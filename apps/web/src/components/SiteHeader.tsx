@@ -25,7 +25,6 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
-  const [query, setQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminHint, setAdminHint] = useState(false);
   const clickCountRef = useRef(0);
@@ -65,13 +64,6 @@ export default function SiteHeader() {
     }, 800);
   }
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = query.trim();
-    setMenuOpen(false);
-    router.push(q ? `/books?q=${encodeURIComponent(q)}` : '/books');
-  }
-
   const displayName = user?.name?.trim() || 'Pembaca';
   const displayRole = user?.role === 'ADMIN' ? 'Kurator' : 'Pembaca';
 
@@ -88,7 +80,7 @@ export default function SiteHeader() {
 
       {/* Baris utama */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center gap-3 sm:gap-5">
+        <div className="flex h-16 items-center justify-between gap-3 sm:gap-5">
           {/* Logo (triple-click = Easter Egg: buka Admin Login) */}
           <button
             type="button"
@@ -125,32 +117,6 @@ export default function SiteHeader() {
             ))}
           </nav>
 
-          {/* Search (desktop) — hanya halaman publik */}
-          {!isMemberRoute && (
-            <form onSubmit={handleSearch} className="hidden min-w-0 flex-1 md:block" role="search">
-              <div className="relative">
-                <svg
-                  className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.75}
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
-                </svg>
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Cari judul buku, pengarang, ISBN..."
-                  aria-label="Cari buku"
-                  className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-200"
-                />
-              </div>
-            </form>
-          )}
-          {isMemberRoute && <div className="hidden flex-1 md:block" aria-hidden="true" />}
-
           {/* User / auth */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
             {isAuthenticated ? (
@@ -169,7 +135,7 @@ export default function SiteHeader() {
                   </span>
                 </div>
                 <button
-                  onClick={logout}
+                  onClick={() => logout()}
                   className="flex items-center gap-1.5 rounded-xl border border-red-200 px-2.5 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
                 >
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
@@ -214,27 +180,6 @@ export default function SiteHeader() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-slate-100 bg-white px-4 pb-4 pt-2 lg:hidden">
-          {!isMemberRoute && (
-            <form onSubmit={handleSearch} className="relative md:hidden" role="search">
-              <svg
-                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.75}
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m2.35-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" />
-              </svg>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Cari judul, pengarang, ISBN..."
-                aria-label="Cari buku"
-                className="w-full rounded-full border border-slate-200 bg-lavender py-2 pl-11 pr-4 text-sm outline-none focus:border-brand-400"
-              />
-            </form>
-          )}
           <nav className="mt-3 grid grid-cols-2 gap-2" aria-label="Navigasi utama mobile">
             {navItems.map((item) => (
               <Link
