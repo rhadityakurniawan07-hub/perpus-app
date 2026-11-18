@@ -331,3 +331,4 @@ Verifikasi end-to-end: registrasi → login → cari → rating → status baca 
 ## 14. Kesimpulan
 
 PERPUS v2.0 beralih dari aplikasi peminjaman menjadi **platform katalog & ulasan buku** yang membantu pembaca menemukan bacaan berkualitas, menilainya, dan mencatat jejak membaca. Fokus MVP adalah pencarian, rating/ulasan, status baca, serta dashboard anggota dan admin — dengan tetap membuka jalan bagi integrasi Google Books API pada tahap berikutnya.
+ 
