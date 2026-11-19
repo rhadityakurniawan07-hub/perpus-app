@@ -7,7 +7,7 @@ Website sistem informasi katalog dan ulasan buku untuk mempermudah pengelolaan k
 PERPUS adalah website katalog & ulasan buku yang menyediakan dua area utama:
 
 - **Halaman Publik & Anggota** — mencari buku, membaca detail, memberikan rating & ulasan, serta mencatat status baca (Ingin Dibaca / Sedang Dibaca / Sudah Selesai).
-- **Dashboard Admin (tersembunyi)** — mengelola buku, anggota, serta memantau statistik katalog & ulasan.
+- **Dashboard Admin (akses via tautan "Admin" di footer)** — mengelola buku, anggota, serta memantau statistik katalog & ulasan.
 
 > **Catatan:** Konsep sebelumnya (v1.0, "PinjamanBuku") berbasis peminjaman buku fisik telah digantikan oleh konsep **Katalog & Ulasan** (v2.0). Model `Loan` tetap ada di database untuk kompatibilitas data tetapi disembunyikan dari antarmuka.
 

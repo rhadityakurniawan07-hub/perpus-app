@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 
 type IconProps = { className?: string };
@@ -71,7 +71,6 @@ const navItems = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -82,8 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const displayRole = user?.role === 'ADMIN' ? 'Kurator' : 'Admin';
 
   function handleLogout() {
-    logout();
-    router.push('/login');
+    logout('/admin/login');
   }
 
   const sidebar = (

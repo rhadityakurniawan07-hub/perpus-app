@@ -92,6 +92,9 @@ export default function SiteFooter() {
             <Link href="/guide" className="transition hover:text-white">
               Bantuan
             </Link>
+            <Link href="/admin/login" className="transition hover:text-white">
+              Admin
+            </Link>
           </nav>
         </div>
       </div>

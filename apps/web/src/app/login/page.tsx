@@ -60,7 +60,7 @@ export default function LoginPage() {
           <h1 className="mt-6 text-center text-2xl font-extrabold text-white">Selamat Datang Kembali</h1>
           <p className="mt-1 text-center text-sm text-violet-200/80">
             Atau{' '}
-            <Link href={`/register${next}`} className="font-semibold text-violet-300 transition hover:text-white">
+            <Link href={next ? `/register?next=${encodeURIComponent(next)}` : '/register'} className="font-semibold text-violet-300 transition hover:text-white">
               daftar akun baru
             </Link>
           </p>

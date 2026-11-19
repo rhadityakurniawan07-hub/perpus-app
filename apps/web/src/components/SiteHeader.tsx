@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 
 const PUBLIC_NAV_ITEMS = [
@@ -23,12 +23,8 @@ const MEMBER_ROUTE_PREFIXES = ['/dashboard', '/my-collection', '/reviews', '/pro
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [adminHint, setAdminHint] = useState(false);
-  const clickCountRef = useRef(0);
-  const clickTimeoutRef = useRef<number | null>(null);
 
   const isMemberRoute =
     !!pathname &&
@@ -40,51 +36,17 @@ export default function SiteHeader() {
   const isActive = (href: string) =>
     pathname === href || (!!pathname && pathname.startsWith(`${href}/`));
 
-  function handleLogoClick() {
-    if (clickTimeoutRef.current) {
-      clearTimeout(clickTimeoutRef.current);
-    }
-
-    clickCountRef.current = Math.min(clickCountRef.current + 1, 3);
-
-    if (clickCountRef.current === 3) {
-      clickCountRef.current = 0;
-      setAdminHint(true);
-      window.setTimeout(() => setAdminHint(false), 1200);
-      router.push('/admin/login');
-      return;
-    }
-
-    if (clickCountRef.current === 1) {
-      router.push(isMemberRoute ? '/dashboard' : '/');
-    }
-
-    clickTimeoutRef.current = window.setTimeout(() => {
-      clickCountRef.current = 0;
-    }, 800);
-  }
-
   const displayName = user?.name?.trim() || 'Pembaca';
   const displayRole = user?.role === 'ADMIN' ? 'Kurator' : 'Pembaca';
 
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100 bg-white/95 backdrop-blur">
-      {adminHint && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed top-20 left-1/2 z-50 -translate-x-1/2 rounded-full border border-brand-400 bg-ink px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-200 shadow-card"
-        >
-          Admin Area
-        </div>
-      )}
-
       {/* Baris utama */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-3 sm:gap-5">
-          {/* Logo (triple-click = Easter Egg: buka Admin Login) */}
-          <button
-            type="button"
-            onClick={handleLogoClick}
+          {/* Logo */}
+          <Link
+            href={isMemberRoute ? '/dashboard' : '/'}
             aria-label="PERPUS - kembali"
             className="flex shrink-0 items-center gap-2 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
@@ -98,7 +60,7 @@ export default function SiteHeader() {
                 PERPUS
               </span>
             </span>
-          </button>
+          </Link>
 
           {/* Nav (desktop) */}
           <nav className="hidden items-center gap-1 xl:flex" aria-label="Navigasi utama">

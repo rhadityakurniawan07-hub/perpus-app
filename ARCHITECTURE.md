@@ -130,7 +130,7 @@ Fokus saat ini (PRD v2.0):
 - Reading tracker (Ingin/Sedang/Sudah Selesai).
 - Dashboard admin (statistik katalog & ulasan).
 - Integrasi Google Books API (impor ke katalog lokal).
-- Area admin tersembunyi ("Easter Egg" — 3 klik logo).
+- Panel admin diakses melalui tautan "Admin" di footer atau langsung ke `/admin/login`.
 
 ## Standar Pengembangan
 

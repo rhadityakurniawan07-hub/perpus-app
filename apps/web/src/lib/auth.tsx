@@ -51,6 +51,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await api.post('/auth/login', { email, password });
       const { access_token, user: userData } = response.data;
 
+      if (userData?.role === 'ADMIN') {
+        throw new Error('Akun Admin harus masuk melalui Panel Admin.');
+      }
+
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('user', JSON.stringify(userData));
       api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
@@ -58,7 +62,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(userData);
       router.push(safeInternalPath(redirectTo));
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Email atau password salah');
+      throw new Error(
+        error?.response?.data?.message || error?.message || 'Email atau password salah'
+      );
     }
   }
 
