@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuth } from '@/lib/auth';
 import SiteHeader from '@/components/SiteHeader';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function MemberLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -40,12 +41,13 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <div className="min-h-screen bg-lavender">
-      <SiteHeader />
-
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {children}
-      </main>
-    </div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-lavender">
+        <SiteHeader />
+        <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          {children}
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 }

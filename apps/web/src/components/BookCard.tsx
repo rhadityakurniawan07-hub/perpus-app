@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Book, ReadingStatusValue } from '@/types';
 import RatingStars from '@/components/RatingStars';
 
@@ -25,11 +26,13 @@ export default function BookCard({ book, readingStatus }: BookCardProps) {
       {/* Cover */}
       <Link href={`/books/${book.id}`} className="relative block h-56 shrink-0 select-none overflow-hidden bg-gradient-to-br from-brand-800 via-ink to-slate-900">
         {book.coverImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={book.coverImage}
             alt={book.title}
-            className="h-full w-full object-cover transition duration-500 hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 300px"
+            className="object-cover transition duration-500 hover:scale-105"
+            loading="lazy"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

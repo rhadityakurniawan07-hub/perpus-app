@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import api, { getErrorMessage } from '@/lib/axios';
 
 export interface GoogleBookResult {
@@ -46,11 +47,13 @@ export default function GoogleBookCard({ book }: GoogleBookCardProps) {
     <article className="card flex flex-col overflow-hidden">
       <div className="relative flex h-48 shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-800 via-ink to-slate-900 sm:h-56">
         {book.coverImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={book.coverImage}
             alt={book.title}
+            width={224}
+            height={224}
             className="h-full w-full object-cover"
+            loading="lazy"
           />
         ) : (
           <svg className="h-16 w-16 text-brand-300" fill="none" stroke="currentColor" strokeWidth={1.25} viewBox="0 0 24 24">

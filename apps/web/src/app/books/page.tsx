@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import CatalogCard, { isGoogleBook } from '@/components/CatalogCard';
+import BookDetailModal from '@/components/BookDetailModal';
+import { SkeletonGrid } from '@/components/Skeleton';
 import api, { getErrorMessage } from '@/lib/axios';
 import { Category, ReadingStatusValue, Book } from '@/types';
 import { useAuth } from '@/lib/auth';
@@ -36,8 +38,9 @@ type GoogleCatalogBook = GoogleBookResult & { __isGoogle: true };
 
 export default function BooksPage() {
   const { isAuthenticated, user } = useAuth();
-  const { books, loading, error, fetchBooks } = useBooks();
+  const { books, loading, error, fetchBooks, loadMore, hasMore } = useBooks();
   const { fetchMyReading } = useReadingStatus();
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   const isAdmin = user?.role === 'ADMIN';
 
@@ -83,6 +86,7 @@ export default function BooksPage() {
       minRating: minRating ? '4.5' : undefined,
       sortBy,
       order: sortBy === 'rating' || sortBy === 'year' ? 'desc' : 'asc',
+      page: 1,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramsReady, search, category, minRating, sortBy]);
@@ -288,7 +292,7 @@ export default function BooksPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-full border border-slate-200 bg-lavender px-4 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400"
+                className="rounded-full border border-slate-200 bg-lavender px-4 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-400"
                 aria-label="Urutkan buku"
               >
                 {sortOptions.map((opt) => (
@@ -298,15 +302,17 @@ export default function BooksPage() {
                 ))}
               </select>
 
-              <label className="flex cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-brand-300">
-                <input
-                  type="checkbox"
-                  checked={minRating}
-                  onChange={(e) => setMinRating(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-400"
-                />
-                ✓ 4.5+ Saja
-              </label>
+              {!isSearching && (
+                <label className="flex cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-brand-300">
+                  <input
+                    type="checkbox"
+                    checked={minRating}
+                    onChange={(e) => setMinRating(e.target.checked)}
+                    className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-400"
+                  />
+                  ✓ 4.5+ Saja
+                </label>
+              )}
             </div>
 
             <span className="badge bg-violet-600 px-4 py-2 text-xs font-bold text-white">
@@ -342,10 +348,7 @@ export default function BooksPage() {
 
         {/* Grid: gabungan lokal + Google Books */}
         {anyLoading ? (
-          <div className="py-16 text-center">
-            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-brand-600 border-t-transparent" />
-            <p className="mt-3 text-sm text-slate-500">Memuat katalog...</p>
-          </div>
+          <SkeletonGrid count={6} />
         ) : showEmpty ? (
           <div className="card py-16 text-center">
             <svg className="mx-auto mb-4 h-14 w-14 text-slate-300" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
@@ -363,6 +366,7 @@ export default function BooksPage() {
                     key={`local-${item.book.id}`}
                     book={item.book}
                     readingStatus={readingMap[item.book.id] ?? null}
+                    onOpen={(b) => setSelectedBook(b as Book)}
                   />
                 ) : (
                   <CatalogCard
@@ -372,6 +376,26 @@ export default function BooksPage() {
                 )
               )}
             </div>
+
+            {/* Muat lebih banyak (buku lokal) */}
+            {!isSearching && hasMore && !anyLoading && (
+              <div className="flex items-center justify-center py-8">
+                <button
+                  onClick={loadMore}
+                  disabled={loading}
+                  className="btn-outline flex items-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" />
+                      Memuat...
+                    </>
+                  ) : (
+                    'Muat lebih banyak'
+                  )}
+                </button>
+              </div>
+            )}
 
             {/* Sentinel infinite scroll (hanya saat mencari) */}
             {isSearching && googleBooks.length < googleTotal && !minRating && (
@@ -387,6 +411,14 @@ export default function BooksPage() {
                   </button>
                 )}
               </div>
+            )}
+
+            {/* Modal detail buku */}
+            {selectedBook && (
+              <BookDetailModal
+                book={selectedBook}
+                onClose={() => setSelectedBook(null)}
+              />
             )}
           </>
         )}

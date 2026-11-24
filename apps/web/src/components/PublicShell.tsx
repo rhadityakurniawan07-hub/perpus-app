@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import SiteHeader from '@/components/SiteHeader';
 import StatusStrip from '@/components/StatusStrip';
 import SiteFooter from '@/components/SiteFooter';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Area anggota & admin memakai layout mereka sendiri (MemberLayout/AdminLayout),
 // jadi chrome publik (header + strip status + footer) hanya tampil di halaman publik.
@@ -24,15 +25,17 @@ export default function PublicShell({ children }: { children: React.ReactNode })
   );
 
   if (hideChrome) {
-    return <>{children}</>;
+    return <ErrorBoundary>{children}</ErrorBoundary>;
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-lavender">
-      <SiteHeader />
-      <StatusStrip />
-      <div className="flex-1">{children}</div>
-      <SiteFooter />
-    </div>
+    <ErrorBoundary>
+      <div className="flex min-h-screen flex-col bg-lavender">
+        <SiteHeader />
+        <StatusStrip />
+        <div className="flex-1">{children}</div>
+        <SiteFooter />
+      </div>
+    </ErrorBoundary>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 type IconProps = { className?: string };
 
@@ -163,44 +164,46 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   );
 
   return (
-    <div className="min-h-screen bg-lavender">
-      {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:block">{sidebar}</div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-lavender">
+        {/* Desktop sidebar */}
+        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:block">{sidebar}</div>
 
-      {/* Mobile top bar */}
-      <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur lg:hidden">
-        <Link href="/admin/dashboard" className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-white">
-            <BookIcon className="h-4 w-4" />
-          </span>
-          <span className="text-base font-extrabold text-ink">PERPUS <span className="text-xs font-bold text-brand-600">Admin</span></span>
-        </Link>
-        <button
-          onClick={() => setSidebarOpen((v) => !v)}
-          aria-label="Toggle sidebar"
-          className="rounded-xl p-2 text-ink hover:bg-slate-100"
-        >
-          {sidebarOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
-        </button>
+        {/* Mobile top bar */}
+        <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur lg:hidden">
+          <Link href="/admin/dashboard" className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-white">
+              <BookIcon className="h-4 w-4" />
+            </span>
+            <span className="text-base font-extrabold text-ink">PERPUS <span className="text-xs font-bold text-brand-600">Admin</span></span>
+          </Link>
+          <button
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label="Toggle sidebar"
+            className="rounded-xl p-2 text-ink hover:bg-slate-100"
+          >
+            {sidebarOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+          </button>
+        </div>
+
+        {/* Mobile sidebar overlay */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true">
+            <div
+              className="absolute inset-0 bg-ink/60 backdrop-blur-sm"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <div className="absolute inset-y-0 left-0 w-64 shadow-2xl">{sidebar}</div>
+          </div>
+        )}
+
+        {/* Content */}
+        <main className="lg:pl-64">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+            {children}
+          </div>
+        </main>
       </div>
-
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true">
-          <div
-            className="absolute inset-0 bg-ink/60 backdrop-blur-sm"
-            onClick={() => setSidebarOpen(false)}
-          />
-          <div className="absolute inset-y-0 left-0 w-64 shadow-2xl">{sidebar}</div>
-        </div>
-      )}
-
-      {/* Content */}
-      <main className="lg:pl-64">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-          {children}
-        </div>
-      </main>
-    </div>
+    </ErrorBoundary>
   );
 }

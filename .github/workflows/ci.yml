@@ -1,0 +1,170 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+  BUN_VERSION: 'latest'
+
+jobs:
+  # ============================================
+  # Job 1: Lint & Type Check
+  # ============================================
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: bun run prisma:generate
+
+      - name: Type check (web + api)
+        run: bun run check-types
+
+      - name: Lint (web)
+        working-directory: apps/web
+        run: bun run lint
+
+      - name: Lint (api)
+        working-directory: apps/api
+        run: bun run lint
+
+  # ============================================
+  # Job 2: Build
+  # ============================================
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: bun run prisma:generate
+
+      - name: Build web (Next.js)
+        run: bun run build --workspace=@perpus-app/web
+
+      - name: Build api (NestJS)
+        run: bun run build --workspace=@perpus-app/api
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            apps/web/.next
+            apps/api/dist
+          retention-days: 7
+
+  # ============================================
+  # Job 3: Test
+  # ============================================
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: perpus_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: bun run prisma:generate
+
+      - name: Run migrations (test DB)
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/perpus_test?schema=public
+        run: cd packages/prisma-client && bunx prisma migrate deploy
+
+      - name: Seed test data
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/perpus_test?schema=public
+        run: cd packages/prisma-client && bunx prisma db seed
+
+      - name: Run API tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/perpus_test?schema=public
+          JWT_SECRET: test_jwt_secret_for_ci_only
+          NODE_ENV: test
+        working-directory: apps/api
+        run: bun run test
+
+  # ============================================
+  # Job 4: Docker Build (only on main push)
+  # ============================================
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: false
+          tags: perpus-web:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build api image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: false
+          tags: perpus-api:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

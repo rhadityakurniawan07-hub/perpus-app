@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import api, { getErrorMessage } from '@/lib/axios';
 import { ReportStats } from '@/types';
 import StatCard from '@/components/StatCard';
@@ -111,11 +112,13 @@ export default function AdminDashboardPage() {
                 <li key={book.id} className="flex items-center gap-3 py-3">
                   <div className="flex h-16 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md bg-gradient-to-br from-brand-700 to-ink text-[10px] text-brand-200">
                     {book.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={book.coverImage}
                         alt={book.title}
+                        width={48}
+                        height={64}
                         className="h-full w-full object-cover"
+                        loading="lazy"
                       />
                     ) : (
                       (book.title || '?').charAt(0).toUpperCase()

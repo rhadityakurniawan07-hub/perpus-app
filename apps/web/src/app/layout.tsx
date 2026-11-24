@@ -11,8 +11,20 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "PERPUS — Katalog & Ulasan Buku",
-  description: "Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS.",
+  title: 'PERPUS — Katalog & Ulasan Buku',
+  description: 'Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS. Katalog literasi kontemporer Indonesia.',
+  openGraph: {
+    title: 'PERPUS — Katalog & Ulasan Buku',
+    description: 'Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS.',
+    type: 'website',
+    url: 'https://perpus.id',
+    siteName: 'PERPUS',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PERPUS — Katalog & Ulasan Buku',
+    description: 'Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS.',
+  },
 };
 
 export default function RootLayout({

@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import MemberLayout from '@/components/MemberLayout';
 import RatingStars from '@/components/RatingStars';
 import { useReadingStatus } from '@/hooks/useReadingStatus';
@@ -46,6 +47,7 @@ export default function MyCollectionPage() {
   const { stats, fetchMyStats } = useMyStats();
   const [activeTab, setActiveTab] = useState<TabValue>('ALL');
   const [savingBookId, setSavingBookId] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<'rating' | 'title' | 'year'>('rating');
 
   useEffect(() => {
     fetchMyStats();
@@ -63,6 +65,19 @@ export default function MyCollectionPage() {
     READING: stats.reading,
     FINISHED: stats.finished,
   };
+  const sortedItems = useMemo(() => {
+    const sorted = [...items];
+    switch (sortBy) {
+      case 'rating':
+        return sorted.sort((a, b) => (b.book?.averageRating ?? 0) - (a.book?.averageRating ?? 0));
+      case 'title':
+        return sorted.sort((a, b) => (a.book?.title ?? '').localeCompare(b.book?.title ?? ''));
+      case 'year':
+        return sorted.sort((a, b) => (b.book?.year ?? 0) - (a.book?.year ?? 0));
+      default:
+        return sorted;
+    }
+  }, [items, sortBy]);
   const progress = tabCounts.ALL > 0 ? Math.round((stats.finished / tabCounts.ALL) * 100) : 0;
   const circumference = 2 * Math.PI * 47;
   const dashOffset = circumference - (progress / 100) * circumference;
@@ -133,23 +148,35 @@ export default function MyCollectionPage() {
         <div className="mb-5 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">{error}</div>
       )}
 
-      <div className="mb-5 flex flex-wrap gap-2">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setActiveTab(tab.value)}
-            className={`group min-w-28 rounded-2xl border px-4 py-3 text-left transition ${
-              activeTab === tab.value
-                ? 'border-ink bg-ink text-white shadow-card'
-                : 'border-violet-100 bg-white text-ink hover:border-violet-300 hover:shadow-soft'
-            }`}
-            aria-pressed={activeTab === tab.value}
-          >
-            <span className={`block text-2xl font-black leading-none ${activeTab === tab.value ? 'text-amber-300' : 'text-violet-700'}`}>{tabCounts[tab.value]}</span>
-            <span className="mt-2 block text-[10px] font-extrabold uppercase tracking-[0.14em]">{tab.label}</span>
-            <span className={`mt-0.5 hidden text-[9px] sm:block ${activeTab === tab.value ? 'text-violet-100/70' : 'text-slate-400'}`}>{tab.caption}</span>
-          </button>
-        ))}
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap gap-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`group min-w-28 rounded-2xl border px-4 py-3 text-left transition ${
+                activeTab === tab.value
+                  ? 'border-ink bg-ink text-white shadow-card'
+                  : 'border-violet-100 bg-white text-ink hover:border-violet-300 hover:shadow-soft'
+              }`}
+              aria-pressed={activeTab === tab.value}
+            >
+              <span className={`block text-2xl font-black leading-none ${activeTab === tab.value ? 'text-amber-300' : 'text-violet-700'}`}>{tabCounts[tab.value]}</span>
+              <span className="mt-2 block text-[10px] font-extrabold uppercase tracking-[0.14em]">{tab.label}</span>
+              <span className={`mt-0.5 hidden text-[9px] sm:block ${activeTab === tab.value ? 'text-violet-100/70' : 'text-slate-400'}`}>{tab.caption}</span>
+            </button>
+          ))}
+        </div>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as 'rating' | 'title' | 'year')}
+          className="rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-violet-400 focus-visible:ring-2 focus-visible:ring-violet-400"
+          aria-label="Urutkan koleksi"
+        >
+          <option value="rating">Rating Tertinggi</option>
+          <option value="title">Judul A-Z</option>
+          <option value="year">Tahun Terbaru</option>
+        </select>
       </div>
 
       {loading ? (
@@ -161,7 +188,7 @@ export default function MyCollectionPage() {
             </div>
           ))}
         </div>
-      ) : items.length === 0 ? (
+      ) : sortedItems.length === 0 ? (
         <div className="editorial-panel flex flex-col items-center px-6 py-16 text-center">
           <div className="relative flex h-28 w-28 items-center justify-center"><span className="absolute h-28 w-20 rounded-t-full border border-violet-200 bg-violet-50" /><span className="absolute h-16 w-12 rounded-b-md border border-violet-300 bg-white shadow-soft" /><span className="relative h-6 w-px bg-violet-400" /></div>
           <p className="editorial-kicker mt-6">Rak Kosong</p>
@@ -171,7 +198,7 @@ export default function MyCollectionPage() {
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-5 xl:grid-cols-2">
-          {items.map((item) => {
+          {sortedItems.map((item) => {
             const book = item.book;
             const config = statusConfig[item.status];
             return (
@@ -180,8 +207,7 @@ export default function MyCollectionPage() {
                 <div className="flex flex-col gap-5 sm:flex-row">
                   <Link href={`/books/${item.bookId}`} className="relative block h-44 w-28 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-800 to-ink shadow-card">
                     {book?.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={book.coverImage} alt={book?.title || 'Sampul buku'} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                      <Image src={book.coverImage} alt={book?.title || 'Sampul buku'} fill sizes="112px" className="object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
                     ) : (
                       <div className="flex h-full items-center justify-center text-violet-200"><svg className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth={1.25} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg></div>
                     )}

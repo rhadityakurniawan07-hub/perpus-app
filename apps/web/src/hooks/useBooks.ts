@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import api, { getErrorMessage } from '@/lib/axios';
 import { Book } from '@/types';
 
@@ -11,14 +11,22 @@ export interface BookQuery {
   minRating?: string;
   sortBy?: string;
   order?: string;
+  page?: number;
+  limit?: number;
 }
+
+const PAGE_SIZE = 12;
 
 export function useBooks() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const currentParamsRef = useRef<BookQuery>({});
 
-  const fetchBooks = useCallback(async (params?: BookQuery) => {
+  const fetchBooks = useCallback(async (params?: BookQuery & { append?: boolean }) => {
     setLoading(true);
     try {
       const query = new URLSearchParams();
@@ -28,11 +36,32 @@ export function useBooks() {
       if (params?.minRating) query.append('minRating', params.minRating);
       query.append('sortBy', params?.sortBy || 'title');
       query.append('order', params?.order || 'asc');
+      query.append('page', String(params?.page || 1));
+      query.append('limit', String(params?.limit || PAGE_SIZE));
+
+      // Store current params for loadMore
+      const { append: _append, page: _page, limit: _limit, ...rest } = params || {};
+      currentParamsRef.current = rest;
 
       const response = await api.get(`/books?${query.toString()}`);
-      setBooks(response.data);
+      const responseData = response.data;
+
+      // Support both paginated response { data, meta } and plain array
+      const data: Book[] = Array.isArray(responseData) ? responseData : (responseData?.data ?? []);
+      const meta = responseData?.meta;
+      const totalCount = meta?.total ?? data.length;
+
+      if (params?.append) {
+        setBooks((prev) => [...prev, ...data]);
+      } else {
+        setBooks(data);
+      }
+      setTotal(totalCount);
+      const currentPage = params?.page || 1;
+      setPage(currentPage);
+      setHasMore(currentPage * (params?.limit || PAGE_SIZE) < totalCount);
       setError('');
-      return response.data as Book[];
+      return data;
     } catch (err) {
       setError(getErrorMessage(err));
       return [] as Book[];
@@ -41,7 +70,17 @@ export function useBooks() {
     }
   }, []);
 
-  const refetch = useCallback(() => fetchBooks(), [fetchBooks]);
+  const loadMore = useCallback(() => {
+    if (!hasMore || loading) return;
+    fetchBooks({ ...currentParamsRef.current, page: page + 1, append: true });
+  }, [hasMore, loading, page, fetchBooks]);
 
-  return { books, setBooks, loading, error, setError, fetchBooks, refetch };
+  const reset = useCallback(() => {
+    setBooks([]);
+    setPage(1);
+    setTotal(0);
+    setHasMore(true);
+  }, []);
+
+  return { books, setBooks, loading, error, setError, fetchBooks, loadMore, hasMore, total, page, reset };
 }

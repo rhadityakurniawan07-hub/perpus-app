@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import { Book, ReadingStatusValue, ReportStats } from '@/types';
@@ -123,11 +124,13 @@ export default function Home() {
                   className="block h-48 w-32 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-violet-700 via-ink to-slate-900 shadow-soft"
                 >
                   {featured?.coverImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={featured.coverImage}
                       alt={featuredTitle}
+                      width={128}
+                      height={192}
                       className="h-full w-full object-cover"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">

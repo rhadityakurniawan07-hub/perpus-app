@@ -1,0 +1,81 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  NODE_VERSION: '20'
+  BUN_VERSION: 'latest'
+
+jobs:
+  # ============================================
+  # Deploy to Production (Vercel + Railway)
+  # ============================================
+  deploy-production:
+    name: Deploy Production
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: bun run prisma:generate
+
+      # --- Deploy Web to Vercel (Production) ---
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy Web to Vercel (Production)
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          cd apps/web
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
+
+      # --- Deploy API to Railway (Production) ---
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy API to Railway (Production)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd apps/api
+          railway up --service perpus-api --environment production
+
+      # --- Run Migrations (Production DB) ---
+      - name: Run DB Migrations (Production)
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd packages/prisma-client
+          bunx prisma migrate deploy
+
+      # --- Smoke Test ---
+      - name: Smoke Test (Production)
+        run: |
+          echo "Waiting for deployment..."
+          sleep 30
+          curl -f https://perpus-api.up.railway.app/health || exit 1
+          echo "✅ Production health check passed"
+
+      # --- Notify on Success ---
+      - name: Notify Success
+        if: success()
+        run: |
+          echo "🎉 Production deployment successful!"
+          echo "Tag: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import MemberLayout from '@/components/MemberLayout';
 import RatingStars from '@/components/RatingStars';
@@ -10,12 +10,27 @@ import { useMyStats } from '@/hooks/useMyStats';
 export default function ReviewsPage() {
   const { reviews, loading, error, fetchMyReviews, deleteReview } = useMyReviews();
   const { stats, fetchMyStats } = useMyStats();
+  const [sortBy, setSortBy] = useState<'rating' | 'title' | 'date'>('date');
 
   useEffect(() => {
     fetchMyReviews();
     fetchMyStats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const sortedReviews = useMemo(() => {
+    const sorted = [...reviews];
+    switch (sortBy) {
+      case 'rating':
+        return sorted.sort((a, b) => b.rating - a.rating);
+      case 'title':
+        return sorted.sort((a, b) => (a.book?.title ?? '').localeCompare(b.book?.title ?? ''));
+      case 'date':
+        return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      default:
+        return sorted;
+    }
+  }, [reviews, sortBy]);
 
   const reviewCount = typeof stats.reviews === 'number' ? stats.reviews : reviews.length;
   const averageRating = useMemo(() => reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0, [reviews]);
@@ -117,10 +132,20 @@ export default function ReviewsPage() {
               <p className="editorial-kicker text-amber-700"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />Resensi Pribadi</p>
               <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-ink">Kumpulan Catatan</h2>
             </div>
-            <p className="hidden text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400 sm:block">{reviews.length} catatan tersimpan</p>
+            <p className="hidden text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400 sm:block">{sortedReviews.length} catatan tersimpan</p>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'rating' | 'title' | 'date')}
+              className="rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-amber-400 focus-visible:ring-2 focus-visible:ring-amber-400"
+              aria-label="Urutkan ulasan"
+            >
+              <option value="date">Terbaru</option>
+              <option value="rating">Rating Tertinggi</option>
+              <option value="title">Judul A-Z</option>
+            </select>
           </div>
           <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            {reviews.map((review) => (
+            {sortedReviews.map((review) => (
               <li key={review.id} className="group relative flex min-h-72 flex-col overflow-hidden rounded-3xl border border-amber-100 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-card sm:p-7">
                 <span className="absolute right-5 top-1 text-8xl font-black leading-none text-amber-50 transition group-hover:text-amber-100">“</span>
                 <div className="relative flex items-start justify-between gap-4 border-b border-amber-100 pb-5">

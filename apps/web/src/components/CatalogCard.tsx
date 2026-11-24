@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import { Book, ReadingStatusValue, Review } from '@/types';
@@ -13,7 +14,7 @@ export type CatalogBook = Book | (GoogleBookResult & { __isGoogle: true });
 interface CatalogCardProps {
   book: CatalogBook;
   readingStatus?: ReadingStatusValue | null;
-  onOpen?: () => void;
+  onOpen?: (book: Book) => void;
 }
 
 export function isGoogleBook(book: CatalogBook): book is GoogleBookResult & { __isGoogle: true } {
@@ -117,15 +118,16 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
 
   const quote = latestReview?.comment?.trim() || book.description?.trim() || 'Belum ada kutipan dari pembaca.';
   const quoteAuthor = latestReview?.user?.name || (book.description ? 'Sinopsis buku' : 'Belum ada ulasan');
-  const quoteLabel = latestReview ? 'Ulasan Terpilih' : 'Rangkuman';
   const coverPanel = (
     <div className="relative flex h-36 shrink-0 touch-none items-center justify-center overflow-visible rounded-2xl bg-slate-100 shadow-[inset_0_0_0_1px_rgba(15,23,42,0.04)] sm:h-auto sm:w-28 sm:self-stretch lg:w-32">
-      {book.coverImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+{book.coverImage ? (
+        <Image
           src={book.coverImage}
           alt={book.title}
-          className="h-32 w-20 max-h-full object-contain drop-shadow-[0_8px_10px_rgba(15,23,42,0.28)] sm:h-44 sm:w-24 lg:h-48 lg:w-28"
+          width={112}
+          height={160}
+          className="h-32 w-20 max-h-full object-contain drop-shadow-[0_8px_10px_rgba(30,27,75,0.28)] sm:h-44 sm:w-24 lg:h-48 lg:w-28"
+          loading="lazy"
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center rounded-2xl">
@@ -241,6 +243,16 @@ export default function CatalogCard({ book, readingStatus, onOpen }: CatalogCard
           {coverPanel}
           {body}
         </div>
+      ) : onOpen ? (
+        <button
+          type="button"
+          onClick={() => onOpen(book as Book)}
+          className="flex h-full w-full flex-col gap-2 text-left sm:flex-row focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 rounded-2xl"
+          aria-label={`Buka detail ${book.title}`}
+        >
+          {coverPanel}
+          {body}
+        </button>
       ) : (
         <Link href={`/books/${(book as Book).id}`} className="flex h-full flex-col gap-2 sm:flex-row">
           {coverPanel}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import { getErrorMessage } from '@/lib/axios';
@@ -65,8 +66,12 @@ export default function BookDetail({ book }: { book: Book }) {
       redirectToLogin();
       return;
     }
-    if (rating < 1) {
-      setError('Pilih minimal 1 bintang sebelum mengirim ulasan.');
+    if (rating < 1 || rating > 5) {
+      setError('Pilih rating 1–5 bintang sebelum mengirim ulasan.');
+      return;
+    }
+    if (comment.length > 2000) {
+      setError('Ulasan maksimal 2000 karakter.');
       return;
     }
     setSubmitting(true);
@@ -109,10 +114,13 @@ export default function BookDetail({ book }: { book: Book }) {
           <Link href={`/books/${book.id}`} className="relative block">
             {book.coverImage ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={book.coverImage}
                 alt={book.title}
+                width={208}
+                height={320}
                 className="h-72 w-48 rounded-2xl object-cover shadow-hero ring-1 ring-white/20 sm:h-80 sm:w-52"
+                loading="lazy"
               />
             ) : (
               <div className="flex h-72 w-48 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-800 to-ink sm:h-80 sm:w-52">
@@ -206,17 +214,29 @@ export default function BookDetail({ book }: { book: Book }) {
                 <RatingStars rating={rating} size="lg" interactive onChange={setRating} />
                 {rating > 0 && <span className="text-sm font-bold text-ink">{rating}/5</span>}
               </div>
-              <textarea
+<textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={2}
                 maxLength={2000}
                 placeholder="Tulis refleksi atau tanggapan Anda..."
-                className="mt-3 w-full rounded-xl border border-violet-100 bg-white px-4 py-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
+                className="mt-3 w-full rounded-xl border border-violet-100 bg-white px-4 py-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 focus-visible:ring-violet-400"
               />
+              <div className="mt-1 flex items-center justify-between">
+                <span className={`text-xs ${comment.length > 2000 ? 'text-red-600 font-semibold' : 'text-slate-400'}`}>
+                  {comment.length}/2000 karakter
+                </span>
+                {comment.length > 2000 && (
+                  <span className="text-xs text-red-600">Melebihi batas maksimal</span>
+                )}
+              </div>
               {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
               {notice && <p className="mt-2 text-sm text-emerald-600">{notice}</p>}
-              <button className="btn-primary mt-3 !bg-violet-600 hover:!bg-violet-500" onClick={handleSubmit} disabled={submitting}>
+              <button
+                className="btn-primary mt-3 !bg-violet-600 hover:!bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={handleSubmit}
+                disabled={submitting || rating < 1 || comment.length > 2000}
+              >
                 {submitting ? 'Menyimpan...' : 'Kirim Ulasan'}
               </button>
             </div>

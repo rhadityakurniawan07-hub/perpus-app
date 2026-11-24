@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd ../.. && bun run build --workspace=@perpus-app/web",
+  "outputDirectory": "apps/web/.next",
+  "installCommand": "bun install",
+  "framework": "nextjs",
+  "regions": ["sin1"],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://perpus-api.up.railway.app"
+  }
+}

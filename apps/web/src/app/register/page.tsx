@@ -11,14 +11,34 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const { register } = useAuth();
 
   useEffect(() => {
     setNext(window.location.search);
   }, []);
 
+  function validateEmail(value: string) {
+    if (!value) return 'Email wajib diisi.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Format email tidak valid.';
+    return '';
+  }
+
+  function validatePassword(value: string) {
+    if (!value) return 'Kata sandi wajib diisi.';
+    if (value.length < 6) return 'Kata sandi minimal 6 karakter.';
+    return '';
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const eErr = validateEmail(email);
+    const pErr = validatePassword(password);
+    if (eErr || pErr || !name.trim()) {
+      setError(eErr || pErr || 'Nama wajib diisi.');
+      return;
+    }
     setError('');
     setLoading(true);
 
@@ -64,64 +84,79 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <div>
-              <label htmlFor="name" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
-                Nama Lengkap
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:bg-white/10"
-                placeholder="Nama Anda"
-              />
-            </div>
+<div>
+            <label htmlFor="name" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
+              Nama Lengkap
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:bg-white/10"
+              placeholder="Nama Anda"
+            />
+          </div>
 
-            <div>
-              <label htmlFor="email" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:bg-white/10"
-                placeholder="nama@email.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
-                Kata Sandi
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:bg-white/10"
-                placeholder="Minimal 6 karakter"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full rounded-xl bg-violet-600 py-3 text-sm font-bold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60 ${
-                loading ? 'cursor-wait' : ''
+          <div>
+            <label htmlFor="email" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(validateEmail(e.target.value));
+              }}
+              className={`w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:bg-white/10 ${
+                emailError ? 'border-red-500/50 bg-red-500/10 focus:border-red-400' : 'border-white/10 bg-white/5 focus:border-brand-400'
               }`}
-            >
-              {loading ? 'Memproses...' : 'Daftar'}
-            </button>
+              placeholder="nama@email.com"
+            />
+            {emailError && <p className="mt-1 text-xs text-red-400">{emailError}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-violet-200/70">
+              Kata Sandi
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(validatePassword(e.target.value));
+              }}
+              className={`w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:bg-white/10 ${
+                passwordError ? 'border-red-500/50 bg-red-500/10 focus:border-red-400' : 'border-white/10 bg-white/5 focus:border-brand-400'
+              }`}
+              placeholder="Minimal 6 karakter"
+            />
+            {passwordError && <p className="mt-1 text-xs text-red-400">{passwordError}</p>}
+            {password && !passwordError && (
+              <p className="mt-1 text-xs text-emerald-400">✓ Kata sandi valid</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || !name.trim() || !email || !password || !!emailError || !!passwordError}
+            className={`w-full rounded-xl bg-violet-600 py-3 text-sm font-bold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60 ${
+              loading ? 'cursor-wait' : ''
+            }`}
+          >
+            {loading ? 'Memproses...' : 'Daftar'}
+          </button>
           </form>
 
           <div className="mt-5 text-center text-sm">

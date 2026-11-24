@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/lib/auth';
 import MemberLayout from '@/components/MemberLayout';
 import RatingStars from '@/components/RatingStars';
@@ -192,10 +193,9 @@ export default function DashboardPage() {
               {readingList.slice(0, 5).map((item, index) => (
                 <li key={item.id} className="group flex gap-4 py-5 first:pt-5 last:pb-0">
                   <span className="pt-1 text-xs font-black text-violet-300">{String(index + 1).padStart(2, '0')}</span>
-                  <div className="h-24 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-violet-800 to-ink shadow-soft">
+                  <div className="relative h-24 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-violet-800 to-ink shadow-soft">
                     {item.book?.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={item.book.coverImage} alt={item.book?.title || 'Sampul buku'} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                      <Image src={item.book.coverImage} alt={item.book?.title || 'Sampul buku'} fill sizes="64px" className="object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
                     ) : (
                       <div className="flex h-full items-center justify-center text-violet-200"><svg className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg></div>
                     )}
