@@ -30,7 +30,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
 
   return (
     <ErrorBoundary>
-      <div className="flex min-h-screen flex-col bg-lavender">
+      <div className="flex min-h-screen flex-col bg-lavender dark:bg-slate-900">
         <SiteHeader />
         <StatusStrip />
         <div className="flex-1">{children}</div>
@@ -39,3 +39,4 @@ export default function PublicShell({ children }: { children: React.ReactNode })
     </ErrorBoundary>
   );
 }
+

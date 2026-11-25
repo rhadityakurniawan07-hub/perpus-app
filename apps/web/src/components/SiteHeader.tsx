@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const PUBLIC_NAV_ITEMS = [
   { name: 'Jelajah Buku', href: '/books' },
@@ -40,7 +41,7 @@ export default function SiteHeader() {
   const displayRole = user?.role === 'ADMIN' ? 'Kurator' : 'Pembaca';
 
   return (
-    <header className="sticky top-0 z-40 border-b border-brand-100 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-brand-100 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur">
       {/* Baris utama */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-3 sm:gap-5">
@@ -56,7 +57,7 @@ export default function SiteHeader() {
               </svg>
             </span>
             <span className="hidden leading-tight sm:block">
-              <span className="block text-xl font-extrabold tracking-tight text-ink">
+              <span className="block text-xl font-extrabold tracking-tight text-ink dark:text-slate-100">
                 PERPUS
               </span>
             </span>
@@ -70,8 +71,8 @@ export default function SiteHeader() {
                 href={item.href}
                 className={`rounded-lg px-2.5 py-2 text-[12px] font-semibold transition ${
                   isActive(item.href)
-                    ? 'text-brand-800 underline decoration-2 underline-offset-8'
-                    : 'text-slate-600 hover:text-brand-800'
+? 'text-brand-800 dark:text-brand-300 underline decoration-2 underline-offset-8'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-brand-800 dark:hover:text-brand-300'
                 }`}
               >
                 {item.name}
@@ -79,8 +80,9 @@ export default function SiteHeader() {
             ))}
           </nav>
 
-          {/* User / auth */}
+{/* User / auth */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+            <ThemeToggle />
             {isAuthenticated ? (
               <>
                 <div className="hidden items-center gap-2 sm:flex">
@@ -88,10 +90,10 @@ export default function SiteHeader() {
                     {displayName.charAt(0).toUpperCase()}
                   </span>
                   <span className="hidden leading-tight sm:block">
-                    <span className="block max-w-[9rem] truncate text-sm font-semibold text-ink">
+                    <span className="block max-w-[9rem] truncate text-sm font-semibold text-ink dark:text-slate-100">
                       {displayName}
                     </span>
-                    <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-600">
+                    <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
                       {displayRole}
                     </span>
                   </span>
@@ -110,7 +112,7 @@ export default function SiteHeader() {
               <>
                 <Link
                   href="/login"
-                  className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 sm:block"
+                  className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-700 sm:block"
                 >
                   Masuk
                 </Link>
@@ -125,7 +127,7 @@ export default function SiteHeader() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Menu navigasi"
               aria-expanded={menuOpen}
-              className="rounded-xl p-2 text-ink transition hover:bg-slate-100 lg:hidden"
+              className="rounded-xl p-2 text-ink dark:text-slate-100 transition hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-700 lg:hidden"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
                 {menuOpen ? (
@@ -151,7 +153,7 @@ export default function SiteHeader() {
                 className={`rounded-xl px-3 py-3 text-center text-xs font-semibold transition ${
                   isActive(item.href)
                     ? 'bg-brand-600 text-white'
-                    : 'bg-lavender text-brand-800'
+                    : 'bg-lavender dark:bg-slate-800 text-brand-800 dark:text-brand-300'
                 }`}
               >
                 {item.name}
@@ -177,3 +179,4 @@ export default function SiteHeader() {
     </header>
   );
 }
+

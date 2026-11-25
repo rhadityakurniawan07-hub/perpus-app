@@ -78,7 +78,7 @@ export default function Home() {
     <main>
       {/* ===== HERO ===== */}
       <section
-        className="relative overflow-hidden border-b border-ink"
+        className="relative overflow-hidden border-b border-ink dark:border-slate-700"
         style={{
           backgroundImage: "url('/hero-library.jpg')",
           backgroundSize: 'cover',
@@ -179,7 +179,7 @@ export default function Home() {
 
               <Link
                 href={featured ? `/books/${featured.id}` : '/books'}
-                className="mt-3 block w-full rounded-xl bg-violet-600 py-3 text-center text-sm font-bold text-white transition hover:bg-violet-500"
+                className="mt-3 block w-full rounded-xl bg-violet-600 py-3 text-center text-sm font-bold text-white transition hover:bg-violet-50 dark:bg-violet-900/300"
               >
                 Lihat Detail &amp; Ulas Buku Ini
               </Link>
@@ -189,7 +189,7 @@ export default function Home() {
       </section>
 
       {/* ===== SEARCH + CHIPS ===== */}
-      <section className="border-b border-brand-100 bg-white">
+      <section className="border-b border-brand-100 bg-white dark:bg-slate-800">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <form onSubmit={handleSearch} role="search">
             <div className="flex items-center gap-2">
@@ -206,20 +206,20 @@ export default function Home() {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Cari judul buku, sastrawan, pengarang, ISBN, atau topik..."
                   aria-label="Cari buku"
-                  className="w-full rounded-full border border-slate-200 bg-lavender py-3.5 pl-14 pr-4 text-sm outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
+                  className="w-full rounded-full border border-slate-200 bg-lavender dark:bg-slate-900 py-3.5 pl-14 pr-4 text-sm outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
                 />
               </div>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-full border border-slate-200 bg-lavender px-4 py-3.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400"
+                className="rounded-full border border-slate-200 bg-lavender dark:bg-slate-900 px-4 py-3.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400"
                 aria-label="Urutkan hasil"
               >
                 <option value="rating">Rating Tertinggi</option>
                 <option value="title">Judul A–Z</option>
                 <option value="year">Terbaru</option>
               </select>
-              <label className="hidden cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 sm:flex">
+              <label className="hidden cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white dark:bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 sm:flex">
                 <input
                   type="checkbox"
                   checked={minRating}
@@ -237,7 +237,7 @@ export default function Home() {
               <Link
                 key={chip.label}
                 href={chip.href}
-                className={`chip !border-violet-200 !bg-violet-50 !text-violet-800 !text-xs transition hover:!border-violet-600 hover:!bg-violet-600 hover:!text-white ${
+                className={`chip !border-violet-200 !bg-violet-50 dark:bg-violet-900/30 !text-violet-800 dark:text-violet-300 !text-xs transition hover:!border-violet-600 hover:!bg-violet-600 hover:!text-white ${
                   chip.label === 'Semua Kategori' ? '!border-violet-600 !bg-violet-600 !text-white' : ''
                 }`}
               >
@@ -252,10 +252,10 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="badge bg-violet-100 text-violet-800 ring-1 ring-violet-200">
+            <span className="badge bg-violet-100 dark:bg-violet-900/40 text-violet-800 dark:text-violet-300 ring-1 ring-violet-200">
               Rekomendasi Redaksi
             </span>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-ink dark:text-slate-100 sm:text-3xl">
               6 Karya Pilihan Untuk Dibaca
             </h2>
           </div>
@@ -276,15 +276,15 @@ export default function Home() {
       </section>
 
       {/* ===== DISKUSI & ETIKA LITERASI ===== */}
-      <section className="border-t border-violet-100 bg-gradient-to-br from-brand-50 via-lavender to-violet-50">
+      <section className="border-t border-violet-100 dark:border-violet-800 bg-gradient-to-br from-brand-50 via-lavender to-violet-50">
         <div className="mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 lg:px-8">
           <svg className="mx-auto h-10 w-10 text-brand-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9.6 4.5a2.7 2.7 0 00-2.5 1.95L4.6 13.2a2.7 2.7 0 002.62 3.3H10a1 1 0 011 1v2a1 1 0 002 0v-2a2.7 2.7 0 002.7-2.7l-2.05-6.75a2.7 2.7 0 00-2.6-2.67H9.6zm8.5 0a2.7 2.7 0 00-2.5 1.95l-2.5 6.75a2.7 2.7 0 002.62 3.3H19a1 1 0 011 1v2a1 1 0 002 0v-2a2.7 2.7 0 002.7-2.7l-2-6.75A2.7 2.7 0 0021.1 4.5h-3z"/>
           </svg>
-          <h2 className="mx-auto mt-4 max-w-2xl text-2xl font-extrabold leading-snug tracking-tight text-ink sm:text-3xl">
+          <h2 className="mx-auto mt-4 max-w-2xl text-2xl font-extrabold leading-snug tracking-tight text-ink dark:text-slate-100 sm:text-3xl">
             “Karena setiap karya layak dibaca, dan setiap pembaca layak didengar.”
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600">
+          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 dark:text-slate-300">
             Ulasan Anda membantu kurator dan pembaca lain menemukan bacaan yang tepat.
             Tulis resensi pertama Anda hari ini.
           </p>
@@ -296,3 +296,4 @@ export default function Home() {
     </main>
   );
 }
+

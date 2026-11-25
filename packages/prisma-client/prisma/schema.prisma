@@ -25,6 +25,12 @@ enum LoanStatus {
   RETURNED
   OVERDUE
 }
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+}
+
 enum ReadingStatusValue {
   WISHLIST
   READING
@@ -96,6 +102,7 @@ model Review {
   bookId    String
   rating    Int
   comment   String?  @db.Text
+  status    ReviewStatus @default(APPROVED)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

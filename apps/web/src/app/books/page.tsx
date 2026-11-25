@@ -49,6 +49,8 @@ export default function BooksPage() {
   const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('rating');
   const [minRating, setMinRating] = useState(false);
+  const [minYear, setMinYear] = useState('');
+  const [maxYear, setMaxYear] = useState('');
   const [paramsReady, setParamsReady] = useState(false);
   const [readingMap, setReadingMap] = useState<Record<string, ReadingStatusValue>>({});
 
@@ -84,12 +86,14 @@ export default function BooksPage() {
       search,
       category,
       minRating: minRating ? '4.5' : undefined,
+      minYear: minYear || undefined,
+      maxYear: maxYear || undefined,
       sortBy,
       order: sortBy === 'rating' || sortBy === 'year' ? 'desc' : 'asc',
       page: 1,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paramsReady, search, category, minRating, sortBy]);
+  }, [paramsReady, search, category, minRating, minYear, maxYear, sortBy]);
 
   // Debounce Google Books fetch
   useEffect(() => {
@@ -246,10 +250,10 @@ export default function BooksPage() {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Page heading */}
         <div className="mb-5">
-          <span className="badge bg-violet-100 text-violet-800 ring-1 ring-violet-200">
+          <span className="badge bg-violet-100 text-violet-800 dark:text-violet-300 ring-1 ring-violet-200">
             Katalog &amp; Indeks
           </span>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink dark:text-slate-100 sm:text-5xl">
             Katalog Koleksi{' '}
             <span className="bg-gradient-to-br from-violet-700 via-violet-500 to-amber-400 bg-clip-text text-transparent">
               PERPUS
@@ -259,17 +263,17 @@ export default function BooksPage() {
             aria-hidden="true"
             className="mt-3 block h-1 w-24 rounded-full bg-gradient-to-r from-violet-600 via-amber-400 to-emerald-400"
           />
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 dark:text-slate-500">
             Persembahan kurasi dari katalog pusat dan Google Books — urutkan, cari,
             dan Anda sendiri yang menentukan untuk memberikan rating Anda.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="mb-6 rounded-3xl border border-violet-100 bg-white p-4 shadow-card sm:p-5">
+        <div className="mb-6 rounded-3xl border border-violet-100 dark:border-violet-800 bg-white dark:bg-slate-800 p-4 shadow-card sm:p-5">
           <label className="relative block">
             <svg
-              className="pointer-events-none absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               fill="none"
               stroke="currentColor"
               strokeWidth={1.75}
@@ -292,7 +296,7 @@ export default function BooksPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-full border border-slate-200 bg-lavender px-4 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-400"
+                className="rounded-full border border-slate-200 dark:border-slate-600 bg-lavender dark:bg-slate-800 dark:bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 outline-none focus:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-400"
                 aria-label="Urutkan buku"
               >
                 {sortOptions.map((opt) => (
@@ -303,7 +307,7 @@ export default function BooksPage() {
               </select>
 
               {!isSearching && (
-                <label className="flex cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-brand-300">
+                <label className="flex cursor-pointer select-none items-center gap-2 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:border-brand-300">
                   <input
                     type="checkbox"
                     checked={minRating}
@@ -313,20 +317,41 @@ export default function BooksPage() {
                   ✓ 4.5+ Saja
                 </label>
               )}
+
+              {/* Year range filter */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={minYear}
+                  onChange={(e) => setMinYear(e.target.value)}
+                  placeholder="Tahun min"
+                  className="w-24 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 outline-none focus:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-400"
+                  aria-label="Tahun minimum"
+                />
+                <span className="text-xs text-slate-400 dark:text-slate-500">—</span>
+                <input
+                  type="number"
+                  value={maxYear}
+                  onChange={(e) => setMaxYear(e.target.value)}
+                  placeholder="Tahun max"
+                  className="w-24 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 outline-none focus:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-400"
+                  aria-label="Tahun maksimum"
+                />
+              </div>
             </div>
 
-            <span className="badge bg-violet-600 px-4 py-2 text-xs font-bold text-white">
+            <span className="badge bg-violet-600 dark:bg-violet-500 px-4 py-2 text-xs font-bold text-white">
               {merged.length} Judul Ditampilkan
             </span>
           </div>
 
           {/* Category chips (label per gambar, mapping internal ke kategori DB) */}
-          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-violet-100 pt-4">
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-violet-100 dark:border-violet-800 pt-4">
             {imageCategoryChips.map((chip) => (
               <button
                 key={chip.label}
                 onClick={() => setCategory(chip.value)}
-                className={`chip !text-xs ${category === chip.value ? 'chip-active !border-violet-600 !bg-violet-600' : '!border-violet-200 !bg-violet-50 !text-violet-800 hover:!border-violet-600'}`}
+                className={`chip !text-xs ${category === chip.value ? 'chip-active !border-violet-600 !bg-violet-600 dark:bg-violet-500' : '!border-violet-200 !bg-violet-50 dark:bg-violet-900/30 !text-violet-800 dark:text-violet-300 hover:!border-violet-600'}`}
               >
                 {chip.label}
               </button>
@@ -354,8 +379,8 @@ export default function BooksPage() {
             <svg className="mx-auto mb-4 h-14 w-14 text-slate-300" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
-            <p className="font-semibold text-ink">Tidak ada buku yang ditemukan</p>
-            <p className="mt-1 text-sm text-slate-500">Coba ubah kata kunci atau filter Anda.</p>
+            <p className="font-semibold text-ink dark:text-slate-100">Tidak ada buku yang ditemukan</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 dark:text-slate-500">Coba ubah kata kunci atau filter Anda.</p>
           </div>
         ) : (
           <>
@@ -401,7 +426,7 @@ export default function BooksPage() {
             {isSearching && googleBooks.length < googleTotal && !minRating && (
               <div ref={sentinelRef} className="flex items-center justify-center py-8">
                 {googleLoadingMore ? (
-                  <div className="flex items-center gap-3 text-sm text-slate-500">
+                  <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 dark:text-slate-500">
                     <div className="h-5 w-5 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" />
                     Memuat buku berikutnya...
                   </div>
@@ -426,3 +451,4 @@ export default function BooksPage() {
     </main>
   );
 }
+

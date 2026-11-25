@@ -6,6 +6,8 @@
     "prisma:migrate": "cd packages/prisma-client && bun run migrate:dev",
     "prisma:studio": "cd packages/prisma-client && bun run studio",
     "prisma:push": "cd packages/prisma-client && bun run push",
+    "prisma:seed": "cd packages/prisma-client && bun run seed",
+    "import:google-books": "bun run scripts/import-google-books.ts",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",

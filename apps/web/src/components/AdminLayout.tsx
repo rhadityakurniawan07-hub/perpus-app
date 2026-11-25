@@ -68,6 +68,7 @@ const navItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: DashboardIcon },
   { name: 'Kelola Buku', href: '/admin/books', icon: BookIcon },
   { name: 'Anggota', href: '/admin/members', icon: UsersIcon },
+  { name: 'Moderasi Ulasan', href: '/admin/reviews', icon: UsersIcon },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -117,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
                   active
                     ? 'bg-brand-600 text-white shadow-soft'
-                    : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                    : 'text-slate-300 dark:text-slate-400 hover:bg-white/10 dark:bg-slate-700/50 hover:text-white dark:hover:text-slate-100'
                 }`}
               >
                 <Icon className="h-5 w-5" />
@@ -134,7 +135,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/books"
             onClick={() => setSidebarOpen(false)}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 dark:text-slate-400 transition hover:bg-white/10 dark:bg-slate-700/50 hover:text-white dark:hover:text-slate-100"
           >
             <ExternalLinkIcon className="h-5 w-5" />
             Lihat Situs
@@ -154,7 +155,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 hover:text-white"
+          className="flex w-full items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 dark:bg-slate-700/50 hover:text-white dark:hover:text-slate-100"
         >
           <LogoutIcon className="h-5 w-5" />
           Keluar
@@ -165,22 +166,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-lavender">
+      <div className="min-h-screen bg-lavender dark:bg-slate-900">
         {/* Desktop sidebar */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:block">{sidebar}</div>
 
         {/* Mobile top bar */}
-        <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur lg:hidden">
+        <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90 px-4 backdrop-blur lg:hidden">
           <Link href="/admin/dashboard" className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-white">
               <BookIcon className="h-4 w-4" />
             </span>
-            <span className="text-base font-extrabold text-ink">PERPUS <span className="text-xs font-bold text-brand-600">Admin</span></span>
+            <span className="text-base font-extrabold text-ink dark:text-slate-100">PERPUS <span className="text-xs font-bold text-brand-600">Admin</span></span>
           </Link>
           <button
             onClick={() => setSidebarOpen((v) => !v)}
             aria-label="Toggle sidebar"
-            className="rounded-xl p-2 text-ink hover:bg-slate-100"
+            className="rounded-xl p-2 text-ink dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             {sidebarOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
           </button>
@@ -207,3 +208,4 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </ErrorBoundary>
   );
 }
+

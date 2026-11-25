@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/guards/roles.guard';
 import { Role } from '@perpus-app/prisma-client';
@@ -14,6 +15,15 @@ export class BooksController {
   @Get()
   findAll(@Query() query: any) {
     return this.booksService.findAll(query);
+  }
+
+  @Get('recommendations')
+  @UseGuards(JwtAuthGuard)
+  getRecommendations(
+    @CurrentUser('sub') userId: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.booksService.getRecommendations(userId, limit ? parseInt(limit, 10) : 10);
   }
 
   @Get(':id')

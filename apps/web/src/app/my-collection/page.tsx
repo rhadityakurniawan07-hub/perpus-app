@@ -22,21 +22,21 @@ const statusConfig: Record<ReadingStatusValue, { label: string; short: string; c
   WISHLIST: {
     label: 'Ingin Dibaca',
     short: 'Berminat',
-    chip: 'bg-amber-50 text-amber-800 ring-amber-200',
+    chip: 'bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 dark:text-amber-400 ring-amber-200',
     accent: 'from-amber-400 to-orange-400',
-    ring: 'border-amber-200',
+    ring: 'border-amber-200 dark:border-amber-700',
   },
   READING: {
     label: 'Sedang Dibaca',
     short: 'Dibaca',
-    chip: 'bg-violet-50 text-violet-800 ring-violet-200',
+    chip: 'bg-violet-50 dark:bg-violet-900/30 text-violet-800 dark:text-violet-300 ring-violet-200',
     accent: 'from-violet-500 to-indigo-700',
-    ring: 'border-violet-200',
+    ring: 'border-violet-200 dark:border-violet-700',
   },
   FINISHED: {
     label: 'Sudah Selesai',
     short: 'Selesai',
-    chip: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
+    chip: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 ring-emerald-200',
     accent: 'from-emerald-400 to-teal-600',
     ring: 'border-emerald-200',
   },
@@ -99,29 +99,29 @@ export default function MyCollectionPage() {
 
   return (
     <MemberLayout>
-      <section className="editorial-panel editorial-dots mb-6 border-violet-100 bg-[#fbfaff]">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-violet-200/60" />
-        <div className="pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full border border-amber-200/60" />
+      <section className="editorial-panel editorial-dots mb-6 border-violet-100 dark:border-violet-800 bg-[#fbfaff]">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-violet-200 dark:border-violet-700/60" />
+        <div className="pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full border border-amber-200 dark:border-amber-700/60" />
         <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.15fr_.85fr] lg:p-10">
           <div className="flex flex-col justify-center">
-            <div className="editorial-kicker"><span className="h-2 w-2 rounded-full bg-violet-600" />Perpustakaan Pribadi</div>
+            <div className="editorial-kicker"><span className="h-2 w-2 rounded-full bg-violet-600 dark:bg-violet-500" />Perpustakaan Pribadi</div>
             <h1 className="editorial-heading mt-5 text-5xl sm:text-6xl xl:text-7xl">Rak Baca<br />Anda.</h1>
-            <p className="mt-6 max-w-lg text-base leading-7 text-slate-600 sm:text-lg">
+            <p className="mt-6 max-w-lg text-base leading-7 text-slate-600 dark:text-slate-300 dark:text-slate-400 sm:text-lg">
               Setiap cover di halaman ini adalah janji yang menunggu ditepati—atau kenangan yang sudah selesai Anda baca.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-4 text-xs">
-              <span className="rounded-full border border-violet-200 bg-white/70 px-4 py-2 font-bold uppercase tracking-wider text-violet-800">PERSONAL SHELF</span>
-              <span className="font-semibold text-slate-400">Tersimpan dan terlacak dalam satu ruang.</span>
+              <span className="rounded-full border border-violet-200 dark:border-violet-700 bg-white dark:bg-slate-800/70 px-4 py-2 font-bold uppercase tracking-wider text-violet-800 dark:text-violet-300">PERSONAL SHELF</span>
+              <span className="font-semibold text-slate-400 dark:text-slate-500">Tersimpan dan terlacak dalam satu ruang.</span>
             </div>
           </div>
 
-          <div className="relative rounded-[2rem] border border-violet-100 bg-white p-6 shadow-card sm:p-7">
-            <div className="flex items-center justify-between gap-4 border-b border-violet-100 pb-5">
+          <div className="relative rounded-[2rem] border border-violet-100 dark:border-violet-800 bg-white dark:bg-slate-800 p-6 shadow-card sm:p-7">
+            <div className="flex items-center justify-between gap-4 border-b border-violet-100 dark:border-violet-800 pb-5">
               <div>
-                <p className="text-[9px] font-extrabold uppercase tracking-[0.28em] text-violet-700">Progress Koleksi</p>
-                <p className="mt-2 text-sm font-bold text-ink">Seberapa jauh Anda sampai?</p>
+                <p className="text-[9px] font-extrabold uppercase tracking-[0.28em] text-violet-700 dark:text-violet-400">Progress Koleksi</p>
+                <p className="mt-2 text-sm font-bold text-ink dark:text-slate-100">Seberapa jauh Anda sampai?</p>
               </div>
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 text-xs font-black text-white">PB</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 dark:bg-violet-500 text-xs font-black text-white">PB</span>
             </div>
             <div className="mt-6 flex items-center gap-6">
               <div className="relative h-28 w-28 shrink-0">
@@ -130,14 +130,14 @@ export default function MyCollectionPage() {
                   <circle cx="60" cy="60" r="47" fill="none" stroke="#4f46e5" strokeWidth="13" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={dashOffset} className="transition-all duration-700" />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-3xl font-black tracking-tight text-ink">{progress}</span>
-                  <span className="text-[9px] font-extrabold uppercase text-slate-400">persen</span>
+                  <span className="text-3xl font-black tracking-tight text-ink dark:text-slate-100">{progress}</span>
+                  <span className="text-[9px] font-extrabold uppercase text-slate-400 dark:text-slate-500">persen</span>
                 </div>
               </div>
               <div>
-                <p className="text-5xl font-black tracking-tight text-ink">{tabCounts.ALL}</p>
-                <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total buku terlacak</p>
-                <p className="mt-3 text-xs leading-5 text-slate-500">{stats.finished} selesai dari {tabCounts.ALL} buku yang pernah masuk rak Anda.</p>
+                <p className="text-5xl font-black tracking-tight text-ink dark:text-slate-100">{tabCounts.ALL}</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400 dark:text-slate-500">Total buku terlacak</p>
+                <p className="mt-3 text-xs leading-5 text-slate-500 dark:text-slate-400 dark:text-slate-500">{stats.finished} selesai dari {tabCounts.ALL} buku yang pernah masuk rak Anda.</p>
               </div>
             </div>
           </div>
@@ -156,21 +156,21 @@ export default function MyCollectionPage() {
               onClick={() => setActiveTab(tab.value)}
               className={`group min-w-28 rounded-2xl border px-4 py-3 text-left transition ${
                 activeTab === tab.value
-                  ? 'border-ink bg-ink text-white shadow-card'
-                  : 'border-violet-100 bg-white text-ink hover:border-violet-300 hover:shadow-soft'
+                  ? 'border-ink dark:border-slate-700 bg-ink dark:bg-slate-950 text-white shadow-card'
+                  : 'border-violet-100 dark:border-violet-800 bg-white dark:bg-slate-800 text-ink dark:text-slate-100 hover:border-violet-300 dark:border-violet-600 hover:shadow-soft'
               }`}
               aria-pressed={activeTab === tab.value}
             >
-              <span className={`block text-2xl font-black leading-none ${activeTab === tab.value ? 'text-amber-300' : 'text-violet-700'}`}>{tabCounts[tab.value]}</span>
+              <span className={`block text-2xl font-black leading-none ${activeTab === tab.value ? 'text-amber-300 dark:text-amber-400' : 'text-violet-700 dark:text-violet-400'}`}>{tabCounts[tab.value]}</span>
               <span className="mt-2 block text-[10px] font-extrabold uppercase tracking-[0.14em]">{tab.label}</span>
-              <span className={`mt-0.5 hidden text-[9px] sm:block ${activeTab === tab.value ? 'text-violet-100/70' : 'text-slate-400'}`}>{tab.caption}</span>
+              <span className={`mt-0.5 hidden text-[9px] sm:block ${activeTab === tab.value ? 'text-violet-100 dark:text-violet-200/70 dark:text-violet-200/70' : 'text-slate-400 dark:text-slate-500'}`}>{tab.caption}</span>
             </button>
           ))}
         </div>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as 'rating' | 'title' | 'year')}
-          className="rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-violet-400 focus-visible:ring-2 focus-visible:ring-violet-400"
+          className="rounded-full border border-violet-200 dark:border-violet-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 outline-none focus:border-violet-400 focus-visible:ring-2 focus-visible:ring-violet-400"
           aria-label="Urutkan koleksi"
         >
           <option value="rating">Rating Tertinggi</option>
@@ -182,19 +182,19 @@ export default function MyCollectionPage() {
       {loading ? (
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
           {[0, 1, 2, 3].map((item) => (
-            <div key={item} className="flex gap-5 rounded-3xl border border-violet-100 bg-white p-5">
-              <div className="h-44 w-28 animate-pulse rounded-2xl bg-violet-50" />
-              <div className="flex-1 space-y-4 py-2"><div className="h-5 w-3/4 animate-pulse rounded bg-violet-50" /><div className="h-4 w-1/2 animate-pulse rounded bg-slate-100" /><div className="h-8 w-2/3 animate-pulse rounded-full bg-violet-50" /></div>
+            <div key={item} className="flex gap-5 rounded-3xl border border-violet-100 dark:border-violet-800 bg-white dark:bg-slate-800 p-5">
+              <div className="h-44 w-28 animate-pulse rounded-2xl bg-violet-50 dark:bg-violet-900/30" />
+              <div className="flex-1 space-y-4 py-2"><div className="h-5 w-3/4 animate-pulse rounded bg-violet-50 dark:bg-violet-900/30" /><div className="h-4 w-1/2 animate-pulse rounded bg-slate-100 dark:bg-slate-700" /><div className="h-8 w-2/3 animate-pulse rounded-full bg-violet-50 dark:bg-violet-900/30" /></div>
             </div>
           ))}
         </div>
       ) : sortedItems.length === 0 ? (
         <div className="editorial-panel flex flex-col items-center px-6 py-16 text-center">
-          <div className="relative flex h-28 w-28 items-center justify-center"><span className="absolute h-28 w-20 rounded-t-full border border-violet-200 bg-violet-50" /><span className="absolute h-16 w-12 rounded-b-md border border-violet-300 bg-white shadow-soft" /><span className="relative h-6 w-px bg-violet-400" /></div>
+          <div className="relative flex h-28 w-28 items-center justify-center"><span className="absolute h-28 w-20 rounded-t-full border border-violet-200 dark:border-violet-700 bg-violet-50 dark:bg-violet-900/30" /><span className="absolute h-16 w-12 rounded-b-md border border-violet-300 dark:border-violet-600 bg-white dark:bg-slate-800 shadow-soft" /><span className="relative h-6 w-px bg-violet-400" /></div>
           <p className="editorial-kicker mt-6">Rak Kosong</p>
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink">Tunggu cerita apa yang akan masuk?</h2>
-          <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">Tandai status baca buku di katalog, dan buku itu akan tampil di sini sebagai arsip pribadi Anda.</p>
-          <Link href="/books" className="mt-6 rounded-full bg-violet-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-violet-500">Jelajahi Katalog →</Link>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink dark:text-slate-100">Tunggu cerita apa yang akan masuk?</h2>
+          <p className="mt-2 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400 dark:text-slate-500">Tandai status baca buku di katalog, dan buku itu akan tampil di sini sebagai arsip pribadi Anda.</p>
+          <Link href="/books" className="mt-6 rounded-full bg-violet-600 dark:bg-violet-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-violet-50 dark:bg-violet-900/300">Jelajahi Katalog →</Link>
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-5 xl:grid-cols-2">
@@ -202,7 +202,7 @@ export default function MyCollectionPage() {
             const book = item.book;
             const config = statusConfig[item.status];
             return (
-              <li key={item.id} className={`group relative overflow-hidden rounded-3xl border ${config.ring} bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card sm:p-6`}>
+              <li key={item.id} className={`group relative overflow-hidden rounded-3xl border ${config.ring} bg-white dark:bg-slate-800 p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card sm:p-6`}>
                 <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${config.accent}`} />
                 <div className="flex flex-col gap-5 sm:flex-row">
                   <Link href={`/books/${item.bookId}`} className="relative block h-44 w-28 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-800 to-ink shadow-card">
@@ -211,25 +211,25 @@ export default function MyCollectionPage() {
                     ) : (
                       <div className="flex h-full items-center justify-center text-violet-200"><svg className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth={1.25} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg></div>
                     )}
-                    <span className="absolute bottom-2 left-2 h-1.5 w-8 rounded-full bg-white/40" />
+                    <span className="absolute bottom-2 left-2 h-1.5 w-8 rounded-full bg-white dark:bg-slate-800/40" />
                   </Link>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <span className={`inline-flex rounded-full px-3 py-1 text-[9px] font-extrabold uppercase tracking-[0.18em] ring-1 ${config.chip}`}>{config.label}</span>
-                        <Link href={`/books/${item.bookId}`} className="mt-3 block text-xl font-extrabold leading-tight tracking-tight text-ink transition hover:text-violet-700">{book?.title || 'Buku'}</Link>
-                        <p className="mt-1 truncate text-sm text-slate-500">oleh {book?.author || 'Penulis tidak diketahui'}</p>
+                        <Link href={`/books/${item.bookId}`} className="mt-3 block text-xl font-extrabold leading-tight tracking-tight text-ink dark:text-slate-100 transition hover:text-violet-700 dark:text-violet-400">{book?.title || 'Buku'}</Link>
+                        <p className="mt-1 truncate text-sm text-slate-500 dark:text-slate-400 dark:text-slate-500">oleh {book?.author || 'Penulis tidak diketahui'}</p>
                       </div>
                     </div>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-violet-100 py-3">
-                      <span className="flex items-center gap-1.5"><RatingStars rating={book?.averageRating || 0} size="sm" /><strong className="text-xs text-ink">{(book?.averageRating || 0).toFixed(1)}</strong></span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{book?.reviewCount || 0} ulasan</span>
-                      {book?.category?.name && <span className="text-[10px] font-bold uppercase tracking-wider text-violet-500">{book.category.name}</span>}
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-violet-100 dark:border-violet-800 py-3">
+                      <span className="flex items-center gap-1.5"><RatingStars rating={book?.averageRating || 0} size="sm" /><strong className="text-xs text-ink dark:text-slate-100">{(book?.averageRating || 0).toFixed(1)}</strong></span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{book?.reviewCount || 0} ulasan</span>
+                      {book?.category?.name && <span className="text-[10px] font-bold uppercase tracking-wider text-violet-50 dark:text-violet-1000">{book.category.name}</span>}
                     </div>
 
                     <div className="mt-4">
-                      <p className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-slate-400">Pindahkan ke</p>
+                      <p className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Pindahkan ke</p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {(Object.keys(statusConfig) as ReadingStatusValue[]).map((value) => {
                           const isCurrent = item.status === value;
@@ -239,7 +239,7 @@ export default function MyCollectionPage() {
                               onClick={() => handleStatusChange(item.bookId, value)}
                               disabled={isCurrent || savingBookId === item.bookId}
                               className={`rounded-full px-3 py-2 text-[10px] font-extrabold uppercase tracking-wider transition disabled:cursor-default ${
-                                isCurrent ? 'bg-ink text-white' : 'bg-lavender text-violet-800 hover:bg-violet-200 disabled:opacity-50'
+                                isCurrent ? 'bg-ink dark:bg-slate-950 text-white' : 'bg-lavender dark:bg-slate-900 text-violet-800 dark:text-violet-300 hover:bg-violet-200 disabled:opacity-50'
                               }`}
                             >
                               {savingBookId === item.bookId && !isCurrent ? '…' : statusConfig[value].short}
@@ -258,3 +258,4 @@ export default function MyCollectionPage() {
     </MemberLayout>
   );
 }
+

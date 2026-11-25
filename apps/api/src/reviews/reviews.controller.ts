@@ -8,9 +8,11 @@ import {
   Put,
   Query,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { RolesGuard, Roles } from '../common/guards/roles.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { SetReadingStatusDto } from './dto/reading-status.dto';
@@ -78,5 +80,37 @@ export class ReviewsController {
     @Body() dto: SetReadingStatusDto,
   ) {
     return this.reviewsService.setReadingStatus(userId, bookId, dto.status);
+  }
+
+  @Get('reviews/badges')
+  @UseGuards(JwtAuthGuard)
+  getUserBadges(@CurrentUser('sub') userId: string) {
+    return this.reviewsService.getUserBadges(userId);
+  }
+
+  // === MODERATION ENDPOINTS (Admin only) ===
+
+  @Get('reviews/moderation')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getAllReviewsForModeration() {
+    return this.reviewsService.getAllReviewsForModeration();
+  }
+
+  @Get('reviews/moderation/pending')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getPendingReviews() {
+    return this.reviewsService.getPendingReviews();
+  }
+
+  @Patch('reviews/:id/moderate')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  moderateReview(
+    @Param('id') id: string,
+    @Body() body: { status: 'APPROVED' | 'HIDDEN' },
+  ) {
+    return this.reviewsService.moderateReview(id, body.status);
   }
 }

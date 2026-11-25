@@ -9,14 +9,14 @@ export class ReviewsService {
 
   private async recomputeBookAggregates(bookId: string) {
     const agg = await this.prisma.review.aggregate({
-      where: { bookId },
+      where: { bookId, status: 'APPROVED' },
       _avg: { rating: true },
       _count: { _all: true },
     });
     const reviewCount = agg._count._all;
     const averageRating = Math.round((agg._avg.rating || 0) * 10) / 10;
     const positiveCount = await this.prisma.review.count({
-      where: { bookId, rating: { gte: 4 } },
+      where: { bookId, status: 'APPROVED', rating: { gte: 4 } },
     });
     const positivePercent =
       reviewCount > 0 ? Math.round((positiveCount / reviewCount) * 100) : 0;
@@ -40,7 +40,7 @@ export class ReviewsService {
     await this.ensureBookExists(bookId);
 
     const reviews = await this.prisma.review.findMany({
-      where: { bookId },
+      where: { bookId, status: 'APPROVED' },
       orderBy: { createdAt: 'desc' },
       include: { user: { select: { id: true, name: true } } },
     });
@@ -63,6 +63,7 @@ export class ReviewsService {
         id: r.id,
         rating: r.rating,
         comment: r.comment,
+        status: r.status,
         createdAt: r.createdAt,
         user: { id: r.user.id, name: r.user.name },
       })),
@@ -81,7 +82,7 @@ export class ReviewsService {
 
     return {
       review: review
-        ? { id: review.id, rating: review.rating, comment: review.comment }
+        ? { id: review.id, rating: review.rating, comment: review.comment, status: review.status }
         : null,
       status: reading?.status ?? null,
     };
@@ -97,6 +98,7 @@ export class ReviewsService {
         bookId,
         rating: dto.rating,
         comment: dto.comment,
+        status: 'APPROVED',
       },
       update: {
         rating: dto.rating,
@@ -182,6 +184,108 @@ export class ReviewsService {
       orderBy: { updatedAt: 'desc' },
       include: {
         book: { include: { category: true } },
+      },
+    });
+  }
+
+  async getUserBadges(userId: string) {
+    const [finishedCount, reviewCount, categoriesRead, recentFinished] = await Promise.all([
+      this.prisma.readingStatus.count({ where: { userId, status: 'FINISHED' } }),
+      this.prisma.review.count({ where: { userId } }),
+      this.prisma.readingStatus.findMany({
+        where: { userId, status: 'FINISHED' },
+        select: { book: { select: { categoryId: true } } },
+      }),
+      this.prisma.readingStatus.count({
+        where: {
+          userId,
+          status: 'FINISHED',
+          updatedAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+        },
+      }),
+    ]);
+
+    const uniqueCategories = new Set(categoriesRead.map((r) => r.book?.categoryId).filter(Boolean));
+    const avgRating = await this.prisma.review.aggregate({
+      where: { userId },
+      _avg: { rating: true },
+    });
+
+    const badges: { id: string; name: string; description: string; icon: string; earned: boolean }[] = [
+      {
+        id: 'active_reader',
+        name: 'Pembaca Aktif',
+        description: 'Menyelesaikan 10+ buku',
+        icon: '📚',
+        earned: finishedCount >= 10,
+      },
+      {
+        id: 'critic',
+        name: 'Kritikus',
+        description: 'Menulis 20+ ulasan',
+        icon: '✍️',
+        earned: reviewCount >= 20,
+      },
+      {
+        id: 'explorer',
+        name: 'Penjelajah',
+        description: 'Membaca 5+ kategori berbeda',
+        icon: '🧭',
+        earned: uniqueCategories.size >= 5,
+      },
+      {
+        id: 'speed_reader',
+        name: 'Pembaca Cepat',
+        description: '5+ buku selesai dalam 1 bulan',
+        icon: '⚡',
+        earned: recentFinished >= 5,
+      },
+      {
+        id: 'top_reviewer',
+        name: 'Reviewer Top',
+        description: 'Rating rata-rata ulasan ≥ 4.5',
+        icon: '⭐',
+        earned: (avgRating._avg.rating || 0) >= 4.5 && reviewCount >= 5,
+      },
+    ];
+
+    return badges;
+  }
+
+  async moderateReview(reviewId: string, status: 'APPROVED' | 'HIDDEN') {
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) {
+      throw new NotFoundException('Ulasan tidak ditemukan');
+    }
+
+    const updated = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: { status },
+      include: { user: { select: { id: true, name: true } }, book: { select: { id: true, title: true } } },
+    });
+
+    await this.recomputeBookAggregates(review.bookId);
+
+    return updated;
+  }
+
+  async getPendingReviews() {
+    return this.prisma.review.findMany({
+      where: { status: 'PENDING' },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        book: { select: { id: true, title: true } },
+      },
+    });
+  }
+
+  async getAllReviewsForModeration() {
+    return this.prisma.review.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        book: { select: { id: true, title: true } },
       },
     });
   }

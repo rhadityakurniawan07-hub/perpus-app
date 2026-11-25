@@ -17,6 +17,8 @@ export class BooksService {
       category,
       available,
       minRating,
+      minYear,
+      maxYear,
       sortBy = 'title',
       order = 'asc',
       page,
@@ -44,6 +46,18 @@ export class BooksService {
       const rating = Number(minRating);
       if (!Number.isNaN(rating)) {
         where.averageRating = { gte: rating };
+      }
+    }
+
+    if (minYear || maxYear) {
+      where.year = {};
+      if (minYear) {
+        const min = Number(minYear);
+        if (!Number.isNaN(min)) where.year.gte = min;
+      }
+      if (maxYear) {
+        const max = Number(maxYear);
+        if (!Number.isNaN(max)) where.year.lte = max;
       }
     }
 
@@ -89,6 +103,64 @@ export class BooksService {
         [sortField]: order,
       },
     });
+  }
+
+  async getRecommendations(userId: string, limit: number = 10) {
+    // 1. Get user's favorite books (rating >= 4)
+    const favoriteReviews = await this.prisma.review.findMany({
+      where: { userId, rating: { gte: 4 }, status: 'APPROVED' },
+      select: { bookId: true, book: { select: { categoryId: true } } },
+    });
+
+    const favoriteBookIds = favoriteReviews.map((r) => r.bookId);
+    const favoriteCategories = [...new Set(favoriteReviews.map((r) => r.book?.categoryId).filter(Boolean))];
+
+    // 2. Get books user has already read/finished
+    const readStatuses = await this.prisma.readingStatus.findMany({
+      where: { userId },
+      select: { bookId: true },
+    });
+    const readBookIds = readStatuses.map((r) => r.bookId);
+
+    // 3. Exclude already read/favorited books
+    const excludeIds = [...new Set([...favoriteBookIds, ...readBookIds])];
+
+    // 4. Find recommended books in favorite categories with high rating
+    const where: any = {
+      id: { notIn: excludeIds },
+      reviewCount: { gt: 0 },
+      averageRating: { gte: 3.5 },
+    };
+
+    if (favoriteCategories.length > 0) {
+      where.categoryId = { in: favoriteCategories };
+    }
+
+    const recommended = await this.prisma.book.findMany({
+      where,
+      include: { category: true },
+      orderBy: [{ averageRating: 'desc' }, { reviewCount: 'desc' }],
+      take: limit,
+    });
+
+    // 5. If not enough, fill with top-rated books from other categories
+    if (recommended.length < limit) {
+      const remaining = limit - recommended.length;
+      const existingIds = [...excludeIds, ...recommended.map((b) => b.id)];
+      const fallback = await this.prisma.book.findMany({
+        where: {
+          id: { notIn: existingIds },
+          reviewCount: { gt: 0 },
+          averageRating: { gte: 4 },
+        },
+        include: { category: true },
+        orderBy: [{ averageRating: 'desc' }, { reviewCount: 'desc' }],
+        take: remaining,
+      });
+      recommended.push(...fallback);
+    }
+
+    return recommended;
   }
 
   async findOne(id: string) {

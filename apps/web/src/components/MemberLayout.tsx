@@ -20,7 +20,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-lavender">
+      <div className="flex min-h-screen items-center justify-center bg-lavender dark:bg-slate-900">
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-violet-200 border-t-violet-700" />
           <p className="mt-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-slate-400">Membuka PERPUS</p>
@@ -31,10 +31,10 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
 
   if (!isAuthenticated) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-lavender">
+      <div className="flex min-h-screen items-center justify-center bg-lavender dark:bg-slate-900">
         <div className="text-center">
           <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-violet-200 border-t-violet-700" />
-          <p className="mt-4 text-sm text-slate-500">Mengalihkan ke halaman masuk...</p>
+          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Mengalihkan ke halaman masuk...</p>
         </div>
       </div>
     );
@@ -42,7 +42,7 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-lavender">
+      <div className="min-h-screen bg-lavender dark:bg-slate-900">
         <SiteHeader />
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {children}

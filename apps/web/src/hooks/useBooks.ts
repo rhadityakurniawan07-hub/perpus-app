@@ -9,6 +9,8 @@ export interface BookQuery {
   category?: string;
   available?: string;
   minRating?: string;
+  minYear?: string;
+  maxYear?: string;
   sortBy?: string;
   order?: string;
   page?: number;
@@ -34,6 +36,8 @@ export function useBooks() {
       if (params?.category) query.append('category', params.category);
       if (params?.available) query.append('available', params.available);
       if (params?.minRating) query.append('minRating', params.minRating);
+      if (params?.minYear) query.append('minYear', params.minYear);
+      if (params?.maxYear) query.append('maxYear', params.maxYear);
       query.append('sortBy', params?.sortBy || 'title');
       query.append('order', params?.order || 'asc');
       query.append('page', String(params?.page || 1));

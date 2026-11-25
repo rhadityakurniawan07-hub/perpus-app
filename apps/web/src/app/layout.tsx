@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/lib/auth';
 import PublicShell from '@/components/PublicShell';
+import { ThemeProvider } from 'next-themes';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -13,6 +14,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: 'PERPUS — Katalog & Ulasan Buku',
   description: 'Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS. Katalog literasi kontemporer Indonesia.',
+  manifest: '/manifest.json',
   openGraph: {
     title: 'PERPUS — Katalog & Ulasan Buku',
     description: 'Temukan buku, beri rating, dan catat jejak membaca Anda di PERPUS.',
@@ -33,11 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={jakarta.variable}>
+    <html lang="id" className={jakarta.variable} suppressHydrationWarning>
       <body className="font-sans">
-        <AuthProvider>
-          <PublicShell>{children}</PublicShell>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <AuthProvider>
+            <PublicShell>{children}</PublicShell>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
