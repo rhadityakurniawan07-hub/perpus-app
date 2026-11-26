@@ -318,16 +318,7 @@ export default function DashboardPage() {
         )}
       </section>
 
-      {/* Lencana Pembaca */}
-      <section className="editorial-panel mt-6 p-6 sm:p-7">
-        <div className="flex items-end justify-between gap-4 border-b border-violet-100 dark:border-violet-800 pb-5">
-          <div>
-            <p className="editorial-kicker"><span className="h-1.5 w-1.5 rounded-full bg-amber-400 dark:bg-amber-500" />Reputasi</p>
-            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-ink dark:text-slate-100">Lencana Anda</h2>
-          </div>
-        </div>
-        <BadgesDisplay userId={user?.id} />
-      </section>
+
     </MemberLayout>
   );
 }
