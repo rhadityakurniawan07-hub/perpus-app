@@ -68,7 +68,6 @@ const navItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: DashboardIcon },
   { name: 'Kelola Buku', href: '/admin/books', icon: BookIcon },
   { name: 'Anggota', href: '/admin/members', icon: UsersIcon },
-  { name: 'Moderasi Ulasan', href: '/admin/reviews', icon: UsersIcon },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
