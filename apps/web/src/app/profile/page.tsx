@@ -38,7 +38,7 @@ export default function ProfilePage() {
         <div className="grid min-h-[28rem] place-items-center">
           <div className="text-center">
             <div className="relative mx-auto h-24 w-24"><span className="absolute inset-0 rounded-full border border-violet-100 dark:border-violet-800" /><span className="absolute inset-3 animate-spin rounded-full border-4 border-violet-200 dark:border-violet-700 border-t-violet-700" /></div>
-            <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">Membuka dossier</p>
+            <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.25em] text-slate-900 dark:text-slate-100">Membuka dossier</p>
           </div>
         </div>
       </MemberLayout>
@@ -55,7 +55,7 @@ export default function ProfilePage() {
           </div>
           <p className="editorial-kicker mt-7">Akses Diperlukan</p>
           <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink dark:text-slate-100 sm:text-5xl">Masuk untuk melihat<br />dossier Anda.</h1>
-          <p className="mt-4 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400 dark:text-slate-500">Profil, progres membaca, dan arsip ulasan tersimpan aman di dalam akun PERPUS Anda.</p>
+          <p className="mt-4 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-400">Profil, progres membaca, dan arsip ulasan tersimpan aman di dalam akun PERPUS Anda.</p>
           <Link href="/login" className="mt-6 rounded-full bg-violet-600 dark:bg-violet-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-violet-50 dark:bg-violet-900/300">Masuk ke PERPUS →</Link>
         </section>
       </MemberLayout>
@@ -69,7 +69,7 @@ export default function ProfilePage() {
   const totalReading = stats.wishlist + stats.reading + stats.finished;
   const completionRate = totalReading > 0 ? Math.round((stats.finished / totalReading) * 100) : 0;
   const passportStats = [
-    { value: stats.wishlist, label: 'Ingin Dibaca', tone: 'text-amber-300 dark:text-amber-400' },
+    { value: stats.wishlist, label: 'Ingin Dibaca', tone: 'text-slate-300 dark:text-slate-400' },
     { value: stats.reading, label: 'Sedang Dibaca', tone: 'text-violet-300' },
     { value: stats.finished, label: 'Selesai', tone: 'text-emerald-300' },
     { value: stats.reviews, label: 'Ulasan', tone: 'text-sky-300' },
@@ -82,7 +82,7 @@ export default function ProfilePage() {
           <div className="editorial-kicker"><span className="h-2 w-2 rounded-full bg-amber-400 dark:bg-amber-500" />Member Dossier</div>
           <h1 className="editorial-heading mt-3 text-4xl sm:text-5xl">Profil<br />Pembaca</h1>
         </div>
-        <p className="max-w-xs text-right text-[10px] font-extrabold uppercase leading-5 tracking-[0.22em] text-slate-400 dark:text-slate-500">Identitas · Bacaan · Suara</p>
+        <p className="max-w-xs text-right text-[10px] font-extrabold uppercase leading-5 tracking-[0.22em] text-slate-900 dark:text-slate-100">Identitas · Bacaan · Suara</p>
       </div>
 
       <section className="editorial-panel grid overflow-hidden border-violet-100 dark:border-violet-800 lg:grid-cols-12">
@@ -113,14 +113,14 @@ export default function ProfilePage() {
 
         <div className="relative bg-[#fffdf8] p-6 sm:p-8 lg:col-span-8 lg:p-10">
           <div className="absolute right-7 top-6 hidden text-[90px] font-black leading-none text-amber-100 lg:block">P</div>
-          <p className="editorial-kicker text-amber-700 dark:text-amber-400"><span className="h-1.5 w-1.5 rounded-full bg-amber-50 dark:bg-amber-900/300" />Identitas Baca</p>
-          <h2 className="mt-3 max-w-lg text-3xl font-extrabold tracking-tight text-ink dark:text-slate-100 sm:text-4xl">Sebuah catatan singkat tentang diri Anda di PERPUS.</h2>
+          <p className="editorial-kicker text-slate-900 dark:text-slate-100"><span className="h-1.5 w-1.5 rounded-full bg-amber-50 dark:bg-amber-900/300" />Identitas Baca</p>
+          <h2 className="mt-3 max-w-lg text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Sebuah catatan singkat tentang diri Anda di PERPUS.</h2>
 
           <div className="mt-8 grid grid-cols-2 gap-3">
             {passportStats.map((item) => (
               <div key={item.label} className="rounded-2xl border border-amber-100 dark:border-amber-800 bg-white dark:bg-slate-800 p-4 shadow-soft sm:p-5">
                 <p className={`text-3xl font-black ${item.tone}`}>{item.value}</p>
-                <p className="mt-1 text-[9px] font-extrabold uppercase leading-4 tracking-[0.14em] text-slate-500 dark:text-slate-400 dark:text-slate-500">{item.label}</p>
+                <p className="mt-1 text-[9px] font-extrabold uppercase leading-4 tracking-[0.14em] text-slate-600 dark:text-slate-400">{item.label}</p>
               </div>
             ))}
           </div>
@@ -128,7 +128,7 @@ export default function ProfilePage() {
           <div className="mt-6 rounded-3xl border border-violet-100 dark:border-violet-800 bg-white dark:bg-slate-800 p-5 shadow-soft sm:p-6">
             <div className="flex items-end justify-between gap-4 border-b border-violet-100 dark:border-violet-800 pb-4">
               <div>
-                <p className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Rasio selesai</p>
+                <p className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-900 dark:text-slate-100">Rasio selesai</p>
                 <p className="mt-1 text-sm font-bold text-ink dark:text-slate-100">Selesai dari seluruh buku di rak</p>
               </div>
               <p className="text-3xl font-black text-violet-700 dark:text-violet-400">{completionRate}<span className="text-base align-top">%</span></p>
@@ -137,14 +137,14 @@ export default function ProfilePage() {
           </div>
 
           <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
-            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Nama Lengkap</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{profile.name}</dd></div>
-            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Peran</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{displayRole}</dd></div>
-            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Email</dt><dd className="mt-1.5 break-all font-semibold text-slate-700 dark:text-slate-200">{profile.email}</dd></div>
-            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Status Akun</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{profile.status === 'ACTIVE' ? 'Aktif' : 'Tidak Aktif'}</dd></div>
+            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-900 dark:text-slate-100">Nama Lengkap</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{profile.name}</dd></div>
+            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-900 dark:text-slate-100">Peran</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{displayRole}</dd></div>
+            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-900 dark:text-slate-100">Email</dt><dd className="mt-1.5 break-all font-semibold text-slate-600 dark:text-slate-500">{profile.email}</dd></div>
+            <div className="border-b border-violet-100 dark:border-violet-800 pb-4"><dt className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-slate-900 dark:text-slate-100">Status Akun</dt><dd className="mt-1.5 font-extrabold text-ink dark:text-slate-100">{profile.status === 'ACTIVE' ? 'Aktif' : 'Tidak Aktif'}</dd></div>
           </dl>
 
           <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-violet-100 dark:border-violet-800 pt-6">
-            <p className="max-w-xs text-xs leading-5 text-slate-500 dark:text-slate-400 dark:text-slate-500">Ingin meninggalkan ruang baca ini? Anda bisa keluar dari akun kapan saja.</p>
+            <p className="max-w-xs text-xs leading-5 text-slate-600 dark:text-slate-400">Ingin meninggalkan ruang baca ini? Anda bisa keluar dari akun kapan saja.</p>
             <button onClick={() => logout()} className="rounded-full border border-red-200 bg-red-50 px-5 py-3 text-xs font-extrabold uppercase tracking-wider text-red-700 transition hover:border-red-300 hover:bg-red-100">Keluar dari Akun →</button>
           </div>
         </div>
