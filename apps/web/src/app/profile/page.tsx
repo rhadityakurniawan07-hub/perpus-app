@@ -111,7 +111,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="relative bg-[#fffdf8] p-6 sm:p-8 lg:col-span-8 lg:p-10">
+        <div className="relative bg-white dark:bg-slate-900 p-6 sm:p-8 lg:col-span-8 lg:p-10">
           <div className="absolute right-7 top-6 hidden text-[90px] font-black leading-none text-amber-100 lg:block">P</div>
           <p className="editorial-kicker text-slate-900 dark:text-slate-100"><span className="h-1.5 w-1.5 rounded-full bg-amber-50 dark:bg-amber-900/300" />Identitas Baca</p>
           <h2 className="mt-3 max-w-lg text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Sebuah catatan singkat tentang diri Anda di PERPUS.</h2>
